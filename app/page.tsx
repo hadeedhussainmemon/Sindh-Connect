@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { ArrowUpRight, BookOpen, ChevronRight } from "lucide-react";
+import { ArrowUpRight, BookOpen, ChevronRight, ShoppingBag, MapPin, MessageSquare, Sparkles } from "lucide-react";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
 interface Personality {
@@ -57,6 +57,7 @@ export default function Home() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
   const [events, setEvents] = useState<EventData[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [heroImageSrc, setHeroImageSrc] = useState<string>("/hero_visual.jpg");
   const [heroImgFailed, setHeroImgFailed] = useState<boolean>(false);
@@ -97,8 +98,9 @@ export default function Home() {
       safeFetch("/api/articles"),
       safeFetch("/api/config"),
       safeFetch("/api/gallery"),
-      safeFetch("/api/events")
-    ]).then(([persData, artData, configData, galData, evtData]) => {
+      safeFetch("/api/events"),
+      safeFetch("/api/products")
+    ]).then(([persData, artData, configData, galData, evtData, prodData]) => {
       if (Array.isArray(persData) && persData.length > 0) setPersonalities(persData);
       if (Array.isArray(artData) && artData.length > 0) setArticles(artData);
       if (configData && configData.headline) {
@@ -109,6 +111,7 @@ export default function Home() {
       }
       if (Array.isArray(galData) && galData.length > 0) setGallery(galData);
       if (Array.isArray(evtData) && evtData.length > 0) setEvents(evtData);
+      if (Array.isArray(prodData) && prodData.length > 0) setProducts(prodData);
     });
   }, []);
 
@@ -494,7 +497,117 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. HERITAGE & VISUAL ARCHIVE: DIGITAL MUSEUM GALLERY GLIMPSE */}
+      {/* 4. SINDHI TRADITIONAL CRAFTS & ARTISAN PRODUCTS SHOWCASE */}
+      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 border-b border-maroon/15 pb-4">
+          <div>
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-maroon block mb-1">
+              سنڌي روايتي هنر ۽ دستڪاري &bull; Authentic Artisanal Heritage
+            </span>
+            <h2 className="text-3xl font-display font-bold text-indigo">
+              Traditional Sindhi Products
+            </h2>
+            <p className="text-sm text-charcoal/70 max-w-xl font-serif mt-1">
+              Authentic hand-blocked Ajraks, Hala glazed pottery, Thari Ralli quilts, and hand-embroidered topis directly from master artisans.
+            </p>
+          </div>
+          <Link
+            href="/shop"
+            className="text-xs font-mono font-bold text-maroon hover:text-indigo inline-flex items-center gap-1.5"
+          >
+            <span>View Full Artisanal Shop</span>
+            <ArrowUpRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {(products.length > 0 ? products.slice(0, 4) : [
+            {
+              title: "Hand-Blocked 16-Stage Indigo & Crimson Ajrak Shawl",
+              category: "Ajrak Textiles",
+              price: 6500,
+              currency: "PKR",
+              originCity: "Bhit Shah / Hala",
+              primaryImage: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&auto=format&fit=crop&q=80",
+              whatsappNumber: "+923001234567"
+            },
+            {
+              title: "Hala Blue & Turquoise Kashikari Ceramic Urn",
+              category: "Hala Blue Pottery",
+              price: 4800,
+              currency: "PKR",
+              originCity: "Hala, Matiari",
+              primaryImage: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800&auto=format&fit=crop&q=80",
+              whatsappNumber: "+923001234567"
+            },
+            {
+              title: "Thari Geometric Appliqué Ralli Quilt",
+              category: "Ralli Quilts",
+              price: 8200,
+              currency: "PKR",
+              originCity: "Mithi, Thar",
+              primaryImage: "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&auto=format&fit=crop&q=80",
+              whatsappNumber: "+923001234567"
+            },
+            {
+              title: "Masterpiece Gold Zari Sindhi Topi with Mirrorwork",
+              category: "Sindhi Topi",
+              price: 3200,
+              currency: "PKR",
+              originCity: "Shikarpur",
+              primaryImage: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&auto=format&fit=crop&q=80",
+              whatsappNumber: "+923001234567"
+            }
+          ]).map((prod, idx) => (
+            <div 
+              key={idx}
+              className="group rounded-2xl border border-maroon/20 bg-ivory overflow-hidden flex flex-col justify-between hover:border-maroon/50 hover:shadow-md transition-all"
+            >
+              <div>
+                <div className="aspect-[4/3] relative overflow-hidden bg-parchment">
+                  <img 
+                    src={prod.primaryImage || "/hero_visual.jpg"} 
+                    alt={prod.title} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <span className="absolute top-2 left-2 bg-maroon/90 text-parchment text-[10px] font-mono font-bold px-2 py-0.5 rounded shadow-xs uppercase tracking-wider backdrop-blur-xs">
+                    {prod.category}
+                  </span>
+                </div>
+                <div className="p-4 space-y-1.5">
+                  <span className="text-[10px] font-mono text-charcoal/60 flex items-center gap-1">
+                    <MapPin className="h-3 w-3 text-maroon" /> {prod.originCity}
+                  </span>
+                  <h3 className="text-sm font-display font-bold text-indigo group-hover:text-maroon transition-colors line-clamp-1 leading-snug">
+                    {prod.title}
+                  </h3>
+                  <p className="text-sm font-serif font-bold text-maroon">
+                    {prod.currency} {Number(prod.price).toLocaleString()}
+                  </p>
+                </div>
+              </div>
+              <div className="p-4 pt-0 border-t border-maroon/10 mt-2 flex items-center justify-between">
+                <Link
+                  href="/shop"
+                  className="text-xs font-mono font-bold text-maroon hover:text-indigo inline-flex items-center gap-1"
+                >
+                  <span>Details</span> &rarr;
+                </Link>
+                <a
+                  href={`https://wa.me/${(prod.whatsappNumber || "+923001234567").replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Hello, I want to inquire about "${prod.title}".`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2.5 py-1.5 rounded bg-maroon hover:bg-maroon-hover text-parchment text-[11px] font-semibold tracking-wide inline-flex items-center gap-1"
+                >
+                  <MessageSquare className="h-3 w-3" /> Inquire
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 5. HERITAGE & VISUAL ARCHIVE: DIGITAL MUSEUM GALLERY GLIMPSE */}
       <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 border-b border-maroon/15 pb-4">
           <div>

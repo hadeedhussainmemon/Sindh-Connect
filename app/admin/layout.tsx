@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
-import { LayoutDashboard, FileText, UserCheck, Calendar, Image as ImageIcon, Mail, LogOut, Menu, X, Globe, Clock } from "lucide-react";
+import { LayoutDashboard, FileText, UserCheck, Calendar, Image as ImageIcon, Mail, LogOut, Menu, X, Globe, Clock, ShoppingBag } from "lucide-react";
 
 interface NavItem {
   name: string;
@@ -14,6 +14,7 @@ interface NavItem {
 function AdminNavList({ activeTab, onItemClick }: { activeTab: string; onItemClick?: () => void }) {
   const adminNavigation: NavItem[] = [
     { name: "Dashboard", href: "/admin", tab: "" },
+    { name: "Sindhi Products", href: "/admin?tab=products", tab: "products" },
     { name: "Profiles", href: "/admin?tab=personalities", tab: "personalities" },
     { name: "Pending", href: "/admin?tab=pending", tab: "pending" },
     { name: "Articles", href: "/admin?tab=articles", tab: "articles" },
@@ -25,6 +26,7 @@ function AdminNavList({ activeTab, onItemClick }: { activeTab: string; onItemCli
   const getIcon = (name: string) => {
     switch (name) {
       case "Dashboard": return LayoutDashboard;
+      case "Sindhi Products": return ShoppingBag;
       case "Profiles": return UserCheck;
       case "Pending": return Clock;
       case "Articles": return FileText;

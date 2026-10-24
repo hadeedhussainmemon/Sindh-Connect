@@ -4,7 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import {
   BarChart3, User, Calendar, FileText, PlusCircle, CheckCircle,
   Sparkles, Loader2, Settings, Lock, Trash2, Edit3, Upload, Mail,
-  Image as ImageIcon, Globe, ShieldAlert, Heart, Clock
+  Image as ImageIcon, Globe, ShieldAlert, Heart, Clock, ShoppingBag
 } from "lucide-react";
 function CMSContent() {
   const searchParams = useSearchParams();
@@ -16,12 +16,28 @@ function CMSContent() {
   const [subscribers, setSubscribers] = useState<any[]>([]);
   const [events, setEvents] = useState<any[]>([]);
   const [gallery, setGallery] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState<string | null>(null);
   // Pagination States
   const [persPage, setPersPage] = useState(1);
   const [persTotalPages, setPersTotalPages] = useState(1);
   // Forms States
+  const [prodForm, setProdForm] = useState({
+    _id: "",
+    title: "",
+    category: "Ajrak Textiles",
+    price: 3500,
+    currency: "PKR",
+    description: "",
+    primaryImage: "",
+    originCity: "Hala, Sindh",
+    artisanName: "",
+    inStock: true,
+    featured: true,
+    whatsappNumber: "+923001234567"
+  });
+  const [editProdId, setEditProdId] = useState<string | null>(null);
   const [persForm, setPersForm] = useState({ 
     name: "", 
     category: "Science", 
@@ -72,8 +88,9 @@ function CMSContent() {
       fetch("/api/newsletter").then((r) => r.json()),
       fetch("/api/events").then((r) => r.json()),
       fetch("/api/gallery").then((r) => r.json()),
+      fetch("/api/products").then((r) => r.json()),
     ])
-      .then(([p, a, c, s, ev, g]) => {
+      .then(([p, a, c, s, ev, g, pr]) => {
         if (p && Array.isArray(p.data)) {
           setPersonalities(p.data);
           setPersTotalPages(p.totalPages || 1);
@@ -85,6 +102,7 @@ function CMSContent() {
         if (Array.isArray(s)) setSubscribers(s);
         if (Array.isArray(ev)) setEvents(ev);
         if (Array.isArray(g)) setGallery(g);
+        if (Array.isArray(pr)) setProducts(pr);
         if (c && c.headline) {
           setSiteConfig({
             headline: c.headline,
@@ -232,6 +250,66 @@ function CMSContent() {
     setArtForm({ title: "", category: "History", subtitle: "", content: "", heroImage: "" });
     fetchData();
   };
+
+  // Products Handlers
+  const handleSaveProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const payload = {
+      ...prodForm,
+      price: Number(prodForm.price)
+    };
+    if (editProdId) {
+      await fetch("/api/products", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...payload, _id: editProdId }),
+      });
+      setEditProdId(null);
+      alert("Product updated successfully!");
+    } else {
+      await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      alert("Product published to Sindh Connect shop!");
+    }
+    setProdForm({
+      _id: "",
+      title: "",
+      category: "Ajrak Textiles",
+      price: 3500,
+      currency: "PKR",
+      description: "",
+      primaryImage: "",
+      originCity: "Hala, Sindh",
+      artisanName: "",
+      inStock: true,
+      featured: true,
+      whatsappNumber: "+923001234567"
+    });
+    fetchData();
+  };
+
+  const startEditProduct = (prod: any) => {
+    setEditProdId(prod._id);
+    setProdForm({
+      _id: prod._id,
+      title: prod.title || "",
+      category: prod.category || "Ajrak Textiles",
+      price: prod.price || 0,
+      currency: prod.currency || "PKR",
+      description: prod.description || "",
+      primaryImage: prod.primaryImage || "",
+      originCity: prod.originCity || "Hala, Sindh",
+      artisanName: prod.artisanName || "",
+      inStock: prod.inStock ?? true,
+      featured: prod.featured ?? true,
+      whatsappNumber: prod.whatsappNumber || "+923001234567"
+    });
+  };
+    fetchData();
+  };
   const handleSaveEvent = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editEventId) {
@@ -345,8 +423,9 @@ function CMSContent() {
           {/* 1. TAB: DASHBOARD (METRICS & CONFIG) */}
           {activeTab === "dashboard" && (
             <div className="space-y-8 animate-fadeIn">
-              <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-7 gap-4">
                 {[
+                  { label: "Products", val: products.length, icon: ShoppingBag, color: "text-amber-400" },
                   { label: "Articles", val: articles.length, icon: FileText, color: "text-blue-400" },
                   { label: "Profiles (Approved)", val: personalities.filter(p => p.status !== 'pending').length, icon: User, color: "text-emerald-400" },
                   { label: "Pending Nominees", val: personalities.filter(p => p.status === 'pending').length, icon: Clock, color: "text-amber-400" },
@@ -452,6 +531,243 @@ function CMSContent() {
               </div>
             </div>
           )}
+          {/* 1.5 TAB: PRODUCTS (SINDHI TRADITIONAL CRAFTS) */}
+          {activeTab === "products" && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fadeIn">
+              <form onSubmit={handleSaveProduct} className="p-6 rounded-2xl bg-emerald-950/15 border border-emerald-500/10 flex flex-col gap-4 md:col-span-1 h-fit">
+                <h2 className="text-sm font-bold text-amber-400 flex items-center justify-between border-b border-emerald-500/10 pb-2 uppercase tracking-wide">
+                  <span>{editProdId ? "Edit Sindhi Product" : "Add Traditional Product"}</span>
+                  {editProdId && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditProdId(null);
+                        setProdForm({
+                          _id: "",
+                          title: "",
+                          category: "Ajrak Textiles",
+                          price: 3500,
+                          currency: "PKR",
+                          description: "",
+                          primaryImage: "",
+                          originCity: "Hala, Sindh",
+                          artisanName: "",
+                          inStock: true,
+                          featured: true,
+                          whatsappNumber: "+923001234567"
+                        });
+                      }}
+                      className="text-xs text-rose-400"
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </h2>
+
+                <div>
+                  <label className="text-xs text-neutral-300 block mb-1">Product Title</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Authentic 16-Stage Hand-Blocked Ajrak Shawl"
+                    value={prodForm.title}
+                    onChange={(e) => setProdForm({ ...prodForm, title: e.target.value })}
+                    required
+                    className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs text-neutral-300 block mb-1">Craft Category</label>
+                    <select
+                      value={prodForm.category}
+                      onChange={(e) => setProdForm({ ...prodForm, category: e.target.value })}
+                      className="w-full bg-emerald-990 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-emerald-300"
+                    >
+                      <option value="Ajrak Textiles">Ajrak Textiles</option>
+                      <option value="Hala Blue Pottery (Kashikari)">Hala Blue Pottery</option>
+                      <option value="Ralli Quilts">Ralli Quilts</option>
+                      <option value="Sindhi Topi & Embroidery">Sindhi Topi & Embroidery</option>
+                      <option value="Traditional Leather & Handicrafts">Leather & Handicrafts</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs text-neutral-300 block mb-1">Price (PKR)</label>
+                    <input
+                      type="number"
+                      placeholder="Price"
+                      value={prodForm.price}
+                      onChange={(e) => setProdForm({ ...prodForm, price: Number(e.target.value) })}
+                      required
+                      className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs text-neutral-300 block mb-1">Craft Origin City</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Hala, Bhit Shah, Thatta, Thar"
+                    value={prodForm.originCity}
+                    onChange={(e) => setProdForm({ ...prodForm, originCity: e.target.value })}
+                    required
+                    className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs text-neutral-300 block mb-1">Artisan / Guild Name</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Ustad Ghulam Rasool Soomro"
+                    value={prodForm.artisanName}
+                    onChange={(e) => setProdForm({ ...prodForm, artisanName: e.target.value })}
+                    className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs text-neutral-300 block mb-1">Product Photograph (Upload or CDN URL)</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Image URL"
+                      value={prodForm.primaryImage}
+                      onChange={(e) => setProdForm({ ...prodForm, primaryImage: e.target.value })}
+                      required
+                      className="flex-grow bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white"
+                    />
+                    <label className="bg-emerald-950/40 hover:bg-emerald-900 border border-emerald-500/20 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-emerald-300">
+                      {uploading === "prodImg" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                      <input
+                        type="file"
+                        className="hidden"
+                        onChange={(e) =>
+                          uploadFile(e, "prodImg", (url) =>
+                            setProdForm((prev) => ({ ...prev, primaryImage: url }))
+                          )
+                        }
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs text-neutral-300 block mb-1">Artisan Description & Specifications</label>
+                  <textarea
+                    placeholder="Craftsmanship details, natural dyes, dimensions..."
+                    value={prodForm.description}
+                    onChange={(e) => setProdForm({ ...prodForm, description: e.target.value })}
+                    required
+                    rows={4}
+                    className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs text-neutral-300 block mb-1">WhatsApp Orders Number</label>
+                    <input
+                      type="text"
+                      placeholder="+923001234567"
+                      value={prodForm.whatsappNumber}
+                      onChange={(e) => setProdForm({ ...prodForm, whatsappNumber: e.target.value })}
+                      className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-neutral-300 block mb-1">Inventory Status</label>
+                    <select
+                      value={prodForm.inStock ? "yes" : "no"}
+                      onChange={(e) => setProdForm({ ...prodForm, inStock: e.target.value === "yes" })}
+                      className="w-full bg-emerald-990 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-emerald-300"
+                    >
+                      <option value="yes">In Stock (Ready)</option>
+                      <option value="no">Made to Order</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-2.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-emerald-950 font-bold transition-all text-xs uppercase tracking-wide"
+                >
+                  {editProdId ? "Update Product" : "Publish Product to Shop"}
+                </button>
+              </form>
+
+              {/* Products List Table / Cards */}
+              <div className="md:col-span-2 space-y-4">
+                <div className="flex items-center justify-between border-b border-emerald-500/10 pb-2">
+                  <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                    Cataloged Sindhi Products ({products.length})
+                  </h3>
+                  <span className="text-xs text-emerald-300 font-mono">Live on /shop</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {products.length === 0 ? (
+                    <p className="text-xs text-neutral-500 col-span-full py-8 text-center">
+                      No products added yet. Add an authentic craft above!
+                    </p>
+                  ) : (
+                    products.map((prod) => (
+                      <div
+                        key={prod._id}
+                        className="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/10 flex flex-col justify-between space-y-3"
+                      >
+                        <div className="flex gap-3">
+                          <img
+                            src={prod.primaryImage || "/hero_visual.jpg"}
+                            alt={prod.title}
+                            className="w-20 h-20 rounded-lg object-cover bg-emerald-950/60 border border-emerald-500/20 shrink-0"
+                          />
+                          <div className="space-y-1">
+                            <span className="text-[10px] uppercase font-mono font-bold text-amber-400 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-500/20">
+                              {prod.category}
+                            </span>
+                            <h4 className="font-bold text-white text-sm line-clamp-1">{prod.title}</h4>
+                            <p className="text-xs font-serif text-emerald-300 font-bold">
+                              {prod.currency} {Number(prod.price).toLocaleString()} &bull; {prod.originCity}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex justify-between items-center pt-2 border-t border-emerald-500/10">
+                          <span className={`text-[10px] font-mono font-bold ${prod.inStock ? 'text-emerald-400' : 'text-amber-400'}`}>
+                            {prod.inStock ? '● In Stock' : '○ Made to Order'}
+                          </span>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => startEditProduct(prod)}
+                              className="p-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 rounded text-emerald-400"
+                              title="Edit"
+                            >
+                              <Edit3 className="h-3.5 w-3.5" />
+                            </button>
+                            <button
+                              onClick={async () => {
+                                if (confirm(`Delete product "${prod.title}"?`)) {
+                                  await fetch(`/api/products?id=${prod._id}`, { method: "DELETE" });
+                                  fetchData();
+                                }
+                              }}
+                              className="p-1.5 bg-rose-500/10 hover:bg-rose-500/20 rounded text-rose-400"
+                              title="Delete"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* 2. TAB: PERSONALITIES */}
           {activeTab === "personalities" && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fadeIn">
