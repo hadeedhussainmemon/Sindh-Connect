@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { ArrowUpRight, BookOpen, Compass, Award, Calendar, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { ArrowUpRight, BookOpen, ChevronRight } from "lucide-react";
 
 interface Personality {
   name: string;
@@ -47,17 +48,18 @@ export default function Home() {
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
   const [events, setEvents] = useState<EventData[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("All");
-  const [imgErrorMap, setImgErrorMap] = useState<Record<string, boolean>>({});
+  const [heroImageSrc, setHeroImageSrc] = useState<string>("/hero_visual.jpg");
+  const [heroImgFailed, setHeroImgFailed] = useState<boolean>(false);
 
   const [config, setConfig] = useState<SiteConfig>({
-    headline: "The Living Civilizational Memory of the Indus",
-    subheadline: "An authoritative editorial archive documenting 5,000 years of Sufi humanism, monumental archaeological heritage, transformative leaders, and contemporary digital pioneers.",
+    headline: "A land of history. A people of stories.",
+    subheadline: "An authoritative editorial archive documenting the civilizational memory, Sufi philosophies, indigenous craftsmanship, and contemporary leaders of Sindh.",
     aboutText: [
       "Sindh is not merely a geographic expanse; it is the civilizational cradle of South Asia. Born along the perennial currents of the Mehran (Indus River), its narrative stretches from the brick city planning of Mohenjo-daro to the Sufi sanctuaries of Bhit Shah, Sehwan, and Jhok Sharif.",
       "Sindh Connect was founded as an independent digital museum and cultural magazine. We safeguard the timeless philosophical verse of Shah Abdul Latif Bhittai and Sachal Sarmast, while systematically chronicling modern pioneers: grassroots surgeons, digital filmmakers with global audiences, courageous educators, and preservation artisans.",
       "Here, historical depth converges with forward ambition. We document the constructive, pluralistic, and resilient spirit of Sindh for generations to come."
     ],
-    heroImageUrl: "/hero_visual.jpg"
+    heroImageUrl: "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=1200&auto=format&fit=crop&q=80"
   });
 
   useEffect(() => {
@@ -80,7 +82,12 @@ export default function Home() {
     ]).then(([persData, artData, configData, galData, evtData]) => {
       if (Array.isArray(persData) && persData.length > 0) setPersonalities(persData);
       if (Array.isArray(artData) && artData.length > 0) setArticles(artData);
-      if (configData && configData.headline) setConfig((prev) => ({ ...prev, ...configData }));
+      if (configData && configData.headline) {
+        setConfig((prev) => ({ ...prev, ...configData }));
+        if (configData.heroImageUrl) {
+          setHeroImageSrc(configData.heroImageUrl);
+        }
+      }
       if (Array.isArray(galData) && galData.length > 0) setGallery(galData);
       if (Array.isArray(evtData) && evtData.length > 0) setEvents(evtData);
     });
@@ -99,108 +106,155 @@ export default function Home() {
     ? personalities
     : personalities.filter((p) => p.category?.toLowerCase() === activeCategory.toLowerCase());
 
-  // Editorial Spotlight Personality (First Luminary)
   const spotlightLuminary = filteredPersonalities[0] || personalities[0];
   const secondaryLuminaries = filteredPersonalities.slice(1, 5);
 
-  const handleImageError = (id: string) => {
-    setImgErrorMap((prev) => ({ ...prev, [id]: true }));
-  };
+  const personalityCount = personalities.length > 0 ? personalities.length : 20;
+  const articleCount = articles.length > 0 ? articles.length : 3;
 
   return (
     <div className="flex flex-col w-full min-h-screen bg-[#FAF6EF] text-[#202426]">
       
-      {/* 1. EDITORIAL ASYMMETRIC HERO: HUMAN-DESIGNED MAGAZINE COVER COMPOSITION */}
-      <section className="relative border-b border-[#702B35]/15 pt-8 pb-16 lg:pt-14 lg:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+      {/* 1. HERO SECTION: ART-DIRECTED CULTURAL EDITORIAL COMPOSITION */}
+      <section className="relative border-b border-[#702B35]/15 pt-10 pb-16 lg:pt-16 lg:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        
+        {/* Main Two-Column Editorial Composition */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
-          {/* Left Column: Typographic Masthead & Mission */}
-          <div className="lg:col-span-7 flex flex-col justify-between space-y-8">
-            <div className="space-y-5">
-              
-              {/* Editorial Header Kicker */}
-              <div className="flex items-center gap-3">
-                <span className="h-0.5 w-8 bg-[#702B35]" />
-                <span className="text-xs uppercase tracking-widest font-mono font-semibold text-[#702B35]">
-                  Issue No. 01 &bull; Digital Museum & Living Archive
-                </span>
-              </div>
-
-              {/* Serif Headline with Gravitas */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-[#173C50] leading-[1.08]">
-                Documenting the <br />
-                <span className="font-serif italic text-[#702B35] font-normal">Living Soul</span> of Sindh
-              </h1>
-
-              {/* Subheading & Editorial Summary */}
-              <p className="text-base sm:text-lg text-[#202426]/80 font-serif leading-relaxed max-w-xl">
-                {config.subheadline}
-              </p>
+          {/* Left Column: Typographic Introduction & Actions */}
+          <div className="lg:col-span-7 flex flex-col justify-center">
+            
+            {/* Small Eyebrow Label with Restrained Ajrak Diamond Accent */}
+            <div className="flex items-center gap-2.5 mb-5">
+              <span className="w-2 h-2 rotate-45 bg-[#702B35] shrink-0" aria-hidden="true" />
+              <span className="text-xs uppercase tracking-[0.18em] font-mono font-bold text-[#702B35]">
+                The Living Heritage of Sindh
+              </span>
             </div>
 
-            {/* Curated Navigation Deck */}
-            <div className="pt-2 flex flex-wrap items-center gap-4">
+            {/* Art-Directed Headline with Natural Line Breaks */}
+            <h1 className="text-3xl sm:text-5xl lg:text-[3.25rem] font-display font-extrabold tracking-tight text-[#173C50] leading-[1.12] mb-6">
+              A land of history. <br className="hidden sm:inline" />
+              <span className="font-serif italic font-normal text-[#702B35]">
+                A people of stories.
+              </span>
+            </h1>
+
+            {/* Concise Human-Written Introduction with Optimal Text Width */}
+            <p className="text-base sm:text-lg text-[#202426]/85 font-serif leading-relaxed max-w-xl mb-8">
+              An authoritative cultural archive documenting five millennia of Indus civilization, classical Sufi humanism, indigenous arts, and the contemporary innovators shaping Sindh&rsquo;s constructive future.
+            </p>
+
+            {/* Clear Button Hierarchy: Primary & Secondary CTAs */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-10">
               <Link 
                 href="/personalities" 
-                className="px-6 py-3.5 rounded-md bg-[#702B35] hover:bg-[#853440] text-[#FAF6EF] font-semibold text-xs sm:text-sm tracking-wide shadow-sm transition-all inline-flex items-center gap-2"
+                className="px-6 py-3.5 rounded-md bg-[#702B35] hover:bg-[#853440] text-[#FAF6EF] font-semibold text-xs sm:text-sm tracking-wide shadow-xs transition-colors inline-flex items-center justify-center gap-2 focus:outline-hidden focus:ring-2 focus:ring-[#702B35] focus:ring-offset-2"
               >
-                <span>Explore the 20 Luminaries</span>
+                <span>Explore Personalities</span>
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
 
               <Link 
                 href="/blog" 
-                className="px-6 py-3.5 rounded-md bg-transparent hover:bg-[#F4EEE2] text-[#173C50] font-semibold text-xs sm:text-sm tracking-wide border border-[#173C50]/30 transition-all inline-flex items-center gap-2"
+                className="px-6 py-3.5 rounded-md bg-[#FAF6EF] hover:bg-[#F4EEE2] text-[#173C50] font-semibold text-xs sm:text-sm tracking-wide border border-[#173C50]/30 transition-colors inline-flex items-center justify-center gap-2 focus:outline-hidden focus:ring-2 focus:ring-[#173C50] focus:ring-offset-2"
               >
-                <span>Read Positive Stories</span>
                 <BookOpen className="h-4 w-4 text-[#702B35]" />
+                <span>Read Positive Stories</span>
               </Link>
-            </div>
-
-            {/* Editorial Fact Ledger (Replacing AI vanity counters) */}
-            <div className="pt-6 border-t border-[#702B35]/15 grid grid-cols-2 sm:grid-cols-4 gap-6">
-              <div>
-                <span className="block text-2xl font-serif font-bold text-[#702B35]">5,000+</span>
-                <span className="text-[11px] text-[#202426]/70 uppercase tracking-wider font-mono">B.C. Civilization</span>
-              </div>
-              <div>
-                <span className="block text-2xl font-serif font-bold text-[#173C50]">30 Sur</span>
-                <span className="text-[11px] text-[#202426]/70 uppercase tracking-wider font-mono">Shah Jo Risalo</span>
-              </div>
-              <div>
-                <span className="block text-2xl font-serif font-bold text-[#702B35]">20 Verified</span>
-                <span className="text-[11px] text-[#202426]/70 uppercase tracking-wider font-mono">Archived Pioneers</span>
-              </div>
-              <div>
-                <span className="block text-2xl font-serif font-bold text-[#173C50]">Grassroots</span>
-                <span className="text-[11px] text-[#202426]/70 uppercase tracking-wider font-mono">Oral Histories</span>
-              </div>
             </div>
 
           </div>
 
-          {/* Right Column: Authentic Editorial Heritage Plate with Real Attribution */}
-          <div className="lg:col-span-5">
-            <figure className="bg-[#F4EEE2] p-3 rounded-lg border border-[#702B35]/20 shadow-sm">
-              <div className="relative aspect-[4/3] sm:aspect-[5/4] w-full overflow-hidden rounded bg-[#EAE2D2]">
-                <img 
-                  src={config.heroImageUrl || "/hero_visual.jpg"} 
-                  alt="Ancient Mohenjo-daro & Sindh Heritage" 
-                  className="w-full h-full object-cover object-center grayscale-[15%] contrast-[105%]"
-                  onError={() => handleImageError("hero")}
-                />
+          {/* Right Column: Authentic Heritage Photograph & Restrained Framing */}
+          <div className="lg:col-span-5 flex flex-col justify-center">
+            <figure className="relative bg-[#F4EEE2] p-2.5 sm:p-3 rounded-md border border-[#702B35]/20 shadow-xs">
+              
+              {/* Subtle Ajrak Textile Accent Band on Left Border */}
+              <div 
+                className="absolute top-3 bottom-3 -left-1 w-1 bg-gradient-to-b from-[#173C50] via-[#702B35] to-[#C3A36A] rounded-l" 
+                aria-hidden="true" 
+              />
+
+              <div className="relative aspect-[4/5] sm:aspect-[4/5] w-full overflow-hidden rounded bg-[#EAE2D2]">
+                {!heroImgFailed ? (
+                  <img
+                    src={heroImageSrc}
+                    alt="Ancient Buddhist Stupa and archaeological citadel of Mohenjo-daro, Sindh"
+                    className="w-full h-full object-cover object-center grayscale-[10%] contrast-[105%]"
+                    onError={() => {
+                      if (heroImageSrc !== "/hero_visual.jpg") {
+                        setHeroImageSrc("/hero_visual.jpg");
+                      } else {
+                        setHeroImgFailed(true);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#FAF6EF]">
+                    <span className="w-6 h-6 rotate-45 bg-[#702B35] mb-3" />
+                    <span className="text-xs font-mono uppercase tracking-widest text-[#702B35] font-bold">
+                      Sindh Heritage Archive
+                    </span>
+                    <p className="text-xs text-[#202426]/70 font-serif mt-1">
+                      Mohenjo-daro Archaeological Settlement (B.C. 2500)
+                    </p>
+                  </div>
+                )}
               </div>
-              <figcaption className="pt-3 pb-1 px-1 text-xs text-[#202426]/75 font-serif leading-snug">
+
+              {/* Verified Editorial Caption */}
+              <figcaption className="pt-3 pb-1 px-1 text-xs text-[#202426]/80 font-serif leading-snug">
                 <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-[#702B35] font-semibold mb-1">
                   <span>Archaeological Plate 01</span>
                   <span>Larkana District, Sindh</span>
                 </div>
-                <strong>Mohenjo-daro & The Great Stupa</strong> — UNESCO World Heritage settlement of the Indus civilization, celebrated for municipal sanitation, kiln-baked masonry, and peaceful civic governance.
+                <strong>Mohenjo-daro & The Great Stupa</strong> &mdash; UNESCO World Heritage citadel of the Indus civilization, celebrated for municipal sanitation, kiln-baked masonry, and peaceful civic governance.
               </figcaption>
             </figure>
           </div>
 
         </div>
+
+        {/* Quiet Supporting Statistics Row: 3 Verified Editorial Metrics */}
+        <div className="mt-12 pt-8 border-t border-[#702B35]/15 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl">
+          <div className="space-y-1">
+            <span className="block text-2xl sm:text-3xl font-serif font-bold text-[#702B35]">
+              5,000+
+            </span>
+            <span className="text-xs font-mono text-[#202426]/75 uppercase tracking-wider block font-medium">
+              Years of Documented History
+            </span>
+            <p className="text-[11px] text-[#202426]/60 font-serif">
+              Indus Valley civilization to modern Sindh
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <span className="block text-2xl sm:text-3xl font-serif font-bold text-[#173C50]">
+              {personalityCount}
+            </span>
+            <span className="text-xs font-mono text-[#202426]/75 uppercase tracking-wider block font-medium">
+              Documented Personalities
+            </span>
+            <p className="text-[11px] text-[#202426]/60 font-serif">
+              Verified historical icons, Sufi poets & leaders
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <span className="block text-2xl sm:text-3xl font-serif font-bold text-[#702B35]">
+              {articleCount}
+            </span>
+            <span className="text-xs font-mono text-[#202426]/75 uppercase tracking-wider block font-medium">
+              Published Cultural Stories
+            </span>
+            <p className="text-[11px] text-[#202426]/60 font-serif">
+              Grassroots triumphs & positive community essays
+            </p>
+          </div>
+        </div>
+
       </section>
 
       {/* 2. CURATED EDITORIAL DESK: THE TOP LUMINARIES ARCHIVE */}
@@ -249,7 +303,7 @@ export default function Home() {
         {/* Editorial Layout: 1 Spotlight Featured Luminary + 4 Editorial Story Profiles */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Main Editorial Spotlight (Col 1-7) */}
+          {/* Main Editorial Spotlight */}
           {spotlightLuminary && (
             <div className="lg:col-span-7 bg-[#F4EEE2] border border-[#702B35]/20 rounded-lg p-6 sm:p-8 flex flex-col justify-between">
               <div>
@@ -306,9 +360,9 @@ export default function Home() {
             </div>
           )}
 
-          {/* Secondary Editorial Column: 4 Curated Profiles (Col 8-12) */}
+          {/* Secondary Editorial Column: 4 Curated Profiles */}
           <div className="lg:col-span-5 flex flex-col divide-y divide-[#702B35]/15 border-t border-b lg:border-t-0 lg:border-b-0 border-[#702B35]/15">
-            {secondaryLuminaries.map((p, idx) => (
+            {secondaryLuminaries.map((p) => (
               <article key={p.slug} className="py-5 first:pt-0 last:pb-0 group">
                 <div className="flex gap-4 items-start">
                   <div className="w-20 h-24 shrink-0 rounded overflow-hidden bg-[#E8DFC8] border border-[#702B35]/20">
