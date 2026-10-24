@@ -153,6 +153,11 @@ export const translations: Translations = {
     sd: "سنڌ جا چُنڊ ڪردار ۽ فڪري اڳواڻ",
     ur: "سندھ کے چنیدہ کردار اور فکری رہنما",
   },
+  featuredPersonalitiesEyebrow: {
+    en: "Editorial Registry • نامور شخصيتون",
+    sd: "تاريخي رڪارڊ • نامور شخصيتون",
+    ur: "تاریخی ریکارڈ • نامور شخصیات",
+  },
   featuredPersonalitiesSub: {
     en: "A permanent editorial registry honoring the statesmen, Sufi philosophers, literary architects, and contemporary digital storytellers of Sindh.",
     sd: "سنڌ جي سياستدانن، صوفي مفڪرن، اديبن ۽ جديد ڊجيٽل خالقن جو مستقل تاريخي ۽ ثقافتي رڪارڊ.",
@@ -162,6 +167,28 @@ export const translations: Translations = {
     en: "Complete 20-Profile Directory",
     sd: "مڪمل شخصيتن جي ڊائريڪٽري",
     ur: "تمام شخصیات کی ڈائرکٹری",
+  },
+  readBiographicalRecord: {
+    en: "Read Full Biographical Record",
+    sd: "مڪمل سوانح حيات پڙهو",
+    ur: "مکمل سوانح حیات پڑھیں",
+  },
+  examineRecord: {
+    en: "Examine Record",
+    sd: "تفصيل ڏسو",
+    ur: "تفصیل دیکھیں",
+  },
+  keyContributions: {
+    en: "Key Civilizational Contributions",
+    sd: "اهم تهذيبي خدمتون ۽ ڪارناما",
+    ur: "اہم تہذیبی خدمات اور کارنامے",
+  },
+
+  // Positive Stories Section
+  positiveStoriesEyebrow: {
+    en: "Constructive Dispatches • مثبت ڪهاڻيون",
+    sd: "حوصلي افزا ڪهاڻيون • مثبت سنڌ",
+    ur: "حوصلہ افزا کہانیاں • مثبت سندھ",
   },
   positiveStoriesHeading: {
     en: "Positive Transformations Across Sindh",
@@ -173,6 +200,50 @@ export const translations: Translations = {
     sd: "تمام شايع ٿيل مضمون ڏسو",
     ur: "تمام شائع شدہ مضامین دیکھیں",
   },
+  readFullEssay: {
+    en: "Read Full Essay",
+    sd: "مڪمل مضمون پڙهو",
+    ur: "مکمل مضمون پڑھیں",
+  },
+
+  // Products & Crafts Section
+  productsEyebrow: {
+    en: "Authentic Artisanal Heritage • سنڌي روايتي هنر ۽ دستڪاري",
+    sd: "سنڌي روايتي هنر ۽ دستڪاري • مقامي ڪاريگر",
+    ur: "سندھی روایتی دستکاری • مقامی کاریگر",
+  },
+  productsHeading: {
+    en: "Traditional Sindhi Products & Handicrafts",
+    sd: "سنڌ جا روايتي سوغاتون ۽ هٿ جا هنر",
+    ur: "سندھ کے روایتی شاہکار اور دستکاری",
+  },
+  productsSub: {
+    en: "Authentic hand-blocked Ajraks, Hala glazed pottery, Thari Ralli quilts, and hand-embroidered topis directly from master artisans.",
+    sd: "هالا جي مشهور ڪاشي ڪاري، اصيل ٺٽي ۽ ڀٽ شاهه جو اجرڪ، ٿري رليون ۽ سکر شڪارپور جون مشهور سنڌي ٽوپيون سڌو سنئون ڪاريگرن کان.",
+    ur: "ہالہ کی مشہور کاشی کاری، اصل بھٹ شاہ کے اجرک، تھر کی روایتی رلیاں اور سندھی ٹوپیاں براہِ راست کاریگروں سے۔",
+  },
+  viewArtisanShop: {
+    en: "View Full Artisanal Shop",
+    sd: "مڪمل هٿ جي هنرن جو دڪان ڏسو",
+    ur: "مکمل دستکاری دکان دیکھیں",
+  },
+  productDetails: {
+    en: "Details",
+    sd: "تفصيل",
+    ur: "تفصیل",
+  },
+  inquireWhatsapp: {
+    en: "Inquire",
+    sd: "معلومات وٺو",
+    ur: "معلومات لیں",
+  },
+
+  // Gallery Section
+  galleryEyebrow: {
+    en: "Visual Plates • آثارِ قديم ۽ ثقافت",
+    sd: "تصويري دستاويز • تاريخي ۽ قديم آثار",
+    ur: "تصویری دستاویز • تاریخی و قدیم آثار",
+  },
   galleryHeading: {
     en: "Monuments & Material Culture",
     sd: "تاريخي يادگار ۽ قديم ورثو",
@@ -182,6 +253,60 @@ export const translations: Translations = {
     en: "Explore Full Photographic Archive",
     sd: "مڪمل تصويري ذخيرو ڏسو",
     ur: "مکمل تصویری ذخیرہ دیکھیں",
+  },
+
+  // Manifesto Section
+  manifestoEyebrow: {
+    en: "The Sindh Connect Commitment",
+    sd: "سنڌ ڪنيڪٽ جو پڪو عزم",
+    ur: "سندھ کنیکٹ کا پختہ عزم",
+  },
+  manifestoCharterCta: {
+    en: "Read the Full Editorial Charter",
+    sd: "مڪمل ادارتي منشور پڙهو",
+    ur: "مکمل ادارتی منشور پڑھیں",
+  },
+
+  // Footer & Newsletter
+  archiveIndices: {
+    en: "Archive Indices",
+    sd: "ثقافتي اشاريو ۽ رڪارڊ",
+    ur: "ثقافتی اشاریہ اور ریکارڈ",
+  },
+  weeklyDispatchTitle: {
+    en: "The Weekly Cultural Dispatch",
+    sd: "هفتيوار ثقافتي خبرنامو",
+    ur: "ہفتہ وار ثقافتی خبرنامہ",
+  },
+  weeklyDispatchDesc: {
+    en: "Receive curated essays on Sindh’s history, rare photographic archives, and profiles of grassroots changemakers directly in your inbox.",
+    sd: "سنڌ جي تاريخ، ناياب تصويري رڪارڊ ۽ نمايان شخصيتن تي تحقيقي مضمون سڌو سنئون پنهنجي اي ميل تي حاصل ڪريو.",
+    ur: "سندھ کی تاریخ، نایاب تصویری ریکارڈ اور نمایاں شخصیات پر تحریری مضامین براہِ راست اپنی ای میل میں حاصل کریں۔",
+  },
+  subscribeBtn: {
+    en: "Subscribe",
+    sd: "شامل ٿيو",
+    ur: "شامل ہوں",
+  },
+  subscribePlaceholder: {
+    en: "reader@domain.com",
+    sd: "پنهنجي اي ميل لکو...",
+    ur: "اپنی ای میل درج کریں...",
+  },
+  editorialCharterLink: {
+    en: "Editorial Charter",
+    sd: "ادارٿي پاليسي",
+    ur: "ادارتی پالیسی",
+  },
+  privacyStandardsLink: {
+    en: "Privacy & Archive Standards",
+    sd: "رازداري ۽ معيار",
+    ur: "رازداری اور معیار",
+  },
+  staffPortalLink: {
+    en: "Staff Portal",
+    sd: "اسٽاف پورٽل",
+    ur: "اسٹاف پورٹل",
   },
 
   // Footer

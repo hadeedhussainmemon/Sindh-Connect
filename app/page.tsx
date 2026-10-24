@@ -290,7 +290,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-maroon/15 pb-6">
           <div className="space-y-2">
             <span className="text-xs font-mono font-bold uppercase tracking-widest text-maroon">
-              {t("heroCaptionBadge", "Curated Monograph")} &bull; سنڌ جا چُنڊ ڪردار
+              {t("featuredPersonalitiesEyebrow", "Curated Monograph • سنڌ جا چُنڊ ڪردار")}
             </span>
             <h2 className="text-3xl sm:text-4xl font-display font-bold text-indigo">
               {t("featuredPersonalitiesHeading", "Pioneers, Thinkers & Modern Voices")}
@@ -359,7 +359,7 @@ export default function Home() {
                 {spotlightLuminary.achievements && spotlightLuminary.achievements.length > 0 && (
                   <div className="mt-6 pt-4 border-t border-maroon/15">
                     <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-maroon block mb-2">
-                      Key Civilizational Contributions
+                      {t("keyContributions", "Key Civilizational Contributions")}
                     </span>
                     <ul className="space-y-1.5 text-xs text-charcoal/80 font-serif">
                       {spotlightLuminary.achievements.slice(0, 3).map((ach, idx) => (
@@ -379,7 +379,7 @@ export default function Home() {
                   href={`/personalities/${spotlightLuminary.slug}`}
                   className="text-xs font-bold text-maroon hover:text-indigo inline-flex items-center gap-1 group font-mono"
                 >
-                  <span>Read Full Biographical Record</span>
+                  <span>{t("readBiographicalRecord", "Read Full Biographical Record")}</span>
                   <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
@@ -414,7 +414,7 @@ export default function Home() {
                       href={`/personalities/${p.slug}`}
                       className="inline-flex items-center gap-1 text-[11px] font-mono font-semibold text-maroon pt-1"
                     >
-                      <span>Examine Record</span> &rarr;
+                      <span>{t("examineRecord", "Examine Record")}</span> &rarr;
                     </Link>
                   </div>
                 </div>
@@ -433,7 +433,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 border-b border-maroon/20 pb-4">
             <div>
               <span className="text-xs font-mono font-bold uppercase tracking-widest text-maroon block mb-1">
-                Constructive Dispatches &bull; مثبت ڪهاڻيون
+                {t("positiveStoriesEyebrow", "Constructive Dispatches • مثبت ڪهاڻيون")}
               </span>
               <h2 className="text-3xl font-display font-bold text-indigo">
                 {t("positiveStoriesHeading", "Positive Transformations Across Sindh")}
@@ -487,7 +487,7 @@ export default function Home() {
                     href={`/blog/${art.slug}`}
                     className="text-xs font-mono font-semibold text-maroon hover:text-indigo inline-flex items-center gap-1"
                   >
-                    <span>Read Full Essay</span> &rarr;
+                    <span>{t("readFullEssay", "Read Full Essay")}</span> &rarr;
                   </Link>
                 </div>
               </article>
@@ -502,20 +502,20 @@ export default function Home() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 border-b border-maroon/15 pb-4">
           <div>
             <span className="text-xs font-mono font-bold uppercase tracking-widest text-maroon block mb-1">
-              سنڌي روايتي هنر ۽ دستڪاري &bull; Authentic Artisanal Heritage
+              {t("productsEyebrow", "Authentic Artisanal Heritage • سنڌي روايتي هنر ۽ دستڪاري")}
             </span>
             <h2 className="text-3xl font-display font-bold text-indigo">
-              Traditional Sindhi Products
+              {t("productsHeading", "Traditional Sindhi Products & Handicrafts")}
             </h2>
             <p className="text-sm text-charcoal/70 max-w-xl font-serif mt-1">
-              Authentic hand-blocked Ajraks, Hala glazed pottery, Thari Ralli quilts, and hand-embroidered topis directly from master artisans.
+              {t("productsSub", "Authentic hand-blocked Ajraks, Hala glazed pottery, Thari Ralli quilts, and hand-embroidered topis directly from master artisans.")}
             </p>
           </div>
           <Link
             href="/shop"
             className="text-xs font-mono font-bold text-maroon hover:text-indigo inline-flex items-center gap-1.5"
           >
-            <span>View Full Artisanal Shop</span>
+            <span>{t("viewArtisanShop", "View Full Artisanal Shop")}</span>
             <ArrowUpRight className="h-4 w-4" />
           </Link>
         </div>
@@ -591,7 +591,7 @@ export default function Home() {
                   href="/shop"
                   className="text-xs font-mono font-bold text-maroon hover:text-indigo inline-flex items-center gap-1"
                 >
-                  <span>Details</span> &rarr;
+                  <span>{t("productDetails", "Details")}</span> &rarr;
                 </Link>
                 <a
                   href={`https://wa.me/${(prod.whatsappNumber || "+923001234567").replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Hello, I want to inquire about "${prod.title}".`)}`}
@@ -599,7 +599,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="px-2.5 py-1.5 rounded bg-maroon hover:bg-maroon-hover text-parchment text-[11px] font-semibold tracking-wide inline-flex items-center gap-1"
                 >
-                  <MessageSquare className="h-3 w-3" /> Inquire
+                  <MessageSquare className="h-3 w-3" /> {t("inquireWhatsapp", "Inquire")}
                 </a>
               </div>
             </div>
@@ -612,7 +612,7 @@ export default function Home() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 border-b border-maroon/15 pb-4">
           <div>
             <span className="text-xs font-mono font-bold uppercase tracking-widest text-maroon block mb-1">
-              Visual Plates &bull; آثارِ قديم ۽ ثقافت
+              {t("galleryEyebrow", "Visual Plates • آثارِ قديم ۽ ثقافت")}
             </span>
             <h2 className="text-3xl font-display font-bold text-indigo">
               {t("galleryHeading", "Monuments & Material Culture")}
@@ -654,7 +654,7 @@ export default function Home() {
       <section className="border-t border-maroon/15 bg-indigo text-parchment py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <span className="text-xs font-mono uppercase tracking-widest text-sand font-semibold">
-            The Sindh Connect Commitment
+            {t("manifestoEyebrow", "The Sindh Connect Commitment")}
           </span>
           <h2 className="text-2xl sm:text-3xl font-display font-bold text-white">
             "جيئي سنڌ، سدائين گُلزار سنڌ"
@@ -667,7 +667,7 @@ export default function Home() {
               href="/about"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-maroon hover:bg-maroon-hover text-white text-xs font-mono font-semibold tracking-wider transition-colors"
             >
-              <span>Read the Full Editorial Charter</span>
+              <span>{t("manifestoCharterCta", "Read the Full Editorial Charter")}</span>
               <ArrowUpRight className="h-4 w-4" />
             </Link>
           </div>

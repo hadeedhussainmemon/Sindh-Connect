@@ -100,7 +100,7 @@ export default function Footer() {
           {/* Publication Navigation */}
           <div className="md:col-span-3 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-widest text-sand">
-              Archive Indices
+              {t("archiveIndices", "Archive Indices")}
             </h4>
             <ul className="space-y-2 text-xs">
               {editorialLinks.map((link) => (
@@ -120,10 +120,10 @@ export default function Footer() {
           {/* Curated Heritage Focus */}
           <div className="md:col-span-4 space-y-4">
             <h4 className="text-xs font-bold uppercase tracking-widest text-sand">
-              The Weekly Cultural Dispatch
+              {t("weeklyDispatchTitle", "The Weekly Cultural Dispatch")}
             </h4>
             <p className="text-xs text-white/70 leading-relaxed font-light">
-              Receive curated essays on Sindh’s history, rare photographic archives, and profiles of grassroots changemakers directly in your inbox.
+              {t("weeklyDispatchDesc", "Receive curated essays on Sindh’s history, rare photographic archives, and profiles of grassroots changemakers directly in your inbox.")}
             </p>
 
             <form onSubmit={handleSubscribe} className="space-y-2">
@@ -132,14 +132,14 @@ export default function Footer() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="reader@domain.com"
+                  placeholder={t("subscribePlaceholder", "reader@domain.com")}
                   className="flex-1 px-3 py-2 text-xs rounded-md bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-hidden focus:border-sand"
                 />
                 <button
                   type="submit"
                   className="px-4 py-2 bg-maroon hover:bg-maroon-hover text-white text-xs font-semibold rounded-md transition-colors shrink-0"
                 >
-                  Subscribe
+                  {t("subscribeBtn", "Subscribe")}
                 </button>
               </div>
               {status && (
@@ -157,13 +157,13 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-6">
             <Link href="/about" className="hover:text-white transition-colors">
-              Editorial Charter
+              {t("editorialCharterLink", "Editorial Charter")}
             </Link>
             <Link href="/privacy" className="hover:text-white transition-colors">
-              Privacy &amp; Archive Standards
+              {t("privacyStandardsLink", "Privacy & Archive Standards")}
             </Link>
             <Link href="/admin" className="hover:text-white transition-colors">
-              Staff Portal
+              {t("staffPortalLink", "Staff Portal")}
             </Link>
           </div>
         </div>

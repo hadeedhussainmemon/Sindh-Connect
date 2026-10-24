@@ -5,6 +5,7 @@ import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { LanguageProvider } from "@/components/providers/LanguageProvider";
+import GoogleTranslateBridge from "@/components/providers/GoogleTranslateBridge";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -52,6 +53,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-parchment text-charcoal font-sans selection:bg-maroon selection:text-parchment">
         <AuthProvider>
           <LanguageProvider>
+            <GoogleTranslateBridge />
             <Navbar />
             <main className="flex-grow pt-20 flex flex-col">{children}</main>
             <Footer />
