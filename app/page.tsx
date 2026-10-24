@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { ArrowUpRight, BookOpen, ChevronRight } from "lucide-react";
 
 interface Personality {
@@ -26,6 +25,15 @@ interface Article {
 interface SiteConfig {
   headline: string;
   subheadline: string;
+  eyebrowLabel?: string;
+  primaryCtaText?: string;
+  primaryCtaLink?: string;
+  secondaryCtaText?: string;
+  secondaryCtaLink?: string;
+  heroCaptionBadge?: string;
+  heroCaptionLocation?: string;
+  heroCaptionTitle?: string;
+  heroCaptionDescription?: string;
   aboutText: string[];
   heroImageUrl?: string;
 }
@@ -54,6 +62,15 @@ export default function Home() {
   const [config, setConfig] = useState<SiteConfig>({
     headline: "A land of history. A people of stories.",
     subheadline: "An authoritative editorial archive documenting the civilizational memory, Sufi philosophies, indigenous craftsmanship, and contemporary leaders of Sindh.",
+    eyebrowLabel: "The Living Heritage of Sindh",
+    primaryCtaText: "Explore Personalities",
+    primaryCtaLink: "/personalities",
+    secondaryCtaText: "Read Positive Stories",
+    secondaryCtaLink: "/blog",
+    heroCaptionBadge: "Archaeological Plate 01",
+    heroCaptionLocation: "Larkana District, Sindh",
+    heroCaptionTitle: "Mohenjo-daro & The Great Stupa",
+    heroCaptionDescription: "UNESCO World Heritage citadel of the Indus civilization, celebrated for municipal sanitation, kiln-baked masonry, and peaceful civic governance.",
     aboutText: [
       "Sindh is not merely a geographic expanse; it is the civilizational cradle of South Asia. Born along the perennial currents of the Mehran (Indus River), its narrative stretches from the brick city planning of Mohenjo-daro to the Sufi sanctuaries of Bhit Shah, Sehwan, and Jhok Sharif.",
       "Sindh Connect was founded as an independent digital museum and cultural magazine. We safeguard the timeless philosophical verse of Shah Abdul Latif Bhittai and Sachal Sarmast, while systematically chronicling modern pioneers: grassroots surgeons, digital filmmakers with global audiences, courageous educators, and preservation artisans.",
@@ -113,10 +130,10 @@ export default function Home() {
   const articleCount = articles.length > 0 ? articles.length : 3;
 
   return (
-    <div className="flex flex-col w-full min-h-screen bg-[#FAF6EF] text-[#202426]">
+    <div className="flex flex-col w-full min-h-screen bg-parchment text-charcoal">
       
-      {/* 1. HERO SECTION: ART-DIRECTED CULTURAL EDITORIAL COMPOSITION */}
-      <section className="relative border-b border-[#702B35]/15 pt-10 pb-16 lg:pt-16 lg:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+      {/* 1. HERO SECTION: FULLY EDITABLE VIA ADMIN PANEL */}
+      <section className="relative border-b border-maroon/15 pt-10 pb-16 lg:pt-16 lg:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         
         {/* Main Two-Column Editorial Composition */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
@@ -126,41 +143,38 @@ export default function Home() {
             
             {/* Small Eyebrow Label with Restrained Ajrak Diamond Accent */}
             <div className="flex items-center gap-2.5 mb-5">
-              <span className="w-2 h-2 rotate-45 bg-[#702B35] shrink-0" aria-hidden="true" />
-              <span className="text-xs uppercase tracking-[0.18em] font-mono font-bold text-[#702B35]">
-                The Living Heritage of Sindh
+              <span className="w-2 h-2 rotate-45 bg-maroon shrink-0" aria-hidden="true" />
+              <span className="text-xs uppercase tracking-[0.18em] font-mono font-bold text-maroon">
+                {config.eyebrowLabel || "The Living Heritage of Sindh"}
               </span>
             </div>
 
             {/* Art-Directed Headline with Natural Line Breaks */}
-            <h1 className="text-3xl sm:text-5xl lg:text-[3.25rem] font-display font-extrabold tracking-tight text-[#173C50] leading-[1.12] mb-6">
-              A land of history. <br className="hidden sm:inline" />
-              <span className="font-serif italic font-normal text-[#702B35]">
-                A people of stories.
-              </span>
+            <h1 className="text-3xl sm:text-5xl lg:text-[3.25rem] font-display font-extrabold tracking-tight text-indigo leading-[1.12] mb-6">
+              {config.headline}
             </h1>
 
             {/* Concise Human-Written Introduction with Optimal Text Width */}
-            <p className="text-base sm:text-lg text-[#202426]/85 font-serif leading-relaxed max-w-xl mb-8">
-              An authoritative cultural archive documenting five millennia of Indus civilization, classical Sufi humanism, indigenous arts, and the contemporary innovators shaping Sindh&rsquo;s constructive future.
+            <p className="text-base sm:text-lg text-charcoal/85 font-serif leading-relaxed max-w-xl mb-8">
+              {config.subheadline}
             </p>
 
-            {/* Clear Button Hierarchy: Primary & Secondary CTAs */}
+            {/* Clear Button Hierarchy: Primary & Secondary CTAs from Admin */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-10">
               <Link 
-                href="/personalities" 
-                className="px-6 py-3.5 rounded-md bg-[#702B35] hover:bg-[#853440] text-[#FAF6EF] font-semibold text-xs sm:text-sm tracking-wide shadow-xs transition-colors inline-flex items-center justify-center gap-2 focus:outline-hidden focus:ring-2 focus:ring-[#702B35] focus:ring-offset-2"
+                href={config.primaryCtaLink || "/personalities"} 
+                className="px-6 py-3.5 rounded-md bg-maroon hover:bg-maroon-hover text-parchment font-semibold text-xs sm:text-sm tracking-wide shadow-xs transition-colors inline-flex items-center justify-center gap-2 focus:outline-hidden focus:ring-2 focus:ring-maroon focus:ring-offset-2"
               >
-                <span>Explore Personalities</span>
+                <span>{config.primaryCtaText || "Explore Personalities"}</span>
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
 
               <Link 
-                href="/blog" 
-                className="px-6 py-3.5 rounded-md bg-[#FAF6EF] hover:bg-[#F4EEE2] text-[#173C50] font-semibold text-xs sm:text-sm tracking-wide border border-[#173C50]/30 transition-colors inline-flex items-center justify-center gap-2 focus:outline-hidden focus:ring-2 focus:ring-[#173C50] focus:ring-offset-2"
+                href={config.secondaryCtaLink || "/blog"} 
+                className="px-6 py-3.5 rounded-md bg-parchment hover:bg-ivory text-indigo font-semibold text-xs sm:text-sm tracking-wide border border-indigo/30 transition-colors inline-flex items-center justify-center gap-2 focus:outline-hidden focus:ring-2 focus:ring-indigo focus:ring-offset-2"
               >
-                <BookOpen className="h-4 w-4 text-[#702B35]" />
-                <span>Read Positive Stories</span>
+                <BookOpen className="h-4 w-4 text-maroon" />
+                <span>{config.secondaryCtaText || "Read Positive Stories"}</span>
               </Link>
             </div>
 
@@ -168,19 +182,19 @@ export default function Home() {
 
           {/* Right Column: Authentic Heritage Photograph & Restrained Framing */}
           <div className="lg:col-span-5 flex flex-col justify-center">
-            <figure className="relative bg-[#F4EEE2] p-2.5 sm:p-3 rounded-md border border-[#702B35]/20 shadow-xs">
+            <figure className="relative bg-ivory p-2.5 sm:p-3 rounded-md border border-maroon/20 shadow-xs">
               
               {/* Subtle Ajrak Textile Accent Band on Left Border */}
               <div 
-                className="absolute top-3 bottom-3 -left-1 w-1 bg-gradient-to-b from-[#173C50] via-[#702B35] to-[#C3A36A] rounded-l" 
+                className="absolute top-3 bottom-3 -left-1 w-1 bg-gradient-to-b from-indigo via-maroon to-sand rounded-l" 
                 aria-hidden="true" 
               />
 
-              <div className="relative aspect-[4/5] sm:aspect-[4/5] w-full overflow-hidden rounded bg-[#EAE2D2]">
+              <div className="relative aspect-[4/5] sm:aspect-[4/5] w-full overflow-hidden rounded bg-ivory">
                 {!heroImgFailed ? (
                   <img
                     src={heroImageSrc}
-                    alt="Ancient Buddhist Stupa and archaeological citadel of Mohenjo-daro, Sindh"
+                    alt={config.heroCaptionTitle || "Sindh Heritage"}
                     className="w-full h-full object-cover object-center grayscale-[10%] contrast-[105%]"
                     onError={() => {
                       if (heroImageSrc !== "/hero_visual.jpg") {
@@ -191,25 +205,25 @@ export default function Home() {
                     }}
                   />
                 ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#FAF6EF]">
-                    <span className="w-6 h-6 rotate-45 bg-[#702B35] mb-3" />
-                    <span className="text-xs font-mono uppercase tracking-widest text-[#702B35] font-bold">
+                  <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-parchment">
+                    <span className="w-6 h-6 rotate-45 bg-maroon mb-3" />
+                    <span className="text-xs font-mono uppercase tracking-widest text-maroon font-bold">
                       Sindh Heritage Archive
                     </span>
-                    <p className="text-xs text-[#202426]/70 font-serif mt-1">
-                      Mohenjo-daro Archaeological Settlement (B.C. 2500)
+                    <p className="text-xs text-charcoal/70 font-serif mt-1">
+                      {config.heroCaptionTitle || "Mohenjo-daro Archaeological Settlement"}
                     </p>
                   </div>
                 )}
               </div>
 
-              {/* Verified Editorial Caption */}
-              <figcaption className="pt-3 pb-1 px-1 text-xs text-[#202426]/80 font-serif leading-snug">
-                <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-[#702B35] font-semibold mb-1">
-                  <span>Archaeological Plate 01</span>
-                  <span>Larkana District, Sindh</span>
+              {/* Verified Editorial Caption configurable via Admin */}
+              <figcaption className="pt-3 pb-1 px-1 text-xs text-charcoal/80 font-serif leading-snug">
+                <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-maroon font-semibold mb-1">
+                  <span>{config.heroCaptionBadge || "Archaeological Plate 01"}</span>
+                  <span>{config.heroCaptionLocation || "Larkana District, Sindh"}</span>
                 </div>
-                <strong>Mohenjo-daro & The Great Stupa</strong> &mdash; UNESCO World Heritage citadel of the Indus civilization, celebrated for municipal sanitation, kiln-baked masonry, and peaceful civic governance.
+                <strong>{config.heroCaptionTitle || "Mohenjo-daro & The Great Stupa"}</strong> &mdash; {config.heroCaptionDescription || "UNESCO World Heritage citadel of the Indus civilization, celebrated for municipal sanitation, kiln-baked masonry, and peaceful civic governance."}
               </figcaption>
             </figure>
           </div>
@@ -217,40 +231,40 @@ export default function Home() {
         </div>
 
         {/* Quiet Supporting Statistics Row: 3 Verified Editorial Metrics */}
-        <div className="mt-12 pt-8 border-t border-[#702B35]/15 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl">
+        <div className="mt-12 pt-8 border-t border-maroon/15 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl">
           <div className="space-y-1">
-            <span className="block text-2xl sm:text-3xl font-serif font-bold text-[#702B35]">
+            <span className="block text-2xl sm:text-3xl font-serif font-bold text-maroon">
               5,000+
             </span>
-            <span className="text-xs font-mono text-[#202426]/75 uppercase tracking-wider block font-medium">
+            <span className="text-xs font-mono text-charcoal/75 uppercase tracking-wider block font-medium">
               Years of Documented History
             </span>
-            <p className="text-[11px] text-[#202426]/60 font-serif">
+            <p className="text-[11px] text-charcoal/60 font-serif">
               Indus Valley civilization to modern Sindh
             </p>
           </div>
 
           <div className="space-y-1">
-            <span className="block text-2xl sm:text-3xl font-serif font-bold text-[#173C50]">
+            <span className="block text-2xl sm:text-3xl font-serif font-bold text-indigo">
               {personalityCount}
             </span>
-            <span className="text-xs font-mono text-[#202426]/75 uppercase tracking-wider block font-medium">
+            <span className="text-xs font-mono text-charcoal/75 uppercase tracking-wider block font-medium">
               Documented Personalities
             </span>
-            <p className="text-[11px] text-[#202426]/60 font-serif">
-              Verified historical icons, Sufi poets & leaders
+            <p className="text-[11px] text-charcoal/60 font-serif">
+              Verified historical icons, Sufi poets &amp; leaders
             </p>
           </div>
 
           <div className="space-y-1">
-            <span className="block text-2xl sm:text-3xl font-serif font-bold text-[#702B35]">
+            <span className="block text-2xl sm:text-3xl font-serif font-bold text-maroon">
               {articleCount}
             </span>
-            <span className="text-xs font-mono text-[#202426]/75 uppercase tracking-wider block font-medium">
+            <span className="text-xs font-mono text-charcoal/75 uppercase tracking-wider block font-medium">
               Published Cultural Stories
             </span>
-            <p className="text-[11px] text-[#202426]/60 font-serif">
-              Grassroots triumphs & positive community essays
+            <p className="text-[11px] text-charcoal/60 font-serif">
+              Grassroots triumphs &amp; positive community essays
             </p>
           </div>
         </div>
@@ -261,22 +275,22 @@ export default function Home() {
       <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-[#702B35]/15 pb-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-maroon/15 pb-6">
           <div className="space-y-2">
-            <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#702B35]">
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-maroon">
               Curated Monograph &bull; سنڌ جا چُنڊ ڪردار
             </span>
-            <h2 className="text-3xl sm:text-4xl font-display font-bold text-[#173C50]">
-              Pioneers, Thinkers & Modern Voices
+            <h2 className="text-3xl sm:text-4xl font-display font-bold text-indigo">
+              Pioneers, Thinkers &amp; Modern Voices
             </h2>
-            <p className="text-sm text-[#202426]/70 max-w-xl font-serif">
+            <p className="text-sm text-charcoal/70 max-w-xl font-serif">
               A permanent editorial registry honoring the statesmen, Sufi philosophers, literary architects, and contemporary digital storytellers of Sindh.
             </p>
           </div>
 
           <Link
             href="/personalities"
-            className="text-xs font-bold text-[#702B35] hover:text-[#173C50] inline-flex items-center gap-1.5 transition-colors font-mono tracking-wider"
+            className="text-xs font-bold text-maroon hover:text-indigo inline-flex items-center gap-1.5 transition-colors font-mono tracking-wider"
           >
             <span>Complete 20-Profile Directory</span>
             <ArrowUpRight className="h-4 w-4" />
@@ -284,15 +298,15 @@ export default function Home() {
         </div>
 
         {/* Category Selector Tabs */}
-        <div className="flex flex-wrap gap-2 mb-10 pb-2 border-b border-[#702B35]/10">
+        <div className="flex flex-wrap gap-2 mb-10 pb-2 border-b border-maroon/10">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`text-xs px-3.5 py-1.5 rounded-sm transition-all font-medium ${
                 activeCategory === cat
-                  ? "bg-[#702B35] text-[#FAF6EF] font-semibold"
-                  : "bg-transparent text-[#202426]/70 hover:text-[#702B35] hover:bg-[#F4EEE2]"
+                  ? "bg-maroon text-parchment font-semibold"
+                  : "bg-transparent text-charcoal/70 hover:text-maroon hover:bg-ivory"
               }`}
             >
               {cat}
@@ -305,14 +319,14 @@ export default function Home() {
           
           {/* Main Editorial Spotlight */}
           {spotlightLuminary && (
-            <div className="lg:col-span-7 bg-[#F4EEE2] border border-[#702B35]/20 rounded-lg p-6 sm:p-8 flex flex-col justify-between">
+            <div className="lg:col-span-7 bg-ivory border border-maroon/20 rounded-lg p-6 sm:p-8 flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between text-xs font-mono text-[#702B35] uppercase tracking-wider mb-4 border-b border-[#702B35]/15 pb-2">
+                <div className="flex items-center justify-between text-xs font-mono text-maroon uppercase tracking-wider mb-4 border-b border-maroon/15 pb-2">
                   <span>Archival Spotlight</span>
                   <span>{spotlightLuminary.category}</span>
                 </div>
 
-                <div className="relative aspect-[16/10] w-full rounded overflow-hidden mb-6 bg-[#E8DFC8]">
+                <div className="relative aspect-[16/10] w-full rounded overflow-hidden mb-6 bg-ivory">
                   <img
                     src={spotlightLuminary.profilePicture || "/hero_visual.jpg"}
                     alt={spotlightLuminary.name}
@@ -320,25 +334,25 @@ export default function Home() {
                   />
                 </div>
 
-                <h3 className="text-2xl sm:text-3xl font-display font-bold text-[#173C50] leading-snug">
-                  <Link href={`/personalities/${spotlightLuminary.slug}`} className="hover:text-[#702B35] transition-colors">
+                <h3 className="text-2xl sm:text-3xl font-display font-bold text-indigo leading-snug">
+                  <Link href={`/personalities/${spotlightLuminary.slug}`} className="hover:text-maroon transition-colors">
                     {spotlightLuminary.name}
                   </Link>
                 </h3>
 
-                <p className="mt-3 text-sm sm:text-base text-[#202426]/85 font-serif leading-relaxed text-justify">
+                <p className="mt-3 text-sm sm:text-base text-charcoal/85 font-serif leading-relaxed text-justify">
                   {spotlightLuminary.biography}
                 </p>
 
                 {spotlightLuminary.achievements && spotlightLuminary.achievements.length > 0 && (
-                  <div className="mt-6 pt-4 border-t border-[#702B35]/15">
-                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#702B35] block mb-2">
+                  <div className="mt-6 pt-4 border-t border-maroon/15">
+                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-maroon block mb-2">
                       Key Civilizational Contributions
                     </span>
-                    <ul className="space-y-1.5 text-xs text-[#202426]/80 font-serif">
+                    <ul className="space-y-1.5 text-xs text-charcoal/80 font-serif">
                       {spotlightLuminary.achievements.slice(0, 3).map((ach, idx) => (
                         <li key={idx} className="flex items-start gap-2">
-                          <span className="text-[#702B35] font-bold">&mdash;</span>
+                          <span className="text-maroon font-bold">&mdash;</span>
                           <span>{ach}</span>
                         </li>
                       ))}
@@ -347,11 +361,11 @@ export default function Home() {
                 )}
               </div>
 
-              <div className="mt-8 pt-4 border-t border-[#702B35]/20 flex items-center justify-between">
-                <span className="text-xs font-mono text-[#202426]/60">Monograph No. 01</span>
+              <div className="mt-8 pt-4 border-t border-maroon/20 flex items-center justify-between">
+                <span className="text-xs font-mono text-charcoal/60">Monograph No. 01</span>
                 <Link
                   href={`/personalities/${spotlightLuminary.slug}`}
-                  className="text-xs font-bold text-[#702B35] hover:text-[#173C50] inline-flex items-center gap-1 group font-mono"
+                  className="text-xs font-bold text-maroon hover:text-indigo inline-flex items-center gap-1 group font-mono"
                 >
                   <span>Read Full Biographical Record</span>
                   <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -361,11 +375,11 @@ export default function Home() {
           )}
 
           {/* Secondary Editorial Column: 4 Curated Profiles */}
-          <div className="lg:col-span-5 flex flex-col divide-y divide-[#702B35]/15 border-t border-b lg:border-t-0 lg:border-b-0 border-[#702B35]/15">
+          <div className="lg:col-span-5 flex flex-col divide-y divide-maroon/15 border-t border-b lg:border-t-0 lg:border-b-0 border-maroon/15">
             {secondaryLuminaries.map((p) => (
               <article key={p.slug} className="py-5 first:pt-0 last:pb-0 group">
                 <div className="flex gap-4 items-start">
-                  <div className="w-20 h-24 shrink-0 rounded overflow-hidden bg-[#E8DFC8] border border-[#702B35]/20">
+                  <div className="w-20 h-24 shrink-0 rounded overflow-hidden bg-ivory border border-maroon/20">
                     <img
                       src={p.profilePicture || "/hero_visual.jpg"}
                       alt={p.name}
@@ -373,20 +387,20 @@ export default function Home() {
                     />
                   </div>
                   <div className="flex-1 space-y-1">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#702B35] font-bold">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-maroon font-bold">
                       {p.category}
                     </span>
-                    <h4 className="text-base font-display font-bold text-[#173C50] group-hover:text-[#702B35] transition-colors leading-snug">
+                    <h4 className="text-base font-display font-bold text-indigo group-hover:text-maroon transition-colors leading-snug">
                       <Link href={`/personalities/${p.slug}`}>
                         {p.name}
                       </Link>
                     </h4>
-                    <p className="text-xs text-[#202426]/75 font-serif line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-charcoal/75 font-serif line-clamp-2 leading-relaxed">
                       {p.biography}
                     </p>
                     <Link
                       href={`/personalities/${p.slug}`}
-                      className="inline-flex items-center gap-1 text-[11px] font-mono font-semibold text-[#702B35] pt-1"
+                      className="inline-flex items-center gap-1 text-[11px] font-mono font-semibold text-maroon pt-1"
                     >
                       <span>Examine Record</span> &rarr;
                     </Link>
@@ -401,21 +415,21 @@ export default function Home() {
       </section>
 
       {/* 3. ESSAYS & POSITIVE STORIES: EDITORIAL READING ROOM */}
-      <section className="border-t border-[#702B35]/15 bg-[#F4EEE2] py-16 lg:py-24 px-4 sm:px-6 lg:px-8">
+      <section className="border-t border-maroon/15 bg-ivory py-16 lg:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 border-b border-[#702B35]/20 pb-4">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 border-b border-maroon/20 pb-4">
             <div>
-              <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#702B35] block mb-1">
+              <span className="text-xs font-mono font-bold uppercase tracking-widest text-maroon block mb-1">
                 Constructive Dispatches &bull; مثبت ڪهاڻيون
               </span>
-              <h2 className="text-3xl font-display font-bold text-[#173C50]">
+              <h2 className="text-3xl font-display font-bold text-indigo">
                 Positive Transformations Across Sindh
               </h2>
             </div>
             <Link 
               href="/blog" 
-              className="text-xs font-mono font-bold text-[#702B35] hover:text-[#173C50] inline-flex items-center gap-1.5"
+              className="text-xs font-mono font-bold text-maroon hover:text-indigo inline-flex items-center gap-1.5"
             >
               <span>View All Published Articles</span>
               <ArrowUpRight className="h-4 w-4" />
@@ -426,10 +440,10 @@ export default function Home() {
             {articles.slice(0, 3).map((art, idx) => (
               <article 
                 key={art.slug} 
-                className="bg-[#FAF6EF] rounded-lg border border-[#702B35]/15 overflow-hidden flex flex-col justify-between hover:border-[#702B35]/40 transition-all shadow-xs"
+                className="bg-parchment rounded-lg border border-maroon/15 overflow-hidden flex flex-col justify-between hover:border-maroon/40 transition-all shadow-xs"
               >
                 <div>
-                  <div className="relative aspect-[16/10] w-full bg-[#EAE2D2] overflow-hidden">
+                  <div className="relative aspect-[16/10] w-full bg-ivory overflow-hidden">
                     <img 
                       src={art.coverImage || "/hero_visual.jpg"} 
                       alt={art.title} 
@@ -438,28 +452,28 @@ export default function Home() {
                   </div>
 
                   <div className="p-6 space-y-2">
-                    <div className="flex items-center justify-between text-[11px] font-mono text-[#702B35]">
+                    <div className="flex items-center justify-between text-[11px] font-mono text-maroon">
                       <span className="uppercase tracking-wider font-bold">{art.category}</span>
-                      <span className="text-[#202426]/60">{art.readTime || "6 min read"}</span>
+                      <span className="text-charcoal/60">{art.readTime || "6 min read"}</span>
                     </div>
 
-                    <h3 className="text-lg font-display font-bold text-[#173C50] hover:text-[#702B35] transition-colors leading-snug">
+                    <h3 className="text-lg font-display font-bold text-indigo hover:text-maroon transition-colors leading-snug">
                       <Link href={`/blog/${art.slug}`}>{art.title}</Link>
                     </h3>
 
                     {art.subtitle && (
-                      <p className="text-xs text-[#202426]/75 font-serif line-clamp-3 leading-relaxed">
+                      <p className="text-xs text-charcoal/75 font-serif line-clamp-3 leading-relaxed">
                         {art.subtitle}
                       </p>
                     )}
                   </div>
                 </div>
 
-                <div className="p-6 pt-0 border-t border-[#702B35]/10 mt-4 flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-[#202426]/50">Report 0{idx + 1}</span>
+                <div className="p-6 pt-0 border-t border-maroon/10 mt-4 flex items-center justify-between">
+                  <span className="text-[11px] font-mono text-charcoal/50">Report 0{idx + 1}</span>
                   <Link 
                     href={`/blog/${art.slug}`}
-                    className="text-xs font-mono font-semibold text-[#702B35] hover:text-[#173C50] inline-flex items-center gap-1"
+                    className="text-xs font-mono font-semibold text-maroon hover:text-indigo inline-flex items-center gap-1"
                   >
                     <span>Read Full Essay</span> &rarr;
                   </Link>
@@ -473,16 +487,16 @@ export default function Home() {
 
       {/* 4. HERITAGE & VISUAL ARCHIVE: DIGITAL MUSEUM GALLERY GLIMPSE */}
       <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 border-b border-[#702B35]/15 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 border-b border-maroon/15 pb-4">
           <div>
-            <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#702B35] block mb-1">
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-maroon block mb-1">
               Visual Plates &bull; آثارِ قديم ۽ ثقافت
             </span>
-            <h2 className="text-3xl font-display font-bold text-[#173C50]">
-              Monuments & Material Culture
+            <h2 className="text-3xl font-display font-bold text-indigo">
+              Monuments &amp; Material Culture
             </h2>
           </div>
-          <Link href="/gallery" className="text-xs font-mono font-bold text-[#702B35] hover:text-[#173C50] inline-flex items-center gap-1.5">
+          <Link href="/gallery" className="text-xs font-mono font-bold text-maroon hover:text-indigo inline-flex items-center gap-1.5">
             <span>Explore Full Photographic Archive</span>
             <ArrowUpRight className="h-4 w-4" />
           </Link>
@@ -492,9 +506,9 @@ export default function Home() {
           {gallery.slice(0, 4).map((item, idx) => (
             <figure 
               key={idx}
-              className="bg-[#F4EEE2] p-2.5 rounded-lg border border-[#702B35]/15 space-y-2.5 shadow-xs"
+              className="bg-ivory p-2.5 rounded-lg border border-maroon/15 space-y-2.5 shadow-xs"
             >
-              <div className="aspect-[4/3] relative overflow-hidden rounded bg-[#EAE2D2]">
+              <div className="aspect-[4/3] relative overflow-hidden rounded bg-ivory">
                 <img 
                   src={item.imageUrl} 
                   alt={item.title} 
@@ -502,10 +516,10 @@ export default function Home() {
                 />
               </div>
               <figcaption className="px-1 text-xs font-serif">
-                <span className="text-[10px] font-mono text-[#702B35] uppercase tracking-wider block font-bold">
+                <span className="text-[10px] font-mono text-maroon uppercase tracking-wider block font-bold">
                   Archive Plate {idx + 1} &bull; {item.category || "Heritage"}
                 </span>
-                <p className="font-semibold text-[#173C50] leading-snug mt-0.5">
+                <p className="font-semibold text-indigo leading-snug mt-0.5">
                   {item.title}
                 </p>
               </figcaption>
@@ -515,9 +529,9 @@ export default function Home() {
       </section>
 
       {/* 5. EDITORIAL MANIFESTO: CONCLUDING PHILOSOPHICAL STATEMENT */}
-      <section className="border-t border-[#702B35]/15 bg-[#173C50] text-[#F4EEE2] py-16 px-4 sm:px-6 lg:px-8">
+      <section className="border-t border-maroon/15 bg-indigo text-parchment py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#C3A36A] font-semibold">
+          <span className="text-xs font-mono uppercase tracking-widest text-sand font-semibold">
             The Sindh Connect Commitment
           </span>
           <h2 className="text-2xl sm:text-3xl font-display font-bold text-white">
@@ -529,7 +543,7 @@ export default function Home() {
           <div className="pt-2">
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-[#702B35] hover:bg-[#853440] text-white text-xs font-mono font-semibold tracking-wider transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-maroon hover:bg-maroon-hover text-white text-xs font-mono font-semibold tracking-wider transition-colors"
             >
               <span>Read the Full Editorial Charter</span>
               <ArrowUpRight className="h-4 w-4" />

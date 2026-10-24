@@ -9,6 +9,15 @@ export interface ISiteConfig extends Document {
   key: string;
   headline: string;
   subheadline: string;
+  eyebrowLabel?: string;
+  primaryCtaText?: string;
+  primaryCtaLink?: string;
+  secondaryCtaText?: string;
+  secondaryCtaLink?: string;
+  heroCaptionBadge?: string;
+  heroCaptionLocation?: string;
+  heroCaptionTitle?: string;
+  heroCaptionDescription?: string;
   logoUrl: string;
   faviconUrl: string;
   heroImageUrl: string;
@@ -28,11 +37,20 @@ export interface ISiteConfig extends Document {
 
 const SiteConfigSchema = new Schema<ISiteConfig>({
   key: { type: String, default: "main", unique: true },
-  headline: { type: String, default: "Sindh Connect – Honoring the Heritage, Leaders & Creators of the Indus" },
-  subheadline: { type: String, default: "A prestigious archive celebrating 5,000 years of civilization, Sufi wisdom, visionary leaders, digital pioneers, and uplifting stories across Sindh." },
-  logoUrl: { type: String, default: "https://res.cloudinary.com/dpyba5jlr/image/upload/v1722363000/sindh_connect/logo.jpg" },
+  headline: { type: String, default: "A land of history. A people of stories." },
+  subheadline: { type: String, default: "An authoritative editorial archive documenting the civilizational memory, Sufi philosophies, indigenous craftsmanship, and contemporary leaders of Sindh." },
+  eyebrowLabel: { type: String, default: "The Living Heritage of Sindh" },
+  primaryCtaText: { type: String, default: "Explore Personalities" },
+  primaryCtaLink: { type: String, default: "/personalities" },
+  secondaryCtaText: { type: String, default: "Read Positive Stories" },
+  secondaryCtaLink: { type: String, default: "/blog" },
+  heroCaptionBadge: { type: String, default: "Archaeological Plate 01" },
+  heroCaptionLocation: { type: String, default: "Larkana District, Sindh" },
+  heroCaptionTitle: { type: String, default: "Mohenjo-daro & The Great Stupa" },
+  heroCaptionDescription: { type: String, default: "UNESCO World Heritage citadel of the Indus civilization, celebrated for municipal sanitation, kiln-baked masonry, and peaceful civic governance." },
+  logoUrl: { type: String, default: "/logo.jpg" },
   faviconUrl: { type: String, default: "/favicon.svg" },
-  heroImageUrl: { type: String, default: "https://res.cloudinary.com/dpyba5jlr/image/upload/v1722363000/sindh_connect/mohenjodaro.jpg" },
+  heroImageUrl: { type: String, default: "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=1200&auto=format&fit=crop&q=80" },
   
   aboutIntro: { type: String, default: "Sindh Connect is dedicated to archiving, celebrating, and amplifying the heritage, culture, and positive transformation of Sindh. From the timeless brick streets of Mohenjo-daro to the Sufi shrines of Bhit Shah, Sehwan, and Jhok, Sindh has been a cradle of peace, pluralism, and intellectual richness for millennia." },
   vision: { type: String, default: "To establish Sindh Connect as the most authoritative and inspirational digital portal celebrating Sindhi heritage, highlighting contemporary champions, and connecting the global Sindhi diaspora with grassroots positive initiatives." },

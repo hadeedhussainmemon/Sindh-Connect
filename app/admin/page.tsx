@@ -41,7 +41,22 @@ function CMSContent() {
   const [artForm, setArtForm] = useState({ title: "", category: "History", subtitle: "", content: "", heroImage: "" });
   const [eventForm, setEventForm] = useState({ title: "", date: "", description: "", location: "", status: "upcoming" });
   const [galleryForm, setGalleryForm] = useState({ title: "", category: "", imageUrl: "" });
-  const [siteConfig, setSiteConfig] = useState({ headline: "", subheadline: "", logoUrl: "", faviconUrl: "", heroImageUrl: "" });
+  const [siteConfig, setSiteConfig] = useState({
+    headline: "",
+    subheadline: "",
+    eyebrowLabel: "",
+    primaryCtaText: "",
+    primaryCtaLink: "",
+    secondaryCtaText: "",
+    secondaryCtaLink: "",
+    heroCaptionBadge: "",
+    heroCaptionLocation: "",
+    heroCaptionTitle: "",
+    heroCaptionDescription: "",
+    logoUrl: "",
+    faviconUrl: "",
+    heroImageUrl: ""
+  });
   const [securityForm, setSecurityForm] = useState({ newPassword: "" });
   // Edit Trackers
   const [editPersSlug, setEditPersSlug] = useState<string | null>(null);
@@ -73,7 +88,16 @@ function CMSContent() {
         if (c && c.headline) {
           setSiteConfig({
             headline: c.headline,
-            subheadline: c.subheadline,
+            subheadline: c.subheadline || "",
+            eyebrowLabel: c.eyebrowLabel || "The Living Heritage of Sindh",
+            primaryCtaText: c.primaryCtaText || "Explore Personalities",
+            primaryCtaLink: c.primaryCtaLink || "/personalities",
+            secondaryCtaText: c.secondaryCtaText || "Read Positive Stories",
+            secondaryCtaLink: c.secondaryCtaLink || "/blog",
+            heroCaptionBadge: c.heroCaptionBadge || "Archaeological Plate 01",
+            heroCaptionLocation: c.heroCaptionLocation || "Larkana District, Sindh",
+            heroCaptionTitle: c.heroCaptionTitle || "Mohenjo-daro & The Great Stupa",
+            heroCaptionDescription: c.heroCaptionDescription || "UNESCO World Heritage citadel of the Indus civilization, celebrated for municipal sanitation, kiln-baked masonry, and peaceful civic governance.",
             logoUrl: c.logoUrl || "/logo.jpg",
             faviconUrl: c.faviconUrl || "/favicon.ico",
             heroImageUrl: c.heroImageUrl || "/hero_visual.jpg"
@@ -343,11 +367,15 @@ function CMSContent() {
                 })}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Site Configuration form */}
+                {/* Site & Hero Section Configuration form */}
                 <form onSubmit={handleUpdateConfig} className="p-6 rounded-2xl bg-emerald-950/15 border border-emerald-500/10 flex flex-col gap-4">
                   <h2 className="text-sm font-bold text-amber-400 flex items-center gap-1.5 border-b border-emerald-500/10 pb-2 uppercase tracking-wide">
-                    <Settings className="h-4 w-4" /> Platform Copy & Images Config
+                    <Settings className="h-4 w-4" /> Homepage Hero Section & Site Settings
                   </h2>
+                  <div>
+                    <label className="text-xs text-neutral-300 block mb-1">Hero Eyebrow Label</label>
+                    <input type="text" placeholder="e.g. The Living Heritage of Sindh" value={siteConfig.eyebrowLabel} onChange={(e) => setSiteConfig({ ...siteConfig, eyebrowLabel: e.target.value })} className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
+                  </div>
                   <div>
                     <label className="text-xs text-neutral-300 block mb-1">Headline Text</label>
                     <input type="text" value={siteConfig.headline} onChange={(e) => setSiteConfig({ ...siteConfig, headline: e.target.value })} required className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
@@ -356,8 +384,28 @@ function CMSContent() {
                     <label className="text-xs text-neutral-300 block mb-1">Subheadline Subtitle</label>
                     <textarea value={siteConfig.subheadline} onChange={(e) => setSiteConfig({ ...siteConfig, subheadline: e.target.value })} required rows={2} className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
                   </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs text-neutral-300 block mb-1">Primary CTA Text</label>
+                      <input type="text" value={siteConfig.primaryCtaText} onChange={(e) => setSiteConfig({ ...siteConfig, primaryCtaText: e.target.value })} placeholder="Explore Personalities" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                    </div>
+                    <div>
+                      <label className="text-xs text-neutral-300 block mb-1">Primary CTA Route</label>
+                      <input type="text" value={siteConfig.primaryCtaLink} onChange={(e) => setSiteConfig({ ...siteConfig, primaryCtaLink: e.target.value })} placeholder="/personalities" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs text-neutral-300 block mb-1">Secondary CTA Text</label>
+                      <input type="text" value={siteConfig.secondaryCtaText} onChange={(e) => setSiteConfig({ ...siteConfig, secondaryCtaText: e.target.value })} placeholder="Read Positive Stories" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                    </div>
+                    <div>
+                      <label className="text-xs text-neutral-300 block mb-1">Secondary CTA Route</label>
+                      <input type="text" value={siteConfig.secondaryCtaLink} onChange={(e) => setSiteConfig({ ...siteConfig, secondaryCtaLink: e.target.value })} placeholder="/blog" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                    </div>
+                  </div>
                   <div>
-                    <label className="text-xs text-neutral-300 block mb-1">Hero Image URL</label>
+                    <label className="text-xs text-neutral-300 block mb-1">Hero Image (Cloudinary or Direct URL)</label>
                     <div className="flex gap-2">
                       <input type="text" value={siteConfig.heroImageUrl} onChange={(e) => setSiteConfig({ ...siteConfig, heroImageUrl: e.target.value })} className="flex-grow bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
                       <label className="bg-emerald-950/40 hover:bg-emerald-900 border border-emerald-500/20 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-emerald-300">
@@ -366,8 +414,26 @@ function CMSContent() {
                       </label>
                     </div>
                   </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs text-neutral-300 block mb-1">Hero Caption Badge</label>
+                      <input type="text" value={siteConfig.heroCaptionBadge} onChange={(e) => setSiteConfig({ ...siteConfig, heroCaptionBadge: e.target.value })} placeholder="Archaeological Plate 01" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                    </div>
+                    <div>
+                      <label className="text-xs text-neutral-300 block mb-1">Hero Caption Location</label>
+                      <input type="text" value={siteConfig.heroCaptionLocation} onChange={(e) => setSiteConfig({ ...siteConfig, heroCaptionLocation: e.target.value })} placeholder="Larkana District, Sindh" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-xs text-neutral-300 block mb-1">Hero Caption Title</label>
+                    <input type="text" value={siteConfig.heroCaptionTitle} onChange={(e) => setSiteConfig({ ...siteConfig, heroCaptionTitle: e.target.value })} placeholder="Mohenjo-daro & The Great Stupa" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                  </div>
+                  <div>
+                    <label className="text-xs text-neutral-300 block mb-1">Hero Caption Description</label>
+                    <textarea value={siteConfig.heroCaptionDescription} onChange={(e) => setSiteConfig({ ...siteConfig, heroCaptionDescription: e.target.value })} rows={2} placeholder="Historical summary under plate" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                  </div>
                   <button type="submit" className="py-2.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-emerald-950 font-bold transition-all text-xs uppercase tracking-wide">
-                    Save Config
+                    Save Hero & Site Config
                   </button>
                 </form>
                 {/* Security Pass Form */}

@@ -31,9 +31,13 @@ export async function POST(req: Request) {
     await dbConnect();
     const data = await req.json();
 
-    // Whitelist and sanitize permitted site configuration fields
+    // Whitelist and sanitize permitted site configuration fields including hero options
     const allowedFields = [
-      "headline", "subheadline", "logoUrl", "faviconUrl", "heroImageUrl",
+      "headline", "subheadline", "eyebrowLabel",
+      "primaryCtaText", "primaryCtaLink",
+      "secondaryCtaText", "secondaryCtaLink",
+      "heroCaptionBadge", "heroCaptionLocation", "heroCaptionTitle", "heroCaptionDescription",
+      "logoUrl", "faviconUrl", "heroImageUrl",
       "aboutIntro", "vision", "mission", "coreValues", "objectives",
       "selectionCriteria", "categories", "whyUs", "founderMessage",
       "impact", "joinUs", "aboutText"

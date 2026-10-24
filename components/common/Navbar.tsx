@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 
@@ -38,9 +37,9 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#FAF6EF]/95 backdrop-blur-md border-b border-[#702B35]/15 transition-all">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-parchment/95 backdrop-blur-md border-b border-maroon/15 transition-all">
         {/* Ajrak signature decorative top ribbon */}
-        <div className="h-1 w-full bg-gradient-to-r from-[#173C50] via-[#702B35] to-[#C3A36A]" />
+        <div className="h-1 w-full ajrak-band" />
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
@@ -51,15 +50,15 @@ export default function Navbar() {
                 <img 
                   src={logoUrl} 
                   alt="Sindh Connect Seal" 
-                  className="h-10 w-10 rounded-full object-cover border border-[#702B35]/40 shadow-xs transition-transform duration-300 group-hover:scale-105" 
+                  className="h-10 w-10 rounded-full object-cover border border-maroon/40 shadow-xs transition-transform duration-300 group-hover:scale-105" 
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-display font-black tracking-tight text-[#173C50] group-hover:text-[#702B35] transition-colors leading-none">
-                  SINDH<span className="text-[#702B35]"> CONNECT</span>
+                <span className="text-xl font-display font-black tracking-tight text-indigo group-hover:text-maroon transition-colors leading-none">
+                  SINDH<span className="text-maroon"> CONNECT</span>
                 </span>
-                <span className="text-[10px] tracking-widest uppercase text-[#702B35]/80 font-medium font-mono mt-1">
-                  سنڌ ڪنيڪٽ &bull; Cultural Archive & Magazine
+                <span className="text-[10px] tracking-widest uppercase text-maroon/80 font-medium font-mono mt-1">
+                  سنڌ ڪنيڪٽ &bull; Cultural Archive &amp; Magazine
                 </span>
               </div>
             </Link>
@@ -74,8 +73,8 @@ export default function Navbar() {
                     href={link.href}
                     className={`px-3.5 py-1.5 text-xs font-semibold tracking-wide rounded-md transition-all ${
                       isActive
-                        ? "text-[#702B35] bg-[#702B35]/10 font-bold"
-                        : "text-[#202426] hover:text-[#702B35] hover:bg-[#F4EEE2]"
+                        ? "text-maroon bg-maroon/10 font-bold"
+                        : "text-charcoal hover:text-maroon hover:bg-ivory"
                     }`}
                   >
                     {link.name}
@@ -88,7 +87,7 @@ export default function Navbar() {
             <div className="hidden md:flex items-center gap-3">
               <Link
                 href="/personalities/submit"
-                className="text-xs font-semibold px-3.5 py-2 rounded-md border border-[#702B35]/30 text-[#702B35] hover:bg-[#702B35] hover:text-[#FAF6EF] transition-all inline-flex items-center gap-1.5"
+                className="text-xs font-semibold px-3.5 py-2 rounded-md border border-maroon/30 text-maroon hover:bg-maroon hover:text-parchment transition-all inline-flex items-center gap-1.5"
               >
                 <span>Nominate a Luminary</span>
                 <ArrowUpRight className="h-3.5 w-3.5" />
@@ -97,14 +96,14 @@ export default function Navbar() {
               {session ? (
                 <button
                   onClick={() => signOut()}
-                  className="text-xs font-medium text-neutral-600 hover:text-[#702B35] px-2 py-1"
+                  className="text-xs font-medium text-charcoal/70 hover:text-maroon px-2 py-1"
                 >
                   Sign Out
                 </button>
               ) : (
                 <Link
                   href="/auth/signin"
-                  className="text-xs font-medium text-[#173C50] hover:text-[#702B35] px-2 py-1"
+                  className="text-xs font-medium text-indigo hover:text-maroon px-2 py-1"
                 >
                   Sign In
                 </Link>
@@ -115,7 +114,7 @@ export default function Navbar() {
             <div className="flex lg:hidden items-center">
               <button
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
-                className="p-2 rounded-md text-[#173C50] hover:bg-[#F4EEE2] transition-colors"
+                className="p-2 rounded-md text-indigo hover:bg-ivory transition-colors"
                 aria-label="Toggle navigation menu"
               >
                 {isMobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -129,12 +128,12 @@ export default function Navbar() {
       {/* Mobile Drawer Menu */}
       {isMobileOpen && (
         <div className="fixed inset-0 z-40 lg:hidden bg-black/40 backdrop-blur-xs pt-24 px-4 pb-8 flex flex-col justify-between">
-          <div className="bg-[#FAF6EF] rounded-2xl p-6 shadow-xl border border-[#702B35]/20 space-y-4">
-            <div className="flex items-center justify-between border-b border-[#702B35]/10 pb-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#702B35]">
+          <div className="bg-parchment rounded-2xl p-6 shadow-xl border border-maroon/20 space-y-4">
+            <div className="flex items-center justify-between border-b border-maroon/10 pb-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-maroon">
                 Publication Navigation
               </span>
-              <button onClick={() => setIsMobileOpen(false)} className="text-[#202426]">
+              <button onClick={() => setIsMobileOpen(false)} className="text-charcoal">
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -147,8 +146,8 @@ export default function Navbar() {
                   onClick={() => setIsMobileOpen(false)}
                   className={`px-3 py-2 rounded-lg text-sm font-medium ${
                     pathname === link.href
-                      ? "bg-[#702B35] text-white"
-                      : "text-[#202426] hover:bg-[#F4EEE2]"
+                      ? "bg-maroon text-parchment font-bold"
+                      : "text-charcoal hover:bg-ivory"
                   }`}
                 >
                   {link.name}
@@ -156,11 +155,11 @@ export default function Navbar() {
               ))}
             </div>
 
-            <div className="pt-4 border-t border-[#702B35]/10 flex flex-col gap-2">
+            <div className="pt-4 border-t border-maroon/10 flex flex-col gap-2">
               <Link
                 href="/personalities/submit"
                 onClick={() => setIsMobileOpen(false)}
-                className="w-full text-center py-2.5 rounded-lg bg-[#702B35] text-[#FAF6EF] text-xs font-bold"
+                className="w-full text-center py-2.5 rounded-lg bg-maroon text-parchment text-xs font-bold"
               >
                 Nominate a Hero or Pioneer
               </Link>
@@ -170,7 +169,7 @@ export default function Navbar() {
                     setIsMobileOpen(false);
                     signOut();
                   }}
-                  className="w-full text-center py-2 text-xs text-neutral-600"
+                  className="w-full text-center py-2 text-xs text-charcoal/70"
                 >
                   Sign Out
                 </button>
@@ -178,7 +177,7 @@ export default function Navbar() {
                 <Link
                   href="/auth/signin"
                   onClick={() => setIsMobileOpen(false)}
-                  className="w-full text-center py-2 text-xs text-[#173C50] font-semibold"
+                  className="w-full text-center py-2 text-xs text-indigo font-semibold"
                 >
                   Sign In
                 </Link>

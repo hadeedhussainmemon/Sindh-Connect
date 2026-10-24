@@ -1,10 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  /* Editorial Palette: Ajrak Authentic Cultural Design System */
+  /* =========================================================================
+     AUTHENTIC AJRAK CULTURAL DESIGN SYSTEM TOKENS
+     Change these values here to sync and update the entire site automatically.
+     ========================================================================= */
   --ajrak-indigo: #173C50;
   --ajrak-indigo-deep: #0D2431;
   --sindhi-maroon: #702B35;
+  --sindhi-maroon-hover: #853440;
   --sindhi-maroon-deep: #4A1B23;
   --ajrak-ivory: #F4EEE2;
   --ajrak-parchment: #FAF6EF;
@@ -14,9 +18,15 @@
   --charcoal: #202426;
   --charcoal-soft: #2D3336;
 
-  /* Default Surface Tokens */
+  /* Semantic Theme Aliases */
   --background: var(--ajrak-parchment);
   --foreground: var(--charcoal);
+  --primary: var(--sindhi-maroon);
+  --primary-hover: var(--sindhi-maroon-hover);
+  --secondary: var(--ajrak-indigo);
+  --surface: var(--ajrak-parchment);
+  --surface-alt: var(--ajrak-ivory);
+  --accent: var(--muted-sand);
 }
 
 @theme inline {
@@ -25,17 +35,19 @@
   --font-sans: var(--font-inter);
   --font-display: var(--font-outfit);
 
-  --color-indigo: #173C50;
-  --color-indigo-deep: #0D2431;
-  --color-maroon: #702B35;
-  --color-maroon-deep: #4A1B23;
-  --color-ivory: #F4EEE2;
-  --color-parchment: #FAF6EF;
-  --color-red: #A83A3A;
-  --color-sand: #C3A36A;
-  --color-sand-light: #E0CFA9;
-  --color-charcoal: #202426;
-  --color-charcoal-soft: #2D3336;
+  /* Semantic Tailwind Color Tokens mapped directly to CSS Variables */
+  --color-indigo: var(--ajrak-indigo);
+  --color-indigo-deep: var(--ajrak-indigo-deep);
+  --color-maroon: var(--sindhi-maroon);
+  --color-maroon-hover: var(--sindhi-maroon-hover);
+  --color-maroon-deep: var(--sindhi-maroon-deep);
+  --color-ivory: var(--ajrak-ivory);
+  --color-parchment: var(--ajrak-parchment);
+  --color-red: var(--sindhi-red);
+  --color-sand: var(--muted-sand);
+  --color-sand-light: var(--muted-sand-light);
+  --color-charcoal: var(--charcoal);
+  --color-charcoal-soft: var(--charcoal-soft);
 }
 
 /* Base Body Styling */
@@ -52,38 +64,38 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #F4EEE2;
+  background: var(--ajrak-ivory);
 }
 ::-webkit-scrollbar-thumb {
-  background: #702B35;
+  background: var(--sindhi-maroon);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #173C50;
+  background: var(--ajrak-indigo);
 }
 
-/* Authentic Ajrak Geometric Ribbon (Restrained & Classic) */
+/* Authentic Ajrak Geometric Ribbon */
 .ajrak-band {
   background: linear-gradient(
     90deg,
-    #173C50 0%,
-    #702B35 25%,
-    #C3A36A 50%,
-    #702B35 75%,
-    #173C50 100%
+    var(--ajrak-indigo) 0%,
+    var(--sindhi-maroon) 25%,
+    var(--muted-sand) 50%,
+    var(--sindhi-maroon) 75%,
+    var(--ajrak-indigo) 100%
   );
 }
 
-/* Delicate Sindhi Star Watermark Grid (1-2% subtle opacity) */
+/* Delicate Sindhi Star Watermark Grid */
 .ajrak-subtle-pattern {
   background-image: 
-    radial-gradient(#C3A36A 0.75px, transparent 0.75px),
-    radial-gradient(#702B35 0.75px, #FAF6EF 0.75px);
+    radial-gradient(var(--muted-sand) 0.75px, transparent 0.75px),
+    radial-gradient(var(--sindhi-maroon) 0.75px, var(--ajrak-parchment) 0.75px);
   background-size: 24px 24px;
   background-position: 0 0, 12px 12px;
 }
 
-/* Editorial Serif & Display Typography */
+/* Editorial Headings */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display), Georgia, serif;
   letter-spacing: -0.015em;
@@ -91,6 +103,6 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Selection Color */
 ::selection {
-  background: #702B35;
-  color: #FAF6EF;
+  background: var(--sindhi-maroon);
+  color: var(--ajrak-parchment);
 }
