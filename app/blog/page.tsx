@@ -49,33 +49,33 @@ export default function BlogPage() {
   });
 
   return (
-    <div className="w-full min-h-screen bg-[#FAF6EF] text-[#202426]">
+    <div className="w-full min-h-screen bg-[var(--ajrak-parchment)] text-[var(--charcoal)]">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         
         {/* Header with High Contrast Editorial Typography */}
-        <div className="text-center max-w-3xl mx-auto mb-12 border-b border-[#702B35]/20 pb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#702B35]/10 border border-[#702B35]/30 text-xs font-mono font-bold text-[#702B35] mb-3">
+        <div className="text-center max-w-3xl mx-auto mb-12 border-b border-[var(--sindhi-maroon)]/20 pb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--sindhi-maroon)]/10 border border-[var(--sindhi-maroon)]/30 text-xs font-mono font-bold text-[var(--sindhi-maroon)] mb-3">
             <BookOpen className="h-3.5 w-3.5" />
             <span>مثبت سنڌ جون ڪهاڻيون ۽ تاريخ</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold tracking-tight text-[#173C50] mb-3 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold tracking-tight text-[var(--ajrak-indigo)] mb-3 leading-tight">
             Positive Sindh Chronicles &amp; Articles
           </h1>
-          <p className="text-[#202426]/80 text-sm sm:text-base font-serif leading-relaxed max-w-xl mx-auto">
+          <p className="text-[var(--charcoal)]/80 text-sm sm:text-base font-serif leading-relaxed max-w-xl mx-auto">
             Illuminating cultural heritage, technological breakthroughs, rural empowerment, and heartwarming triumphs taking place across the towns and cities of Sindh.
           </p>
         </div>
 
         {/* Search and Filters Bar with High Contrast Ajrak Palette */}
-        <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-10 bg-[#F4EEE2] p-4 border border-[#702B35]/20 rounded-xl shadow-xs">
+        <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-10 bg-[var(--ajrak-ivory)] p-4 border border-[var(--sindhi-maroon)]/20 rounded-xl shadow-xs">
           <div className="relative w-full md:w-80">
-            <Search className="absolute left-3.5 top-3 h-4 w-4 text-[#702B35]" />
+            <Search className="absolute left-3.5 top-3 h-4 w-4 text-[var(--sindhi-maroon)]" />
             <input
               type="text"
               placeholder="Search stories, topics, crafts..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-[#FAF6EF] border border-[#702B35]/30 rounded-lg py-2 pl-10 pr-4 text-sm text-[#202426] placeholder-[#202426]/50 focus:outline-hidden focus:border-[#702B35] focus:ring-1 focus:ring-[#702B35] transition-all"
+              className="w-full bg-[var(--ajrak-parchment)] border border-[var(--sindhi-maroon)]/30 rounded-lg py-2 pl-10 pr-4 text-sm text-[var(--charcoal)] placeholder-[var(--charcoal)]/50 focus:outline-hidden focus:border-[var(--sindhi-maroon)] focus:ring-1 focus:ring-[var(--sindhi-maroon)] transition-all"
             />
           </div>
           <div className="flex gap-2 flex-wrap w-full md:w-auto">
@@ -85,8 +85,8 @@ export default function BlogPage() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   activeCategory === cat
-                    ? "bg-[#702B35] text-[#FAF6EF] shadow-xs"
-                    : "bg-[#FAF6EF] text-[#202426]/80 hover:text-[#702B35] border border-[#702B35]/20 hover:bg-[#F4EEE2]"
+                    ? "bg-[var(--sindhi-maroon)] text-[var(--ajrak-parchment)] shadow-xs"
+                    : "bg-[var(--ajrak-parchment)] text-[var(--charcoal)]/80 hover:text-[var(--sindhi-maroon)] border border-[var(--sindhi-maroon)]/20 hover:bg-[var(--ajrak-ivory)]"
                 }`}
               >
                 {cat}
@@ -98,22 +98,22 @@ export default function BlogPage() {
         {/* Articles Grid */}
         {loading ? (
           <div className="flex justify-center items-center py-20">
-            <Loader2 className="h-8 w-8 text-[#702B35] animate-spin" />
+            <Loader2 className="h-8 w-8 text-[var(--sindhi-maroon)] animate-spin" />
           </div>
         ) : filtered.length === 0 ? (
-          <div className="text-center py-16 bg-[#F4EEE2] rounded-xl border border-dashed border-[#702B35]/30">
-            <p className="text-[#202426]/70 text-sm font-serif">No articles found matching your query.</p>
+          <div className="text-center py-16 bg-[var(--ajrak-ivory)] rounded-xl border border-dashed border-[var(--sindhi-maroon)]/30">
+            <p className="text-[var(--charcoal)]/70 text-sm font-serif">No articles found matching your query.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filtered.map((art) => (
               <article 
                 key={art.slug} 
-                className="group rounded-2xl border border-[#702B35]/20 bg-[#FAF6EF] overflow-hidden flex flex-col justify-between hover:border-[#702B35]/50 hover:shadow-md transition-all"
+                className="group rounded-2xl border border-[var(--sindhi-maroon)]/20 bg-[var(--ajrak-parchment)] overflow-hidden flex flex-col justify-between hover:border-[var(--sindhi-maroon)]/50 hover:shadow-md transition-all"
               >
                 <div>
                   {art.coverImage && (
-                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#E8DFC8]">
+                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-[var(--ajrak-ivory)]">
                       <img 
                         src={art.coverImage} 
                         alt={art.title} 
@@ -123,32 +123,32 @@ export default function BlogPage() {
                   )}
 
                   <div className="p-6">
-                    <div className="flex items-center justify-between text-xs text-[#202426]/60 mb-3 font-mono">
-                      <span className="bg-[#702B35]/10 border border-[#702B35]/30 text-[#702B35] px-2.5 py-0.5 rounded font-bold uppercase text-[10px]">
+                    <div className="flex items-center justify-between text-xs text-[var(--charcoal)]/60 mb-3 font-mono">
+                      <span className="bg-[var(--sindhi-maroon)]/10 border border-[var(--sindhi-maroon)]/30 text-[var(--sindhi-maroon)] px-2.5 py-0.5 rounded font-bold uppercase text-[10px]">
                         {art.category}
                       </span>
                       <span>{art.readTime || "5 min read"}</span>
                     </div>
 
-                    <h2 className="text-xl font-display font-bold text-[#173C50] group-hover:text-[#702B35] transition-colors leading-snug mb-2">
+                    <h2 className="text-xl font-display font-bold text-[var(--ajrak-indigo)] group-hover:text-[var(--sindhi-maroon)] transition-colors leading-snug mb-2">
                       <Link href={`/blog/${art.slug}`}>{art.title}</Link>
                     </h2>
 
                     {art.subtitle && (
-                      <p className="text-sm text-[#202426]/75 line-clamp-3 leading-relaxed font-serif">
+                      <p className="text-sm text-[var(--charcoal)]/75 line-clamp-3 leading-relaxed font-serif">
                         {art.subtitle}
                       </p>
                     )}
                   </div>
                 </div>
 
-                <div className="p-6 pt-0 border-t border-[#702B35]/15 mt-4 flex items-center justify-between">
-                  <span className="text-xs text-[#202426]/60 font-mono">
+                <div className="p-6 pt-0 border-t border-[var(--sindhi-maroon)]/15 mt-4 flex items-center justify-between">
+                  <span className="text-xs text-[var(--charcoal)]/60 font-mono">
                     {art.publishedAt ? new Date(art.publishedAt).toLocaleDateString() : "Sindh Connect Editorial"}
                   </span>
                   <Link
                     href={`/blog/${art.slug}`}
-                    className="text-xs font-bold text-[#702B35] hover:text-[#173C50] group-hover:translate-x-1 transition-all inline-flex items-center gap-1 font-mono"
+                    className="text-xs font-bold text-[var(--sindhi-maroon)] hover:text-[var(--ajrak-indigo)] group-hover:translate-x-1 transition-all inline-flex items-center gap-1 font-mono"
                   >
                     <span>Read Story</span> &rarr;
                   </Link>

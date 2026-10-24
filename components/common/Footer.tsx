@@ -67,9 +67,9 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-[#702B35]/20 bg-[#173C50] text-[#F4EEE2] pt-16 pb-12 font-sans">
+    <footer className="border-t border-[var(--sindhi-maroon)]/20 bg-[var(--ajrak-indigo)] text-[var(--ajrak-ivory)] pt-16 pb-12 font-sans">
       {/* Decorative Ajrak Tri-tone Ribbon */}
-      <div className="h-1 w-full bg-gradient-to-r from-[#702B35] via-[#C3A36A] to-[#173C50] -mt-16 mb-16" />
+      <div className="h-1 w-full bg-gradient-to-r from-[var(--sindhi-maroon)] via-[var(--muted-sand)] to-[var(--ajrak-indigo)] -mt-16 mb-16" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-12 border-b border-white/10">
@@ -80,11 +80,11 @@ export default function Footer() {
               <img 
                 src={logoUrl} 
                 alt="Sindh Connect Logo" 
-                className="h-10 w-10 rounded-full object-cover border border-[#C3A36A]/50" 
+                className="h-10 w-10 rounded-full object-cover border border-[var(--muted-sand)]/50" 
               />
               <div>
                 <span className="text-xl font-display font-black tracking-wider text-white">
-                  SINDH<span className="text-[#C3A36A]"> CONNECT</span>
+                  SINDH<span className="text-[var(--muted-sand)]"> CONNECT</span>
                 </span>
                 <span className="block text-[10px] tracking-widest uppercase text-white/60 font-mono">
                   سنڌ ڪنيڪٽ &bull; An Open Cultural Archive
@@ -97,7 +97,7 @@ export default function Footer() {
             </p>
 
             <div className="pt-2">
-              <p className="text-xs text-[#C3A36A] font-serif italic">
+              <p className="text-xs text-[var(--muted-sand)] font-serif italic">
                 "جيئي سنڌ، سدائين گُلزار سنڌ — May Sindh flourish in peace, knowledge, and harmony."
               </p>
             </div>
@@ -105,7 +105,7 @@ export default function Footer() {
 
           {/* Publication Navigation */}
           <div className="md:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-[#C3A36A]">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-[var(--muted-sand)]">
               Archive Indices
             </h4>
             <ul className="space-y-2 text-xs">
@@ -125,7 +125,7 @@ export default function Footer() {
 
           {/* Curated Heritage Focus */}
           <div className="md:col-span-4 space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-[#C3A36A]">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-[var(--muted-sand)]">
               The Weekly Cultural Dispatch
             </h4>
             <p className="text-xs text-white/70 leading-relaxed font-light">
@@ -139,17 +139,17 @@ export default function Footer() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="reader@domain.com"
-                  className="flex-1 px-3 py-2 text-xs rounded-md bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-hidden focus:border-[#C3A36A]"
+                  className="flex-1 px-3 py-2 text-xs rounded-md bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-hidden focus:border-[var(--muted-sand)]"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#702B35] hover:bg-[#853440] text-white text-xs font-semibold rounded-md transition-colors shrink-0"
+                  className="px-4 py-2 bg-[var(--sindhi-maroon)] hover:bg-[var(--sindhi-maroon-hover)] text-white text-xs font-semibold rounded-md transition-colors shrink-0"
                 >
                   Subscribe
                 </button>
               </div>
               {status && (
-                <p className="text-[11px] text-[#C3A36A]">{status}</p>
+                <p className="text-[11px] text-[var(--muted-sand)]">{status}</p>
               )}
             </form>
           </div>

@@ -40,8 +40,8 @@ export default function AboutPage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-40 bg-[#FAF6EF]">
-        <Loader2 className="h-10 w-10 text-[#702B35] animate-spin" />
+      <div className="flex justify-center items-center py-40 bg-[var(--ajrak-parchment)]">
+        <Loader2 className="h-10 w-10 text-[var(--sindhi-maroon)] animate-spin" />
       </div>
     );
   }
@@ -62,19 +62,19 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAF6EF] text-[#202426] py-16 px-6 font-sans">
+    <div className="min-h-screen bg-[var(--ajrak-parchment)] text-[var(--charcoal)] py-16 px-6 font-sans">
       <div className="max-w-4xl mx-auto space-y-16">
         
         {/* Header */}
-        <div className="space-y-4 text-center border-b border-[#702B35]/20 pb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#702B35]/10 border border-[#702B35]/30 text-xs font-mono font-bold text-[#702B35]">
+        <div className="space-y-4 text-center border-b border-[var(--sindhi-maroon)]/20 pb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--sindhi-maroon)]/10 border border-[var(--sindhi-maroon)]/30 text-xs font-mono font-bold text-[var(--sindhi-maroon)]">
             <Feather className="h-3.5 w-3.5" />
             <span>Heritage &amp; Modern Revival</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-display font-black text-[#173C50] tracking-tight">
-            About <span className="text-[#702B35]">Sindh Connect</span>
+          <h1 className="text-4xl md:text-5xl font-display font-black text-[var(--ajrak-indigo)] tracking-tight">
+            About <span className="text-[var(--sindhi-maroon)]">Sindh Connect</span>
           </h1>
-          <p className="text-base text-[#202426]/80 font-serif max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base text-[var(--charcoal)]/80 font-serif max-w-2xl mx-auto leading-relaxed">
             Honoring 5,000 years of Indus history, Sufi poetry, modern creators, and community triumphs.
           </p>
         </div>
@@ -84,15 +84,15 @@ export default function AboutPage() {
           {sections.map((sec, idx) => (
             <div 
               key={idx}
-              className={`p-6 rounded-2xl border border-[#702B35]/20 bg-[#F4EEE2] space-y-3 shadow-xs ${
-                idx === 0 || idx === 1 ? "md:col-span-2 bg-[#F4EEE2]" : ""
+              className={`p-6 rounded-2xl border border-[var(--sindhi-maroon)]/20 bg-[var(--ajrak-ivory)] space-y-3 shadow-xs ${
+                idx === 0 || idx === 1 ? "md:col-span-2 bg-[var(--ajrak-ivory)]" : ""
               }`}
             >
-              <h2 className="text-xl font-display font-bold text-[#173C50] flex items-center gap-2">
-                <span className="w-2 h-2 rotate-45 bg-[#702B35]" />
+              <h2 className="text-xl font-display font-bold text-[var(--ajrak-indigo)] flex items-center gap-2">
+                <span className="w-2 h-2 rotate-45 bg-[var(--sindhi-maroon)]" />
                 {sec.title}
               </h2>
-              <p className="text-sm text-[#202426]/85 font-serif leading-relaxed whitespace-pre-line text-justify">
+              <p className="text-sm text-[var(--charcoal)]/85 font-serif leading-relaxed whitespace-pre-line text-justify">
                 {sec.content}
               </p>
             </div>
@@ -101,17 +101,17 @@ export default function AboutPage() {
 
         {/* Core Values */}
         {config?.coreValues && config.coreValues.length > 0 && (
-          <div className="space-y-6 pt-6 border-t border-[#702B35]/20">
-            <h2 className="text-2xl font-display font-bold text-[#173C50] text-center">
+          <div className="space-y-6 pt-6 border-t border-[var(--sindhi-maroon)]/20">
+            <h2 className="text-2xl font-display font-bold text-[var(--ajrak-indigo)] text-center">
               Our Core Philosophical Values
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {config.coreValues.map((val, idx) => (
-                <div key={idx} className="p-5 rounded-xl border border-[#702B35]/20 bg-[#FAF6EF] space-y-2">
-                  <h3 className="font-bold text-[#702B35] font-display text-base">
+                <div key={idx} className="p-5 rounded-xl border border-[var(--sindhi-maroon)]/20 bg-[var(--ajrak-parchment)] space-y-2">
+                  <h3 className="font-bold text-[var(--sindhi-maroon)] font-display text-base">
                     {val.name}
                   </h3>
-                  <p className="text-xs text-[#202426]/75 font-serif leading-relaxed">
+                  <p className="text-xs text-[var(--charcoal)]/75 font-serif leading-relaxed">
                     {val.description}
                   </p>
                 </div>

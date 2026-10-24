@@ -55,9 +55,9 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
 
   if (!article) {
     return (
-      <div className="text-center py-32 bg-[#FAF6EF] min-h-screen px-4">
-        <h1 className="text-2xl font-bold text-[#173C50] mb-4">Article Not Found</h1>
-        <Link href="/blog" className="text-xs font-bold px-4 py-2 bg-[#702B35] text-[#FAF6EF] rounded-lg hover:bg-[#853440] transition-all">
+      <div className="text-center py-32 bg-[var(--ajrak-parchment)] min-h-screen px-4">
+        <h1 className="text-2xl font-bold text-[var(--ajrak-indigo)] mb-4">Article Not Found</h1>
+        <Link href="/blog" className="text-xs font-bold px-4 py-2 bg-[var(--sindhi-maroon)] text-[var(--ajrak-parchment)] rounded-lg hover:bg-[var(--sindhi-maroon-hover)] transition-all">
           Back to Articles
         </Link>
       </div>
@@ -65,44 +65,44 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF6EF] text-[#202426] py-10 sm:py-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[var(--ajrak-parchment)] text-[var(--charcoal)] py-10 sm:py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto space-y-8">
         
         {/* Navigation back */}
         <Link 
           href="/blog" 
-          className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#702B35] hover:text-[#173C50] transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[var(--sindhi-maroon)] hover:text-[var(--ajrak-indigo)] transition-colors"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Positive Sindh Stories
         </Link>
 
         {/* Article Header */}
-        <header className="space-y-4 border-b border-[#702B35]/20 pb-8">
+        <header className="space-y-4 border-b border-[var(--sindhi-maroon)]/20 pb-8">
           <div className="flex flex-wrap items-center gap-3 text-xs">
-            <span className="bg-[#702B35]/10 text-[#702B35] px-3 py-1 rounded-md font-mono font-bold uppercase tracking-wider border border-[#702B35]/25">
+            <span className="bg-[var(--sindhi-maroon)]/10 text-[var(--sindhi-maroon)] px-3 py-1 rounded-md font-mono font-bold uppercase tracking-wider border border-[var(--sindhi-maroon)]/25">
               {article.category}
             </span>
             {article.city && (
-              <span className="text-[#202426]/70 flex items-center gap-1 font-serif">
-                <MapPin className="h-3.5 w-3.5 text-[#702B35]" /> {article.city}, Sindh
+              <span className="text-[var(--charcoal)]/70 flex items-center gap-1 font-serif">
+                <MapPin className="h-3.5 w-3.5 text-[var(--sindhi-maroon)]" /> {article.city}, Sindh
               </span>
             )}
-            <span className="text-[#202426]/60 flex items-center gap-1 font-mono">
+            <span className="text-[var(--charcoal)]/60 flex items-center gap-1 font-mono">
               <Clock className="h-3.5 w-3.5" /> {article.readTime || "5 min read"}
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-[#173C50] leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-[var(--ajrak-indigo)] leading-tight">
             {article.title}
           </h1>
 
           {article.subtitle && (
-            <p className="text-base sm:text-lg text-[#202426]/80 font-serif leading-relaxed">
+            <p className="text-base sm:text-lg text-[var(--charcoal)]/80 font-serif leading-relaxed">
               {article.subtitle}
             </p>
           )}
 
-          <div className="pt-2 text-xs text-[#202426]/60 font-mono flex items-center gap-2">
+          <div className="pt-2 text-xs text-[var(--charcoal)]/60 font-mono flex items-center gap-2">
             <span>By {article.authorId?.name || "Sindh Connect Editorial"}</span>
             <span>&bull;</span>
             <span>{article.publishedAt ? new Date(article.publishedAt).toLocaleDateString() : "Editorial Dispatch"}</span>
@@ -111,16 +111,16 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
 
         {/* Article Body */}
         <div 
-          className="prose prose-lg max-w-none text-[#202426]/90 font-serif leading-relaxed space-y-6 text-justify"
+          className="prose prose-lg max-w-none text-[var(--charcoal)]/90 font-serif leading-relaxed space-y-6 text-justify"
           dangerouslySetInnerHTML={{ __html: article.content }}
         />
 
         {/* Tags */}
         {article.tags && article.tags.length > 0 && (
-          <div className="pt-8 border-t border-[#702B35]/20 flex flex-wrap gap-2 items-center">
-            <span className="text-xs text-[#202426]/70 font-semibold mr-2 font-mono">Tags:</span>
+          <div className="pt-8 border-t border-[var(--sindhi-maroon)]/20 flex flex-wrap gap-2 items-center">
+            <span className="text-xs text-[var(--charcoal)]/70 font-semibold mr-2 font-mono">Tags:</span>
             {article.tags.map((tag: string, i: number) => (
-              <span key={i} className="text-xs bg-[#F4EEE2] text-[#702B35] px-3 py-1 rounded-full border border-[#702B35]/20 font-mono">
+              <span key={i} className="text-xs bg-[var(--ajrak-ivory)] text-[var(--sindhi-maroon)] px-3 py-1 rounded-full border border-[var(--sindhi-maroon)]/20 font-mono">
                 #{tag}
               </span>
             ))}
@@ -129,8 +129,8 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
 
         {/* Related Personalities Mentioned */}
         {article.relatedPersonalities && article.relatedPersonalities.length > 0 && (
-          <div className="mt-12 p-6 rounded-2xl bg-[#F4EEE2] border border-[#702B35]/20 space-y-4 shadow-xs">
-            <h3 className="font-display font-bold text-[#173C50] text-lg border-b border-[#702B35]/20 pb-2">
+          <div className="mt-12 p-6 rounded-2xl bg-[var(--ajrak-ivory)] border border-[var(--sindhi-maroon)]/20 space-y-4 shadow-xs">
+            <h3 className="font-display font-bold text-[var(--ajrak-indigo)] text-lg border-b border-[var(--sindhi-maroon)]/20 pb-2">
               Featured In This Story
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -138,10 +138,10 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
                 <Link
                   key={p.slug}
                   href={`/personalities/${p.slug}`}
-                  className="p-3.5 rounded-xl bg-[#FAF6EF] border border-[#702B35]/20 hover:border-[#702B35]/50 transition-all flex items-center justify-between"
+                  className="p-3.5 rounded-xl bg-[var(--ajrak-parchment)] border border-[var(--sindhi-maroon)]/20 hover:border-[var(--sindhi-maroon)]/50 transition-all flex items-center justify-between"
                 >
-                  <span className="text-sm font-bold text-[#173C50] hover:text-[#702B35]">{p.name}</span>
-                  <span className="text-xs font-mono text-[#702B35]">View Profile &rarr;</span>
+                  <span className="text-sm font-bold text-[var(--ajrak-indigo)] hover:text-[var(--sindhi-maroon)]">{p.name}</span>
+                  <span className="text-xs font-mono text-[var(--sindhi-maroon)]">View Profile &rarr;</span>
                 </Link>
               ))}
             </div>
