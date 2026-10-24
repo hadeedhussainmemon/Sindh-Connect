@@ -21,24 +21,16 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://sindhconnect.com"),
   openGraph: {
     title: "Sindh Connect - The Heart & Soul of the Indus",
-    description: "Discover Sindh's rich historical civilization, inspiring personalities, cultural landmarks, and positive achievements.",
+    description: "Discover Sindh's rich 5,000-year civilization, inspiring personalities, cultural landmarks, and positive achievements.",
+    url: "https://sindhconnect.com",
     siteName: "Sindh Connect",
-    images: [
-      {
-        url: "/logo.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Sindh Connect Logo",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sindh Connect",
-    description: "Celebrating Sindh's heritage, iconic creators, leaders, and uplifting stories.",
-    images: ["/logo.jpg"],
+    title: "Sindh Connect - Heritage, Leaders & Creators",
+    description: "Celebrating Sindh's heritage, iconic creators, leaders, and uplifting positive stories.",
   },
   icons: {
     icon: [
