@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import AuthProvider from "@/components/providers/AuthProvider";
+import { LanguageProvider } from "@/components/providers/LanguageProvider";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -48,11 +49,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${outfit.variable} ${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#FAF6EF] text-[#202426] font-sans selection:bg-[#702B35] selection:text-[#FAF6EF]">
+      <body className="min-h-full flex flex-col bg-parchment text-charcoal font-sans selection:bg-maroon selection:text-parchment">
         <AuthProvider>
-          <Navbar />
-          <main className="flex-grow pt-20 flex flex-col">{children}</main>
-          <Footer />
+          <LanguageProvider>
+            <Navbar />
+            <main className="flex-grow pt-20 flex flex-col">{children}</main>
+            <Footer />
+          </LanguageProvider>
         </AuthProvider>
       </body>
     </html>

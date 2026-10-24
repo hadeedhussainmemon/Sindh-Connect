@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ArrowUpRight, BookOpen, ChevronRight } from "lucide-react";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 
 interface Personality {
   name: string;
@@ -51,6 +52,7 @@ interface EventData {
 }
 
 export default function Home() {
+  const { t, language } = useLanguage();
   const [personalities, setPersonalities] = useState<Personality[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
@@ -129,10 +131,17 @@ export default function Home() {
   const personalityCount = personalities.length > 0 ? personalities.length : 20;
   const articleCount = articles.length > 0 ? articles.length : 3;
 
+  // Determine localized text or fallback to config
+  const displayedHeadline = language === "en" ? config.headline : t("heroHeadline", config.headline);
+  const displayedSubheadline = language === "en" ? config.subheadline : t("heroSubheadline", config.subheadline);
+  const displayedEyebrow = language === "en" ? (config.eyebrowLabel || "The Living Heritage of Sindh") : t("heroEyebrow", config.eyebrowLabel);
+  const displayedCtaPrimary = language === "en" ? (config.primaryCtaText || "Explore Personalities") : t("heroCtaPrimary", config.primaryCtaText);
+  const displayedCtaSecondary = language === "en" ? (config.secondaryCtaText || "Read Positive Stories") : t("heroCtaSecondary", config.secondaryCtaText);
+
   return (
     <div className="flex flex-col w-full min-h-screen bg-parchment text-charcoal">
       
-      {/* 1. HERO SECTION: FULLY EDITABLE VIA ADMIN PANEL */}
+      {/* 1. HERO SECTION: FULLY LOCALIZED & CONFIGURABLE VIA ADMIN */}
       <section className="relative border-b border-maroon/15 pt-10 pb-16 lg:pt-16 lg:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         
         {/* Main Two-Column Editorial Composition */}
@@ -145,27 +154,27 @@ export default function Home() {
             <div className="flex items-center gap-2.5 mb-5">
               <span className="w-2 h-2 rotate-45 bg-maroon shrink-0" aria-hidden="true" />
               <span className="text-xs uppercase tracking-[0.18em] font-mono font-bold text-maroon">
-                {config.eyebrowLabel || "The Living Heritage of Sindh"}
+                {displayedEyebrow}
               </span>
             </div>
 
             {/* Art-Directed Headline with Natural Line Breaks */}
-            <h1 className="text-3xl sm:text-5xl lg:text-[3.25rem] font-display font-extrabold tracking-tight text-indigo leading-[1.12] mb-6">
-              {config.headline}
+            <h1 className="text-3xl sm:text-5xl lg:text-[3.25rem] font-display font-extrabold tracking-tight text-indigo leading-[1.18] mb-6">
+              {displayedHeadline}
             </h1>
 
             {/* Concise Human-Written Introduction with Optimal Text Width */}
             <p className="text-base sm:text-lg text-charcoal/85 font-serif leading-relaxed max-w-xl mb-8">
-              {config.subheadline}
+              {displayedSubheadline}
             </p>
 
-            {/* Clear Button Hierarchy: Primary & Secondary CTAs from Admin */}
+            {/* Clear Button Hierarchy: Primary & Secondary CTAs */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-10">
               <Link 
                 href={config.primaryCtaLink || "/personalities"} 
                 className="px-6 py-3.5 rounded-md bg-maroon hover:bg-maroon-hover text-parchment font-semibold text-xs sm:text-sm tracking-wide shadow-xs transition-colors inline-flex items-center justify-center gap-2 focus:outline-hidden focus:ring-2 focus:ring-maroon focus:ring-offset-2"
               >
-                <span>{config.primaryCtaText || "Explore Personalities"}</span>
+                <span>{displayedCtaPrimary}</span>
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
 
@@ -174,7 +183,7 @@ export default function Home() {
                 className="px-6 py-3.5 rounded-md bg-parchment hover:bg-ivory text-indigo font-semibold text-xs sm:text-sm tracking-wide border border-indigo/30 transition-colors inline-flex items-center justify-center gap-2 focus:outline-hidden focus:ring-2 focus:ring-indigo focus:ring-offset-2"
               >
                 <BookOpen className="h-4 w-4 text-maroon" />
-                <span>{config.secondaryCtaText || "Read Positive Stories"}</span>
+                <span>{displayedCtaSecondary}</span>
               </Link>
             </div>
 
@@ -184,7 +193,7 @@ export default function Home() {
           <div className="lg:col-span-5 flex flex-col justify-center">
             <figure className="relative bg-ivory p-2.5 sm:p-3 rounded-md border border-maroon/20 shadow-xs">
               
-              {/* Subtle Ajrak Textile Accent Band on Left Border */}
+              {/* Subtle Ajrak Textile Accent Band on Border */}
               <div 
                 className="absolute top-3 bottom-3 -left-1 w-1 bg-gradient-to-b from-indigo via-maroon to-sand rounded-l" 
                 aria-hidden="true" 
@@ -194,7 +203,7 @@ export default function Home() {
                 {!heroImgFailed ? (
                   <img
                     src={heroImageSrc}
-                    alt={config.heroCaptionTitle || "Sindh Heritage"}
+                    alt={t("heroCaptionTitle", config.heroCaptionTitle || "Sindh Heritage")}
                     className="w-full h-full object-cover object-center grayscale-[10%] contrast-[105%]"
                     onError={() => {
                       if (heroImageSrc !== "/hero_visual.jpg") {
@@ -208,22 +217,22 @@ export default function Home() {
                   <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-parchment">
                     <span className="w-6 h-6 rotate-45 bg-maroon mb-3" />
                     <span className="text-xs font-mono uppercase tracking-widest text-maroon font-bold">
-                      Sindh Heritage Archive
+                      {t("heroEyebrow", "Sindh Heritage Archive")}
                     </span>
                     <p className="text-xs text-charcoal/70 font-serif mt-1">
-                      {config.heroCaptionTitle || "Mohenjo-daro Archaeological Settlement"}
+                      {t("heroCaptionTitle", config.heroCaptionTitle || "Mohenjo-daro Archaeological Settlement")}
                     </p>
                   </div>
                 )}
               </div>
 
-              {/* Verified Editorial Caption configurable via Admin */}
+              {/* Verified Editorial Caption */}
               <figcaption className="pt-3 pb-1 px-1 text-xs text-charcoal/80 font-serif leading-snug">
                 <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-maroon font-semibold mb-1">
-                  <span>{config.heroCaptionBadge || "Archaeological Plate 01"}</span>
-                  <span>{config.heroCaptionLocation || "Larkana District, Sindh"}</span>
+                  <span>{t("heroCaptionBadge", config.heroCaptionBadge || "Archaeological Plate 01")}</span>
+                  <span>{t("heroCaptionLoc", config.heroCaptionLocation || "Larkana District, Sindh")}</span>
                 </div>
-                <strong>{config.heroCaptionTitle || "Mohenjo-daro & The Great Stupa"}</strong> &mdash; {config.heroCaptionDescription || "UNESCO World Heritage citadel of the Indus civilization, celebrated for municipal sanitation, kiln-baked masonry, and peaceful civic governance."}
+                <strong>{t("heroCaptionTitle", config.heroCaptionTitle || "Mohenjo-daro & The Great Stupa")}</strong> &mdash; {t("heroCaptionDesc", config.heroCaptionDescription || "UNESCO World Heritage citadel of the Indus civilization, celebrated for municipal sanitation, kiln-baked masonry, and peaceful civic governance.")}
               </figcaption>
             </figure>
           </div>
@@ -234,13 +243,13 @@ export default function Home() {
         <div className="mt-12 pt-8 border-t border-maroon/15 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl">
           <div className="space-y-1">
             <span className="block text-2xl sm:text-3xl font-serif font-bold text-maroon">
-              5,000+
+              {t("heroStat1Value", "5,000+")}
             </span>
             <span className="text-xs font-mono text-charcoal/75 uppercase tracking-wider block font-medium">
-              Years of Documented History
+              {t("heroStat1Label", "Years of Documented History")}
             </span>
             <p className="text-[11px] text-charcoal/60 font-serif">
-              Indus Valley civilization to modern Sindh
+              {t("heroStat1Desc", "Indus Valley civilization to modern Sindh")}
             </p>
           </div>
 
@@ -249,10 +258,10 @@ export default function Home() {
               {personalityCount}
             </span>
             <span className="text-xs font-mono text-charcoal/75 uppercase tracking-wider block font-medium">
-              Documented Personalities
+              {t("heroStat2Label", "Documented Personalities")}
             </span>
             <p className="text-[11px] text-charcoal/60 font-serif">
-              Verified historical icons, Sufi poets &amp; leaders
+              {t("heroStat2Desc", "Verified historical icons, Sufi poets & leaders")}
             </p>
           </div>
 
@@ -261,10 +270,10 @@ export default function Home() {
               {articleCount}
             </span>
             <span className="text-xs font-mono text-charcoal/75 uppercase tracking-wider block font-medium">
-              Published Cultural Stories
+              {t("heroStat3Label", "Published Cultural Stories")}
             </span>
             <p className="text-[11px] text-charcoal/60 font-serif">
-              Grassroots triumphs &amp; positive community essays
+              {t("heroStat3Desc", "Grassroots triumphs & positive community essays")}
             </p>
           </div>
         </div>
@@ -278,13 +287,13 @@ export default function Home() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-maroon/15 pb-6">
           <div className="space-y-2">
             <span className="text-xs font-mono font-bold uppercase tracking-widest text-maroon">
-              Curated Monograph &bull; سنڌ جا چُنڊ ڪردار
+              {t("heroCaptionBadge", "Curated Monograph")} &bull; سنڌ جا چُنڊ ڪردار
             </span>
             <h2 className="text-3xl sm:text-4xl font-display font-bold text-indigo">
-              Pioneers, Thinkers &amp; Modern Voices
+              {t("featuredPersonalitiesHeading", "Pioneers, Thinkers & Modern Voices")}
             </h2>
             <p className="text-sm text-charcoal/70 max-w-xl font-serif">
-              A permanent editorial registry honoring the statesmen, Sufi philosophers, literary architects, and contemporary digital storytellers of Sindh.
+              {t("featuredPersonalitiesSub", "A permanent editorial registry honoring the statesmen, Sufi philosophers, literary architects, and contemporary digital storytellers of Sindh.")}
             </p>
           </div>
 
@@ -292,7 +301,7 @@ export default function Home() {
             href="/personalities"
             className="text-xs font-bold text-maroon hover:text-indigo inline-flex items-center gap-1.5 transition-colors font-mono tracking-wider"
           >
-            <span>Complete 20-Profile Directory</span>
+            <span>{t("viewAllLuminaries", "Complete 20-Profile Directory")}</span>
             <ArrowUpRight className="h-4 w-4" />
           </Link>
         </div>
@@ -322,7 +331,7 @@ export default function Home() {
             <div className="lg:col-span-7 bg-ivory border border-maroon/20 rounded-lg p-6 sm:p-8 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between text-xs font-mono text-maroon uppercase tracking-wider mb-4 border-b border-maroon/15 pb-2">
-                  <span>Archival Spotlight</span>
+                  <span>{t("heroCaptionBadge", "Archival Spotlight")}</span>
                   <span>{spotlightLuminary.category}</span>
                 </div>
 
@@ -424,14 +433,14 @@ export default function Home() {
                 Constructive Dispatches &bull; مثبت ڪهاڻيون
               </span>
               <h2 className="text-3xl font-display font-bold text-indigo">
-                Positive Transformations Across Sindh
+                {t("positiveStoriesHeading", "Positive Transformations Across Sindh")}
               </h2>
             </div>
             <Link 
               href="/blog" 
               className="text-xs font-mono font-bold text-maroon hover:text-indigo inline-flex items-center gap-1.5"
             >
-              <span>View All Published Articles</span>
+              <span>{t("viewAllStories", "View All Published Articles")}</span>
               <ArrowUpRight className="h-4 w-4" />
             </Link>
           </div>
@@ -493,11 +502,11 @@ export default function Home() {
               Visual Plates &bull; آثارِ قديم ۽ ثقافت
             </span>
             <h2 className="text-3xl font-display font-bold text-indigo">
-              Monuments &amp; Material Culture
+              {t("galleryHeading", "Monuments & Material Culture")}
             </h2>
           </div>
           <Link href="/gallery" className="text-xs font-mono font-bold text-maroon hover:text-indigo inline-flex items-center gap-1.5">
-            <span>Explore Full Photographic Archive</span>
+            <span>{t("viewAllGallery", "Explore Full Photographic Archive")}</span>
             <ArrowUpRight className="h-4 w-4" />
           </Link>
         </div>

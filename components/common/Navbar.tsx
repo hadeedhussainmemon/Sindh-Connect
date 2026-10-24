@@ -5,23 +5,26 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
+import LanguageToggle from "@/components/common/LanguageToggle";
+import { useLanguage } from "@/components/providers/LanguageProvider";
 
 export default function Navbar() {
   const pathname = usePathname();
   const { data: session } = useSession();
+  const { t, isRtl } = useLanguage();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [logoUrl, setLogoUrl] = useState("/logo.jpg");
 
   if (pathname?.startsWith("/admin")) return null;
 
   const navigation = [
-    { name: "Luminaries & Icons", href: "/personalities" },
-    { name: "Positive Stories", href: "/blog" },
-    { name: "Heritage Archive", href: "/gallery" },
-    { name: "Events & Urs", href: "/events" },
-    { name: "About the Mission", href: "/about" },
+    { name: t("navPersonalities", "Luminaries & Icons"), href: "/personalities" },
+    { name: t("navStories", "Positive Stories"), href: "/blog" },
+    { name: t("navHeritage", "Heritage Archive"), href: "/gallery" },
+    { name: t("navEvents", "Events & Urs"), href: "/events" },
+    { name: t("navAbout", "About the Mission"), href: "/about" },
     ...(session?.user && (session.user as any).role === "Admin"
-      ? [{ name: "Editorial CMS", href: "/admin" }]
+      ? [{ name: t("navAdminCMS", "Editorial CMS"), href: "/admin" }]
       : [])
   ];
 
@@ -43,10 +46,10 @@ export default function Navbar() {
         <div className="h-1 w-full ajrak-band" />
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-20 items-center justify-between">
+          <div className="flex h-20 items-center justify-between gap-4">
             
             {/* Editorial Brand Masthead */}
-            <Link href="/" className="flex items-center gap-3.5 group">
+            <Link href="/" className="flex items-center gap-3.5 group shrink-0">
               <div className="relative">
                 <img 
                   src={logoUrl} 
@@ -59,20 +62,20 @@ export default function Navbar() {
                   SINDH<span className="text-maroon"> CONNECT</span>
                 </span>
                 <span className="text-[10px] tracking-widest uppercase text-maroon/80 font-medium font-mono mt-1">
-                  سنڌ ڪنيڪٽ &bull; Cultural Archive &amp; Magazine
+                  سنڌ ڪنيڪٽ &bull; {t("brandSubtitle", "Cultural Archive & Magazine")}
                 </span>
               </div>
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-1">
+            <div className="hidden xl:flex items-center space-x-1">
               {navigation.map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`px-3.5 py-1.5 text-xs font-semibold tracking-wide rounded-md transition-all ${
+                    className={`px-3 py-1.5 text-xs font-semibold tracking-wide rounded-md transition-all ${
                       isActive
                         ? "text-maroon bg-maroon/10 font-bold"
                         : "text-charcoal hover:text-maroon hover:bg-ivory"
@@ -84,13 +87,16 @@ export default function Navbar() {
               })}
             </div>
 
-            {/* Right Action: Editorial CTAs & Auth */}
-            <div className="hidden md:flex items-center gap-3">
+            {/* Right Action Deck: Language Toggle, CTAs & Auth */}
+            <div className="hidden md:flex items-center gap-3 shrink-0">
+              {/* Language Switcher */}
+              <LanguageToggle />
+
               <Link
                 href="/personalities/submit"
                 className="text-xs font-semibold px-3.5 py-2 rounded-md border border-maroon/30 text-maroon hover:bg-maroon hover:text-parchment transition-all inline-flex items-center gap-1.5"
               >
-                <span>Nominate a Luminary</span>
+                <span>{t("navNominate", "Nominate a Luminary")}</span>
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </Link>
 
@@ -99,20 +105,21 @@ export default function Navbar() {
                   onClick={() => signOut()}
                   className="text-xs font-medium text-charcoal/70 hover:text-maroon px-2 py-1"
                 >
-                  Sign Out
+                  {t("navSignOut", "Sign Out")}
                 </button>
               ) : (
                 <Link
                   href="/auth/signin"
                   className="text-xs font-medium text-indigo hover:text-maroon px-2 py-1"
                 >
-                  Sign In
+                  {t("navSignIn", "Sign In")}
                 </Link>
               )}
             </div>
 
-            {/* Mobile menu button */}
-            <div className="flex lg:hidden items-center">
+            {/* Mobile Actions: Language Toggle + Hamburger button */}
+            <div className="flex md:hidden items-center gap-2">
+              <LanguageToggle />
               <button
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
                 className="p-2 rounded-md text-indigo hover:bg-ivory transition-colors"
@@ -162,7 +169,7 @@ export default function Navbar() {
                 onClick={() => setIsMobileOpen(false)}
                 className="w-full text-center py-2.5 rounded-lg bg-maroon text-parchment text-xs font-bold"
               >
-                Nominate a Hero or Pioneer
+                {t("navNominate", "Nominate a Hero or Pioneer")}
               </Link>
               {session ? (
                 <button
@@ -172,7 +179,7 @@ export default function Navbar() {
                   }}
                   className="w-full text-center py-2 text-xs text-charcoal/70"
                 >
-                  Sign Out
+                  {t("navSignOut", "Sign Out")}
                 </button>
               ) : (
                 <Link
@@ -180,7 +187,7 @@ export default function Navbar() {
                   onClick={() => setIsMobileOpen(false)}
                   className="w-full text-center py-2 text-xs text-indigo font-semibold"
                 >
-                  Sign In
+                  {t("navSignIn", "Sign In")}
                 </Link>
               )}
             </div>
