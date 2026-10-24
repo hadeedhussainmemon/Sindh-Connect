@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Loader2, Feather, Compass, Award, ShieldCheck, Heart } from "lucide-react";
+import { Loader2, Feather } from "lucide-react";
 
 interface CoreValue {
   name: string;
@@ -40,8 +40,8 @@ export default function AboutPage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-40 bg-[#090305]">
-        <Loader2 className="h-10 w-10 text-[#d4af37] animate-spin" />
+      <div className="flex justify-center items-center py-40 bg-[#FAF6EF]">
+        <Loader2 className="h-10 w-10 text-[#702B35] animate-spin" />
       </div>
     );
   }
@@ -62,56 +62,56 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#090305] text-[#f9f5f0] py-16 px-6 font-sans">
+    <div className="min-h-screen bg-[#FAF6EF] text-[#202426] py-16 px-6 font-sans">
       <div className="max-w-4xl mx-auto space-y-16">
         
         {/* Header */}
-        <div className="space-y-4 text-center border-b border-[#801020]/40 pb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#801020]/25 border border-[#d4af37]/40 text-xs font-bold text-[#d4af37]">
+        <div className="space-y-4 text-center border-b border-[#702B35]/20 pb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#702B35]/10 border border-[#702B35]/30 text-xs font-mono font-bold text-[#702B35]">
             <Feather className="h-3.5 w-3.5" />
-            Heritage & Modern Revival
+            <span>Heritage &amp; Modern Revival</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-display font-black text-white tracking-tight">
-            About <span className="text-[#d4af37]">Sindh Connect</span>
+          <h1 className="text-4xl md:text-5xl font-display font-black text-[#173C50] tracking-tight">
+            About <span className="text-[#702B35]">Sindh Connect</span>
           </h1>
-          <p className="text-base text-neutral-400 font-light max-w-2xl mx-auto">
+          <p className="text-base text-[#202426]/80 font-serif max-w-2xl mx-auto leading-relaxed">
             Honoring 5,000 years of Indus history, Sufi poetry, modern creators, and community triumphs.
           </p>
         </div>
 
-        {/* Dynamic Sections */}
-        <div className="space-y-12">
-          {sections.map(
-            (sec, idx) =>
-              sec.content && (
-                <div key={idx} className="p-8 rounded-2xl bg-[#12070a] border border-[#801020]/40 hover:border-[#d4af37]/50 transition-all shadow-lg space-y-3">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#d4af37] block">
-                    0{idx + 1} &bull; Pillar
-                  </span>
-                  <h2 className="text-2xl font-display font-bold text-white">
-                    {sec.title}
-                  </h2>
-                  <p className="text-neutral-300 font-light leading-relaxed text-justify whitespace-pre-line text-sm md:text-base">
-                    {sec.content}
-                  </p>
-                </div>
-              )
-          )}
+        {/* Editorial Sections Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {sections.map((sec, idx) => (
+            <div 
+              key={idx}
+              className={`p-6 rounded-2xl border border-[#702B35]/20 bg-[#F4EEE2] space-y-3 shadow-xs ${
+                idx === 0 || idx === 1 ? "md:col-span-2 bg-[#F4EEE2]" : ""
+              }`}
+            >
+              <h2 className="text-xl font-display font-bold text-[#173C50] flex items-center gap-2">
+                <span className="w-2 h-2 rotate-45 bg-[#702B35]" />
+                {sec.title}
+              </h2>
+              <p className="text-sm text-[#202426]/85 font-serif leading-relaxed whitespace-pre-line text-justify">
+                {sec.content}
+              </p>
+            </div>
+          ))}
         </div>
 
         {/* Core Values */}
         {config?.coreValues && config.coreValues.length > 0 && (
-          <div className="space-y-6 pt-6">
-            <h2 className="text-2xl font-display font-bold text-[#d4af37] border-b border-[#801020]/40 pb-3">
-              Guiding Principles
+          <div className="space-y-6 pt-6 border-t border-[#702B35]/20">
+            <h2 className="text-2xl font-display font-bold text-[#173C50] text-center">
+              Our Core Philosophical Values
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {config.coreValues.map((val, idx) => (
-                <div key={idx} className="p-5 rounded-xl border border-[#801020]/40 bg-[#140a0e] space-y-2">
-                  <h3 className="font-display font-bold text-lg text-white">
+                <div key={idx} className="p-5 rounded-xl border border-[#702B35]/20 bg-[#FAF6EF] space-y-2">
+                  <h3 className="font-bold text-[#702B35] font-display text-base">
                     {val.name}
                   </h3>
-                  <p className="text-xs text-neutral-400 leading-relaxed font-light">
+                  <p className="text-xs text-[#202426]/75 font-serif leading-relaxed">
                     {val.description}
                   </p>
                 </div>

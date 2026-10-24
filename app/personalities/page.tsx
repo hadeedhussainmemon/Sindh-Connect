@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, Loader2, Globe, Mail, Share2, PlusCircle, User, Award, Feather, Sparkles } from "lucide-react";
+import { Search, Loader2, PlusCircle, Award } from "lucide-react";
 
 interface SocialLinks {
   linkedin?: string;
@@ -59,161 +59,149 @@ export default function PersonalitiesPage() {
   const totalPages = Math.ceil(filteredList.length / itemsPerPage);
   const paginatedList = filteredList.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  const handleShare = async (slug: string) => {
-    const url = `${window.location.origin}/personalities/${slug}`;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: 'View Sindh Connect Profile', url });
-      } catch (err) {}
-    } else {
-      navigator.clipboard.writeText(url);
-      alert("Profile link copied to clipboard!");
-    }
-  };
-
   return (
-    <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6 border-b border-[#801020]/40 pb-8">
-        <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#801020]/25 border border-[#d4af37]/40 text-xs font-bold text-[#d4af37] mb-3">
-            <Award className="h-3.5 w-3.5" />
-            سنڌ جا اڳواڻ ۽ باصلاحيت فنڪار
+    <div className="w-full min-h-screen bg-[#FAF6EF] text-[#202426]">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6 border-b border-[#702B35]/20 pb-8">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#702B35]/10 border border-[#702B35]/30 text-xs font-mono font-bold text-[#702B35] mb-3">
+              <Award className="h-3.5 w-3.5" />
+              <span>سنڌ جا اڳواڻ ۽ باصلاحيت فنڪار</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold tracking-tight text-[#173C50] mb-2">
+              Sindh Personalities &amp; Icons
+            </h1>
+            <p className="text-[#202426]/80 text-sm sm:text-base font-serif leading-relaxed">
+              Exploring the Sufi mystics, political pioneers, digital creators, social reformers, and leaders who shape the cultural and civilizational identity of Sindh.
+            </p>
           </div>
-          <h1 className="text-4xl font-display font-black tracking-tight text-white mb-2">
-            Sindh Personalities & Icons
-          </h1>
-          <p className="text-neutral-400 text-sm leading-relaxed">
-            Exploring the Sufi mystics, political pioneers, digital creators, social reformers, and leaders who shape the cultural and civilizational identity of Sindh.
-          </p>
-        </div>
-        <Link 
-          href="/personalities/submit"
-          className="flex items-center gap-2 bg-gradient-to-r from-[#801020] to-[#9c1427] hover:from-[#9c1427] hover:to-[#b0172e] text-[#f4ede2] px-5 py-3 rounded-xl font-bold border border-[#d4af37]/50 shadow-[0_0_15px_rgba(128,16,32,0.4)] transition-all shrink-0 text-sm"
-        >
-          <PlusCircle className="h-4 w-4 text-[#d4af37]" />
-          Nominate a Sindhi Hero / Creator
-        </Link>
-      </div>
-
-      {/* Filters & Search */}
-      <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-10 bg-[#12070a] p-4 border border-[#801020]/40 rounded-xl">
-        <div className="relative w-full md:w-80">
-          <Search className="absolute left-3.5 top-3 h-4 w-4 text-[#d4af37]" />
-          <input
-            type="text"
-            placeholder="Search by name, legacy, craft..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-[#1b0c11] text-white pl-10 pr-4 py-2 text-sm rounded-lg border border-[#801020]/40 focus:outline-none focus:border-[#d4af37] transition-all"
-          />
+          <Link 
+            href="/personalities/submit"
+            className="flex items-center gap-2 bg-[#702B35] hover:bg-[#853440] text-[#FAF6EF] px-5 py-3 rounded-lg font-semibold text-xs sm:text-sm tracking-wide shadow-xs transition-all shrink-0"
+          >
+            <PlusCircle className="h-4 w-4" />
+            <span>Nominate a Sindhi Hero / Creator</span>
+          </Link>
         </div>
 
-        {/* Category Pills */}
-        <div className="flex flex-wrap gap-2 w-full md:w-auto">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveFilter(category)}
-              className={`text-xs px-3.5 py-1.5 rounded-lg font-medium transition-all ${
-                activeFilter === category
-                  ? "bg-[#801020] text-white border border-[#d4af37]"
-                  : "bg-[#1b0c11] text-neutral-400 hover:text-white border border-[#801020]/30"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Profile Cards Grid */}
-      {loading ? (
-        <div className="flex justify-center items-center py-24">
-          <Loader2 className="h-8 w-8 text-[#d4af37] animate-spin" />
-        </div>
-      ) : paginatedList.length === 0 ? (
-        <div className="text-center py-20 bg-[#12070a] rounded-2xl border border-dashed border-[#801020]/40 p-8">
-          <User className="h-12 w-12 text-[#801020] mx-auto mb-3" />
-          <h3 className="text-lg font-bold text-white">No Profiles Found</h3>
-          <p className="text-neutral-400 text-sm mt-1">Try adjusting your search criteria or category filter.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {paginatedList.map((p) => {
-            const displayImg = p.profilePicture || (p.images && p.images[0]);
-            return (
-              <div
-                key={p.slug}
-                className="group relative rounded-2xl border border-[#801020]/40 bg-[#12070a] overflow-hidden hover:border-[#d4af37]/60 hover:shadow-[0_4px_24px_rgba(128,16,32,0.35)] transition-all flex flex-col justify-between"
+        {/* Filters & Search */}
+        <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-10 bg-[#F4EEE2] p-4 border border-[#702B35]/20 rounded-xl shadow-xs">
+          <div className="relative w-full md:w-80">
+            <Search className="absolute left-3.5 top-3 h-4 w-4 text-[#702B35]" />
+            <input
+              type="text"
+              placeholder="Search by name, role, city..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full bg-[#FAF6EF] border border-[#702B35]/30 rounded-lg py-2 pl-10 pr-4 text-sm text-[#202426] placeholder-[#202426]/50 focus:outline-hidden focus:border-[#702B35] focus:ring-1 focus:ring-[#702B35] transition-all"
+            />
+          </div>
+          <div className="flex gap-2 flex-wrap w-full md:w-auto">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveFilter(cat)}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  activeFilter === cat
+                    ? "bg-[#702B35] text-[#FAF6EF] shadow-xs"
+                    : "bg-[#FAF6EF] text-[#202426]/80 hover:text-[#702B35] border border-[#702B35]/20 hover:bg-[#F4EEE2]"
+                }`}
               >
-                <div>
-                  <div className="relative h-52 w-full overflow-hidden bg-[#1b0c11]">
-                    {displayImg ? (
-                      <img
-                        src={displayImg}
-                        alt={p.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#801020]/30 to-[#0c1c38]/40">
-                        <User className="h-16 w-16 text-[#d4af37]/40" />
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#12070a] via-transparent to-transparent" />
-                    <span className="absolute top-3 left-3 bg-[#801020]/90 backdrop-blur-md border border-[#d4af37]/40 text-white text-[11px] font-bold px-2.5 py-1 rounded-md">
-                      {p.category}
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Personalities Grid */}
+        {loading ? (
+          <div className="flex justify-center items-center py-20">
+            <Loader2 className="h-8 w-8 text-[#702B35] animate-spin" />
+          </div>
+        ) : filteredList.length === 0 ? (
+          <div className="text-center py-16 bg-[#F4EEE2] rounded-xl border border-dashed border-[#702B35]/30">
+            <p className="text-[#202426]/70 text-sm font-serif">No luminaries found matching your search.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {paginatedList.map((p) => {
+              const displayImg = p.profilePicture || (p.images && p.images[0]);
+              return (
+                <div
+                  key={p.slug}
+                  className="group rounded-2xl border border-[#702B35]/20 bg-[#FAF6EF] overflow-hidden flex flex-col justify-between hover:border-[#702B35]/50 hover:shadow-md transition-all"
+                >
+                  <div>
+                    <div className="relative h-56 w-full overflow-hidden bg-[#E8DFC8]">
+                      {displayImg ? (
+                        <img
+                          src={displayImg}
+                          alt={p.name}
+                          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-[#F4EEE2] text-[#702B35]">
+                          <Award className="h-12 w-12 opacity-50" />
+                        </div>
+                      )}
+                      <span className="absolute top-3 left-3 bg-[#702B35] text-[#FAF6EF] text-[10px] font-mono font-bold px-2.5 py-0.5 rounded shadow-xs uppercase tracking-wider">
+                        {p.category}
+                      </span>
+                    </div>
+
+                    <div className="p-6">
+                      <h2 className="text-xl font-display font-bold text-[#173C50] group-hover:text-[#702B35] transition-colors leading-snug mb-2">
+                        <Link href={`/personalities/${p.slug}`}>{p.name}</Link>
+                      </h2>
+                      <p className="text-sm text-[#202426]/75 font-serif line-clamp-3 leading-relaxed">
+                        {p.biography}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-6 pt-0 border-t border-[#702B35]/15 mt-4 flex items-center justify-between">
+                    <span className="text-xs text-[#202426]/60 font-mono">
+                      Archived Profile
                     </span>
-                  </div>
-
-                  <div className="p-6">
-                    <h3 className="text-xl font-display font-bold text-white group-hover:text-[#d4af37] transition-colors leading-snug">
-                      <Link href={`/personalities/${p.slug}`}>{p.name}</Link>
-                    </h3>
-                    <p className="text-neutral-400 text-sm mt-2 line-clamp-3 leading-relaxed font-light">
-                      {p.biography}
-                    </p>
+                    <Link
+                      href={`/personalities/${p.slug}`}
+                      className="text-xs font-bold text-[#702B35] hover:text-[#173C50] group-hover:translate-x-1 transition-all inline-flex items-center gap-1 font-mono"
+                    >
+                      <span>Read Bio</span> &rarr;
+                    </Link>
                   </div>
                 </div>
+              );
+            })}
+          </div>
+        )}
 
-                <div className="p-6 pt-0 border-t border-[#801020]/25 mt-4 flex items-center justify-between">
-                  <Link
-                    href={`/personalities/${p.slug}`}
-                    className="text-xs font-bold text-[#d4af37] hover:underline inline-flex items-center gap-1"
-                  >
-                    View Biography &rarr;
-                  </Link>
-                  <button
-                    onClick={() => handleShare(p.slug)}
-                    className="p-1.5 rounded-md hover:bg-[#801020]/30 text-neutral-400 hover:text-[#d4af37] transition-colors"
-                    title="Share Profile"
-                  >
-                    <Share2 className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Pagination Controls */}
-      {totalPages > 1 && (
-        <div className="mt-12 flex justify-center gap-2">
-          {Array.from({ length: totalPages }).map((_, i) => (
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 mt-12 pt-6 border-t border-[#702B35]/20">
             <button
-              key={i}
-              onClick={() => setCurrentPage(i + 1)}
-              className={`h-9 w-9 rounded-lg font-bold text-xs transition-colors ${
-                currentPage === i + 1
-                  ? "bg-[#801020] text-white border border-[#d4af37]"
-                  : "bg-[#12070a] text-neutral-400 border border-[#801020]/40 hover:text-white"
-              }`}
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded-lg text-xs font-semibold bg-[#F4EEE2] border border-[#702B35]/30 text-[#202426] disabled:opacity-40"
             >
-              {i + 1}
+              Previous
             </button>
-          ))}
-        </div>
-      )}
+            <span className="text-xs font-mono text-[#202426]/70 px-2">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded-lg text-xs font-semibold bg-[#F4EEE2] border border-[#702B35]/30 text-[#202426] disabled:opacity-40"
+            >
+              Next
+            </button>
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }
