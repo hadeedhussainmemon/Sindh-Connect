@@ -1,0 +1,37 @@
+import { NextResponse } from "next/server";
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config";
+
+const { auth } = NextAuth(authConfig);
+
+// Named export for the new proxy convention
+export const proxy = auth((req) => {
+  const isLoggedIn = !!req.auth;
+  const { nextUrl } = req;
+
+  const protectedPaths = ["/admin", "/profile", "/personalities/submit"];
+  const isProtected = protectedPaths.some((p) => nextUrl.pathname.startsWith(p));
+
+  if (isProtected) {
+    if (!req.auth) {
+      return NextResponse.redirect(new URL("/login", nextUrl));
+    }
+    
+    // Admin specific check
+    if (nextUrl.pathname.startsWith("/admin")) {
+      const userRole = (req.auth.user as any)?.role;
+      if (userRole !== "Admin") {
+        return NextResponse.redirect(new URL("/", nextUrl));
+      }
+    }
+  }
+
+  return NextResponse.next();
+});
+
+// Default export compatibility
+export default proxy;
+
+export const config = {
+  matcher: ["/admin/:path*", "/profile/:path*", "/personalities/submit/:path*"],
+};
