@@ -40,13 +40,12 @@ export default async function Image() {
             bottom: "14px",
             border: "2px dashed #cfa83b",
             opacity: 0.5,
-            pointerEvents: "none",
           }}
         />
 
         {/* Top Header Row */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             {/* Medallion Badge */}
             <div
               style={{
@@ -62,22 +61,25 @@ export default async function Image() {
                 fontSize: "28px",
                 fontWeight: "900",
                 boxShadow: "0 0 20px rgba(207, 168, 59, 0.4)",
+                marginRight: "16px",
               }}
             >
               S
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <span style={{ fontSize: "24px", fontWeight: "900", color: "#FFFFFF", letterSpacing: "2px" }}>
-                SINDH<span style={{ color: "#cfa83b" }}>CONNECT</span>
-              </span>
-              <span style={{ fontSize: "13px", color: "#f5d475", letterSpacing: "3px", textTransform: "uppercase" }}>
+              <div style={{ display: "flex", fontSize: "24px", fontWeight: "900", color: "#FFFFFF", letterSpacing: "2px" }}>
+                <span>SINDH</span>
+                <span style={{ color: "#cfa83b" }}>CONNECT</span>
+              </div>
+              <div style={{ display: "flex", fontSize: "13px", color: "#f5d475", letterSpacing: "3px", textTransform: "uppercase" }}>
                 سنڌ ڪنيڪٽ &bull; Cultural Archive
-              </span>
+              </div>
             </div>
           </div>
 
           <div
             style={{
+              display: "flex",
               padding: "8px 18px",
               borderRadius: "999px",
               backgroundColor: "rgba(119, 11, 27, 0.5)",
@@ -94,29 +96,25 @@ export default async function Image() {
         </div>
 
         {/* Center Editorial Headlines */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "980px" }}>
+        <div style={{ display: "flex", flexDirection: "column", maxWidth: "980px" }}>
           <div
             style={{
+              display: "flex",
+              flexWrap: "wrap",
               fontSize: "58px",
               fontWeight: "900",
               color: "#FFFFFF",
               lineHeight: 1.1,
               letterSpacing: "-1px",
               textShadow: "0 4px 20px rgba(0,0,0,0.8)",
+              marginBottom: "16px",
             }}
           >
-            Celebrating Sindh’s{" "}
-            <span
-              style={{
-                color: "#cfa83b",
-                backgroundImage: "linear-gradient(90deg, #f5d475, #cfa83b)",
-              }}
-            >
-              Heritage, Leaders & Creators
-            </span>
+            <span>Celebrating Sindh’s&nbsp;</span>
+            <span style={{ color: "#cfa83b" }}>Heritage, Leaders & Creators</span>
           </div>
 
-          <div style={{ fontSize: "22px", color: "#d6cfc7", fontWeight: "300", lineHeight: 1.4, maxWidth: "860px" }}>
+          <div style={{ display: "flex", fontSize: "22px", color: "#d6cfc7", fontWeight: "300", lineHeight: 1.4, maxWidth: "860px" }}>
             The premier digital archive documenting the ancient Indus Civilization, Sufi wisdom of Shah Latif, 
             visionary statesmen, and modern cultural voices across the Mehran.
           </div>
@@ -124,21 +122,21 @@ export default async function Image() {
 
         {/* Bottom Feature Badges */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: "1px solid rgba(207, 168, 59, 0.3)", paddingTop: "24px" }}>
-          <div style={{ display: "flex", gap: "28px" }}>
-            <span style={{ color: "#f5d475", fontSize: "15px", fontWeight: "700" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <span style={{ color: "#f5d475", fontSize: "15px", fontWeight: "700", marginRight: "16px" }}>
               🏛️ Mohenjo-daro & World Heritage
             </span>
-            <span style={{ color: "#FFFFFF", fontSize: "15px", opacity: 0.4 }}>&bull;</span>
-            <span style={{ color: "#f5d475", fontSize: "15px", fontWeight: "700" }}>
+            <span style={{ color: "#FFFFFF", fontSize: "15px", opacity: 0.4, marginRight: "16px" }}>&bull;</span>
+            <span style={{ color: "#f5d475", fontSize: "15px", fontWeight: "700", marginRight: "16px" }}>
               📜 Shah Jo Risalo & Sufi Wisdom
             </span>
-            <span style={{ color: "#FFFFFF", fontSize: "15px", opacity: 0.4 }}>&bull;</span>
+            <span style={{ color: "#FFFFFF", fontSize: "15px", opacity: 0.4, marginRight: "16px" }}>&bull;</span>
             <span style={{ color: "#f5d475", fontSize: "15px", fontWeight: "700" }}>
               ⭐ Top 20 All-Time Luminaries
             </span>
           </div>
 
-          <div style={{ color: "#cfa83b", fontSize: "16px", fontWeight: "800", letterSpacing: "1px" }}>
+          <div style={{ display: "flex", color: "#cfa83b", fontSize: "16px", fontWeight: "800", letterSpacing: "1px" }}>
             sindhconnect.com
           </div>
         </div>
