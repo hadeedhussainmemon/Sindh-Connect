@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Heart, Compass, ShieldCheck, Mail } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
   const pathname = usePathname();
@@ -13,21 +13,21 @@ export default function Footer() {
 
   if (pathname?.startsWith("/admin")) return null;
 
-  const links = [
-    { name: "Personalities & Pioneers", href: "/personalities" },
-    { name: "Positive Stories", href: "/blog" },
-    { name: "Heritage Archives", href: "/gallery" },
-    { name: "Sindh Festivals & Events", href: "/events" },
-    { name: "About The Mission", href: "/about" },
-    { name: "Submit a Hero / Creator", href: "/personalities/submit" }
+  const editorialLinks = [
+    { name: "Luminaries & Pioneers", href: "/personalities" },
+    { name: "Positive Stories & Essays", href: "/blog" },
+    { name: "Heritage & Monument Archive", href: "/gallery" },
+    { name: "Sindh Cultural Gatherings & Urs", href: "/events" },
+    { name: "Mission & Editorial Charter", href: "/about" },
+    { name: "Nominate a Cultural Icon", href: "/personalities/submit" }
   ];
 
   const heritageCategories = [
-    "Indus Valley & Mohenjo-daro",
-    "Sufi Saints & Mysticism",
-    "Ajrak & Traditional Crafts",
-    "Top Digital Creators",
-    "Sindh Visionary Leaders"
+    "Indus Valley & Mohenjo-daro Civil Settlement",
+    "Shah Abdul Latif Bhittai & Sufi Mysticism",
+    "Ajrak, Kashikari & Hala Crafts",
+    "Contemporary Digital Creators & Storytellers",
+    "Grassroots Public Servants & Innovators"
   ];
 
   useEffect(() => {
@@ -41,9 +41,10 @@ export default function Footer() {
       .catch(() => {});
   }, []);
 
-  const handleSubscribe = async () => {
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!email || !email.includes("@")) {
-      setStatus("Please enter a valid email address.");
+      setStatus("Please provide a valid email address.");
       return;
     }
     setStatus("Subscribing...");
@@ -55,117 +56,124 @@ export default function Footer() {
       });
       const data = await res.json();
       if (res.ok) {
-        setStatus("Welcome to Sindh Connect family!");
+        setStatus("Thank you for subscribing to Sindh Connect dispatch.");
         setEmail("");
       } else {
-        setStatus(data.error || "Subscription failed.");
+        setStatus(data.error || "Subscription unsuccessful.");
       }
-    } catch (err) {
-      setStatus("Failed to subscribe due to connection error.");
+    } catch {
+      setStatus("Connection error occurred. Please try again.");
     }
   };
 
   return (
-    <footer className="relative border-t border-[#801020]/40 bg-[#070204] text-neutral-400 py-16 px-6 font-sans overflow-hidden">
-      {/* Decorative top border in Ajrak gradient */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#801020] via-[#d4af37] to-[#0c1c38]" />
+    <footer className="border-t border-[#702B35]/20 bg-[#173C50] text-[#F4EEE2] pt-16 pb-12 font-sans">
+      {/* Decorative Ajrak Tri-tone Ribbon */}
+      <div className="h-1 w-full bg-gradient-to-r from-[#702B35] via-[#C3A36A] to-[#173C50] -mt-16 mb-16" />
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-        
-        {/* Brand identity block */}
-        <div className="md:col-span-5 space-y-6">
-          <div className="flex items-center gap-3">
-            <img 
-              src={logoUrl} 
-              alt="Sindh Connect Logo" 
-              className="h-12 w-12 rounded-full object-cover border-2 border-[#d4af37] shadow-[0_0_12px_rgba(212,175,55,0.3)]"
-            />
-            <div>
-              <span className="text-xl font-display font-black tracking-wider text-white block">
-                SINDH<span className="text-[#d4af37]">CONNECT</span>
-              </span>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-[#d4af37]/80">
-                سنڌ جي ثقافت، تاريخ ۽ ڪردار
-              </span>
-            </div>
-          </div>
-          <p className="text-sm text-neutral-400 font-light leading-relaxed max-w-sm">
-            Sindh Connect is the premier digital chronicle archiving the ancient legacy of the Indus Civilization, honoring Sindh’s spiritual teachers, pioneering creators, impactful leaders, and illuminating every inspiring triumph across the land.
-          </p>
-          <div className="flex items-center gap-2 text-xs text-[#d4af37]">
-            <span className="px-2.5 py-1 rounded bg-[#801020]/30 border border-[#801020]/60">5000+ Years of History</span>
-            <span className="px-2.5 py-1 rounded bg-[#0c1c38]/40 border border-[#0c1c38]/80">Ajrak & Sufi Heritage</span>
-          </div>
-        </div>
-
-        {/* Navigation links block */}
-        <div className="md:col-span-3 space-y-4">
-          <h4 className="text-xs font-bold tracking-widest uppercase text-[#d4af37] border-b border-[#801020]/30 pb-2">
-            Explore Sindh
-          </h4>
-          <ul className="space-y-2.5 text-sm">
-            {links.map((link) => (
-              <li key={link.name}>
-                <Link 
-                  href={link.href}
-                  className="hover:text-[#d4af37] transition-colors duration-200 flex items-center gap-1.5"
-                >
-                  <span className="text-[#801020] text-xs">◆</span> {link.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Newsletter signup block */}
-        <div className="md:col-span-4 space-y-4">
-          <h4 className="text-xs font-bold tracking-widest uppercase text-[#d4af37] border-b border-[#801020]/30 pb-2">
-            Stay Connected
-          </h4>
-          <p className="text-sm text-neutral-400 font-light leading-relaxed">
-            Get regular digests highlighting top Sindhi creators, historic deep-dives, cultural events, and positive change stories.
-          </p>
-          <div className="space-y-2">
-            <div className="flex gap-2 max-w-sm pt-1">
-              <input 
-                type="email" 
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-[#140b0f] border border-[#801020]/60 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#d4af37] flex-grow"
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-12 border-b border-white/10">
+          
+          {/* Masthead & Publication Statement */}
+          <div className="md:col-span-5 space-y-4">
+            <div className="flex items-center gap-3">
+              <img 
+                src={logoUrl} 
+                alt="Sindh Connect Logo" 
+                className="h-10 w-10 rounded-full object-cover border border-[#C3A36A]/50" 
               />
-              <button 
-                onClick={handleSubscribe}
-                className="bg-gradient-to-r from-[#801020] to-[#a01428] hover:from-[#a01428] hover:to-[#801020] text-white text-xs font-bold px-4 py-2.5 rounded-lg border border-[#d4af37]/50 shadow-md transition-all duration-200 uppercase tracking-wider whitespace-nowrap"
-              >
-                Join
-              </button>
+              <div>
+                <span className="text-xl font-display font-black tracking-wider text-white">
+                  SINDH<span className="text-[#C3A36A]"> CONNECT</span>
+                </span>
+                <span className="block text-[10px] tracking-widest uppercase text-white/60 font-mono">
+                  سنڌ ڪنيڪٽ &bull; An Open Cultural Archive
+                </span>
+              </div>
             </div>
-            {status && (
-              <p className={`text-xs ${status.includes("Welcome") ? "text-emerald-400" : "text-[#d4af37]"}`}>
-                {status}
+
+            <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-light">
+              An independent cultural publication and digital museum dedicated to safeguarding 5,000 years of Indus civilization, classical Sindhi poetry, monumental heritage, and the modern innovators shaping Sindh’s constructive future.
+            </p>
+
+            <div className="pt-2">
+              <p className="text-xs text-[#C3A36A] font-serif italic">
+                "جيئي سنڌ، سدائين گُلزار سنڌ — May Sindh flourish in peace, knowledge, and harmony."
               </p>
-            )}
+            </div>
+          </div>
+
+          {/* Publication Navigation */}
+          <div className="md:col-span-3 space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-[#C3A36A]">
+              Archive Indices
+            </h4>
+            <ul className="space-y-2 text-xs">
+              {editorialLinks.map((link) => (
+                <li key={link.href}>
+                  <Link 
+                    href={link.href}
+                    className="text-white/70 hover:text-white transition-colors inline-flex items-center gap-1 group"
+                  >
+                    <span>{link.name}</span>
+                    <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Curated Heritage Focus */}
+          <div className="md:col-span-4 space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-[#C3A36A]">
+              The Weekly Cultural Dispatch
+            </h4>
+            <p className="text-xs text-white/70 leading-relaxed font-light">
+              Receive curated essays on Sindh’s history, rare photographic archives, and profiles of grassroots changemakers directly in your inbox.
+            </p>
+
+            <form onSubmit={handleSubscribe} className="space-y-2">
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="reader@domain.com"
+                  className="flex-1 px-3 py-2 text-xs rounded-md bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-hidden focus:border-[#C3A36A]"
+                />
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-[#702B35] hover:bg-[#853440] text-white text-xs font-semibold rounded-md transition-colors shrink-0"
+                >
+                  Subscribe
+                </button>
+              </div>
+              {status && (
+                <p className="text-[11px] text-[#C3A36A]">{status}</p>
+              )}
+            </form>
+          </div>
+
+        </div>
+
+        {/* Colophon & Copyright */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50 font-light">
+          <p>
+            &copy; {new Date().getFullYear()} Sindh Connect. Dedicated to the civilizational memory of Sindh.
+          </p>
+          <div className="flex items-center gap-6">
+            <Link href="/about" className="hover:text-white transition-colors">
+              Editorial Charter
+            </Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">
+              Privacy & Archive Standards
+            </Link>
+            <Link href="/admin" className="hover:text-white transition-colors">
+              Staff Portal
+            </Link>
           </div>
         </div>
 
-      </div>
-
-      {/* Footer bottom */}
-      <div className="max-w-7xl mx-auto border-t border-[#801020]/30 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-neutral-500 gap-4">
-        <div className="flex flex-col gap-1 items-center md:items-start">
-          <span>
-            &copy; {new Date().getFullYear()} Sindh Connect. All rights reserved.
-          </span>
-          <span className="font-light text-[#d4af37]/80">
-            Dedicated to the rich heritage, peaceful spirit, and people of Sindh.
-          </span>
-        </div>
-        <div className="flex items-center text-neutral-400 hover:text-[#d4af37] transition-colors">
-          <a href="https://www.technosedigital.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
-            Engineered by <span className="font-bold text-white">Technose Digital</span>
-          </a>
-        </div>
       </div>
     </footer>
   );

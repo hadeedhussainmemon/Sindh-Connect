@@ -1,10 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
-import { usePathname } from "next/navigation";
-import { Search, Menu, X, Sparkles, Feather, Compass, Award, HeartHandshake, BookOpen, Star, ArrowUpRight } from "lucide-react";
-import { animate, stagger } from "animejs";
+import { useState, useEffect } from "react";
+import { ArrowUpRight, BookOpen, Compass, Award, Calendar, ChevronRight } from "lucide-react";
 
 interface Personality {
   name: string;
@@ -12,7 +10,7 @@ interface Personality {
   biography: string;
   slug: string;
   profilePicture?: string;
-  awards?: string[];
+  achievements?: string[];
 }
 
 interface Article {
@@ -21,6 +19,7 @@ interface Article {
   slug: string;
   category: string;
   readTime?: string;
+  coverImage?: string;
 }
 
 interface SiteConfig {
@@ -30,46 +29,38 @@ interface SiteConfig {
   heroImageUrl?: string;
 }
 
-interface EventData {
-  title: string;
-  date: string;
-  status: string;
-  location?: string;
-}
-
 interface GalleryItem {
   title: string;
   imageUrl: string;
   category?: string;
 }
 
+interface EventData {
+  title: string;
+  date: string;
+  location?: string;
+}
+
 export default function Home() {
   const [personalities, setPersonalities] = useState<Personality[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
-  const [events, setEvents] = useState<EventData[]>([]);
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
+  const [events, setEvents] = useState<EventData[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("All");
-  const [loading, setLoading] = useState(true);
+  const [imgErrorMap, setImgErrorMap] = useState<Record<string, boolean>>({});
 
   const [config, setConfig] = useState<SiteConfig>({
-    headline: "The Living Soul of the Indus Civilization",
-    subheadline: "Celebrating 5,000 years of profound Sufi philosophy, indigenous craftsmanship, visionary statesmen, and today’s vibrant digital creators.",
+    headline: "The Living Civilizational Memory of the Indus",
+    subheadline: "An authoritative editorial archive documenting 5,000 years of Sufi humanism, monumental archaeological heritage, transformative leaders, and contemporary digital pioneers.",
     aboutText: [
-      "Sindh is not merely a territory; it is the civilizational spine of South Asia. Born along the majestic banks of the Mehran (Indus River), its legacy extends from the architectural genius of Mohenjo-daro to the Sufi sanctuaries of Bhit Shah, Sehwan, and Jhok Sharif.",
-      "Sindh Connect is an authoritative cultural archive and modern spotlight. We preserve the classical philosophy of Shah Abdul Latif Bhittai and Sachal Sarmast, while illuminating contemporary icons: digital creators with millions of global viewers, public servants, healthcare pioneers, and courageous grassroots innovators.",
-      "Here, past wisdom meets future ambition. We document the constructive, triumphant, and peaceful spirit of Sindh for generations to come."
-    ]
+      "Sindh is not merely a geographic expanse; it is the civilizational cradle of South Asia. Born along the perennial currents of the Mehran (Indus River), its narrative stretches from the brick city planning of Mohenjo-daro to the Sufi sanctuaries of Bhit Shah, Sehwan, and Jhok Sharif.",
+      "Sindh Connect was founded as an independent digital museum and cultural magazine. We safeguard the timeless philosophical verse of Shah Abdul Latif Bhittai and Sachal Sarmast, while systematically chronicling modern pioneers: grassroots surgeons, digital filmmakers with global audiences, courageous educators, and preservation artisans.",
+      "Here, historical depth converges with forward ambition. We document the constructive, pluralistic, and resilient spirit of Sindh for generations to come."
+    ],
+    heroImageUrl: "/hero_visual.jpg"
   });
 
   useEffect(() => {
-    animate(".stagger-hero", {
-      translateY: [24, 0],
-      opacity: [0, 1],
-      delay: stagger(100),
-      duration: 800,
-      ease: "outQuad"
-    });
-
     const safeFetch = async (url: string) => {
       try {
         const res = await fetch(url);
@@ -84,241 +75,170 @@ export default function Home() {
       safeFetch("/api/personalities"),
       safeFetch("/api/articles"),
       safeFetch("/api/config"),
-      safeFetch("/api/events"),
-      safeFetch("/api/gallery")
-    ])
-      .then(([persData, artData, configData, evtData, galData]) => {
-        if (Array.isArray(persData)) setPersonalities(persData);
-        if (Array.isArray(artData)) setArticles(artData);
-        if (configData && configData.headline) setConfig((prev: any) => ({ ...prev, ...configData }));
-        if (Array.isArray(evtData)) setEvents(evtData);
-        if (Array.isArray(galData)) setGallery(galData);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      safeFetch("/api/gallery"),
+      safeFetch("/api/events")
+    ]).then(([persData, artData, configData, galData, evtData]) => {
+      if (Array.isArray(persData) && persData.length > 0) setPersonalities(persData);
+      if (Array.isArray(artData) && artData.length > 0) setArticles(artData);
+      if (configData && configData.headline) setConfig((prev) => ({ ...prev, ...configData }));
+      if (Array.isArray(galData) && galData.length > 0) setGallery(galData);
+      if (Array.isArray(evtData) && evtData.length > 0) setEvents(evtData);
+    });
   }, []);
-
-  const stats = [
-    { label: "Civilization Age", value: "5,000+", sub: "Years of History" },
-    { label: "Sufi Wisdom", value: "30 Sur", sub: "Shah Jo Risalo" },
-    { label: "Archived Luminaries", value: "20+", sub: "Top Icons of Sindh" },
-    { label: "Cultural Heritage", value: "100%", sub: "Grassroots & Digital" },
-  ];
 
   const categories = [
     "All",
-    "Top Digital Creators & Media",
     "Heritage & Sufism",
     "Politicians & Leaders",
     "Literature & Sindhi Poetry",
+    "Top Digital Creators & Media",
     "Arts & Culture"
   ];
 
   const filteredPersonalities = activeCategory === "All"
     ? personalities
-    : personalities.filter(p => p.category?.toLowerCase() === activeCategory.toLowerCase());
+    : personalities.filter((p) => p.category?.toLowerCase() === activeCategory.toLowerCase());
 
-  const today = new Date().setHours(0, 0, 0, 0);
-  const upcomingEvents = events.filter(e => e.status === "upcoming" && new Date(e.date).getTime() >= today).slice(0, 3);
+  // Editorial Spotlight Personality (First Luminary)
+  const spotlightLuminary = filteredPersonalities[0] || personalities[0];
+  const secondaryLuminaries = filteredPersonalities.slice(1, 5);
+
+  const handleImageError = (id: string) => {
+    setImgErrorMap((prev) => ({ ...prev, [id]: true }));
+  };
 
   return (
-    <div className="flex flex-col w-full min-h-screen text-[#fcf9f4] font-sans">
+    <div className="flex flex-col w-full min-h-screen bg-[#FAF6EF] text-[#202426]">
       
-      {/* 1. HERO SHOWCASE WITH DISTINCT SINDHI IDENTITY */}
-      <section className="relative pt-12 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full overflow-hidden">
-        
-        {/* Ambient Ajrak Glow Orb */}
-        <div className="absolute top-1/4 -right-20 w-96 h-96 bg-[#770b1b]/20 rounded-full blur-[130px] pointer-events-none" />
-        <div className="absolute -bottom-10 -left-20 w-96 h-96 bg-[#193b70]/25 rounded-full blur-[140px] pointer-events-none" />
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      {/* 1. EDITORIAL ASYMMETRIC HERO: HUMAN-DESIGNED MAGAZINE COVER COMPOSITION */}
+      <section className="relative border-b border-[#702B35]/15 pt-8 pb-16 lg:pt-14 lg:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           
-          {/* Left Column: Mission Narrative */}
-          <div className="lg:col-span-7 space-y-6">
-            
-            {/* Top Cultural Badge */}
-            <div className="stagger-hero inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#770b1b]/25 border border-[#cfa83b]/40 text-xs font-semibold text-[#f5d475]">
-              <span className="h-2 w-2 rounded-full bg-[#cfa83b] animate-ping" />
-              <span>سنڌ ڪنيڪٽ &bull; The Living Heritage of Mehran</span>
+          {/* Left Column: Typographic Masthead & Mission */}
+          <div className="lg:col-span-7 flex flex-col justify-between space-y-8">
+            <div className="space-y-5">
+              
+              {/* Editorial Header Kicker */}
+              <div className="flex items-center gap-3">
+                <span className="h-0.5 w-8 bg-[#702B35]" />
+                <span className="text-xs uppercase tracking-widest font-mono font-semibold text-[#702B35]">
+                  Issue No. 01 &bull; Digital Museum & Living Archive
+                </span>
+              </div>
+
+              {/* Serif Headline with Gravitas */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-[#173C50] leading-[1.08]">
+                Documenting the <br />
+                <span className="font-serif italic text-[#702B35] font-normal">Living Soul</span> of Sindh
+              </h1>
+
+              {/* Subheading & Editorial Summary */}
+              <p className="text-base sm:text-lg text-[#202426]/80 font-serif leading-relaxed max-w-xl">
+                {config.subheadline}
+              </p>
             </div>
 
-            <h1 className="stagger-hero text-4xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight text-white leading-[1.08]">
-              Honoring Sindh’s <br className="hidden sm:inline" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#cfa83b] via-[#f5d475] to-[#fcf9f4]">
-                History, Leaders & Creators
-              </span>
-            </h1>
-
-            <p className="stagger-hero text-base sm:text-lg text-neutral-300 font-light leading-relaxed max-w-2xl">
-              {config.subheadline}
-            </p>
-
-            {/* CTA Action Deck */}
-            <div className="stagger-hero flex flex-wrap gap-3.5 pt-2">
+            {/* Curated Navigation Deck */}
+            <div className="pt-2 flex flex-wrap items-center gap-4">
               <Link 
                 href="/personalities" 
-                className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#770b1b] to-[#981326] hover:from-[#981326] hover:to-[#b0172e] text-[#f7eee1] font-bold text-xs sm:text-sm border border-[#cfa83b]/60 shadow-[0_4px_24px_rgba(119,11,27,0.5)] transition-all flex items-center gap-2 group"
+                className="px-6 py-3.5 rounded-md bg-[#702B35] hover:bg-[#853440] text-[#FAF6EF] font-semibold text-xs sm:text-sm tracking-wide shadow-sm transition-all inline-flex items-center gap-2"
               >
-                <Award className="h-4 w-4 text-[#cfa83b] group-hover:rotate-12 transition-transform" />
-                <span>Explore Top 20 Icons of Sindh</span>
+                <span>Explore the 20 Luminaries</span>
+                <ArrowUpRight className="h-4 w-4" />
               </Link>
+
               <Link 
                 href="/blog" 
-                className="px-6 py-3.5 rounded-xl bg-[#09152b]/80 hover:bg-[#102447] text-white font-semibold text-xs sm:text-sm border border-[#cfa83b]/30 transition-all flex items-center gap-2"
+                className="px-6 py-3.5 rounded-md bg-transparent hover:bg-[#F4EEE2] text-[#173C50] font-semibold text-xs sm:text-sm tracking-wide border border-[#173C50]/30 transition-all inline-flex items-center gap-2"
               >
-                <BookOpen className="h-4 w-4 text-[#cfa83b]" />
-                <span>Positive Stories from Sindh</span>
+                <span>Read Positive Stories</span>
+                <BookOpen className="h-4 w-4 text-[#702B35]" />
               </Link>
             </div>
 
-            {/* Quick Stats Grid */}
-            <div className="stagger-hero grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-[#770b1b]/30">
-              {stats.map((item, idx) => (
-                <div key={idx} className="space-y-0.5">
-                  <div className="text-xl sm:text-2xl font-display font-black text-[#cfa83b]">
-                    {item.value}
-                  </div>
-                  <div className="text-[11px] font-semibold text-white uppercase tracking-wider">
-                    {item.label}
-                  </div>
-                  <div className="text-[10px] text-neutral-400">
-                    {item.sub}
-                  </div>
-                </div>
-              ))}
+            {/* Editorial Fact Ledger (Replacing AI vanity counters) */}
+            <div className="pt-6 border-t border-[#702B35]/15 grid grid-cols-2 sm:grid-cols-4 gap-6">
+              <div>
+                <span className="block text-2xl font-serif font-bold text-[#702B35]">5,000+</span>
+                <span className="text-[11px] text-[#202426]/70 uppercase tracking-wider font-mono">B.C. Civilization</span>
+              </div>
+              <div>
+                <span className="block text-2xl font-serif font-bold text-[#173C50]">30 Sur</span>
+                <span className="text-[11px] text-[#202426]/70 uppercase tracking-wider font-mono">Shah Jo Risalo</span>
+              </div>
+              <div>
+                <span className="block text-2xl font-serif font-bold text-[#702B35]">20 Verified</span>
+                <span className="text-[11px] text-[#202426]/70 uppercase tracking-wider font-mono">Archived Pioneers</span>
+              </div>
+              <div>
+                <span className="block text-2xl font-serif font-bold text-[#173C50]">Grassroots</span>
+                <span className="text-[11px] text-[#202426]/70 uppercase tracking-wider font-mono">Oral Histories</span>
+              </div>
             </div>
 
           </div>
 
-          {/* Right Column: Hero Visual Card */}
-          <div className="lg:col-span-5 stagger-hero flex justify-center">
-            <div className="relative w-full max-w-md">
-              {/* Ajrak & Gold Border Glow */}
-              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-[#770b1b] via-[#cfa83b] to-[#193b70] opacity-60 blur-xl transition-all duration-700" />
-              
-              <div className="relative rounded-3xl overflow-hidden border-2 border-[#cfa83b]/50 bg-[#0e0407] shadow-2xl">
+          {/* Right Column: Authentic Editorial Heritage Plate with Real Attribution */}
+          <div className="lg:col-span-5">
+            <figure className="bg-[#F4EEE2] p-3 rounded-lg border border-[#702B35]/20 shadow-sm">
+              <div className="relative aspect-[4/3] sm:aspect-[5/4] w-full overflow-hidden rounded bg-[#EAE2D2]">
                 <img 
-                  src={config.heroImageUrl || "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=1000"} 
-                  alt="Ancient Mohenjo-daro & Sindhi Cultural Heritage" 
-                  className="w-full h-80 sm:h-96 object-cover object-center"
+                  src={config.heroImageUrl || "/hero_visual.jpg"} 
+                  alt="Ancient Mohenjo-daro & Sindh Heritage" 
+                  className="w-full h-full object-cover object-center grayscale-[15%] contrast-[105%]"
+                  onError={() => handleImageError("hero")}
                 />
-                
-                {/* Floating Heritage Badge */}
-                <div className="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-[#060204] via-[#060204]/90 to-transparent">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#f5d475] bg-[#770b1b]/60 px-2 py-0.5 rounded border border-[#cfa83b]/40">
-                      UNESCO & World Heritage
-                    </span>
-                    <span className="text-xs text-neutral-300 font-mono">B.C. 2500</span>
-                  </div>
-                  <h3 className="text-lg font-display font-bold text-white">
-                    Mohenjo-daro & The Great Stupa
-                  </h3>
-                  <p className="text-xs text-neutral-400 mt-1 line-clamp-2 font-light">
-                    One of the world's earliest major civil settlements, renowned for brick engineering and peace.
-                  </p>
+              </div>
+              <figcaption className="pt-3 pb-1 px-1 text-xs text-[#202426]/75 font-serif leading-snug">
+                <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-[#702B35] font-semibold mb-1">
+                  <span>Archaeological Plate 01</span>
+                  <span>Larkana District, Sindh</span>
                 </div>
-              </div>
-            </div>
+                <strong>Mohenjo-daro & The Great Stupa</strong> — UNESCO World Heritage settlement of the Indus civilization, celebrated for municipal sanitation, kiln-baked masonry, and peaceful civic governance.
+              </figcaption>
+            </figure>
           </div>
 
         </div>
       </section>
 
-      {/* 2. SINDHI HERITAGE PILLARS SHOWCASE */}
-      <section className="border-y border-[#770b1b]/30 bg-[#0a0306]/80 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <div className="p-6 rounded-2xl bg-[#12070a]/90 border border-[#770b1b]/40 hover:border-[#cfa83b]/60 transition-all space-y-3 group">
-              <div className="w-12 h-12 rounded-xl bg-[#770b1b]/30 border border-[#770b1b]/60 flex items-center justify-center text-[#cfa83b]">
-                <Compass className="h-6 w-6" />
-              </div>
-              <h3 className="text-lg font-display font-bold text-white group-hover:text-[#f5d475] transition-colors">
-                5,000+ Yrs Civilization
-              </h3>
-              <p className="text-xs text-neutral-400 leading-relaxed font-light">
-                From Indus Valley's bronze Dancing Girl to Ranikot Fort, Makli necropolis, and Kot Diji citadel.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-[#12070a]/90 border border-[#770b1b]/40 hover:border-[#cfa83b]/60 transition-all space-y-3 group">
-              <div className="w-12 h-12 rounded-xl bg-[#09152b]/50 border border-[#193b70]/60 flex items-center justify-center text-[#cfa83b]">
-                <Feather className="h-6 w-6" />
-              </div>
-              <h3 className="text-lg font-display font-bold text-white group-hover:text-[#f5d475] transition-colors">
-                Sufi Mysticism & Harmony
-              </h3>
-              <p className="text-xs text-neutral-400 leading-relaxed font-light">
-                The poetry of Shah Latif, Lal Shahbaz Qalandar, and Sachal Sarmast teaching tolerance, love, and humanity.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-[#12070a]/90 border border-[#770b1b]/40 hover:border-[#cfa83b]/60 transition-all space-y-3 group">
-              <div className="w-12 h-12 rounded-xl bg-[#770b1b]/30 border border-[#770b1b]/60 flex items-center justify-center text-[#cfa83b]">
-                <Sparkles className="h-6 w-6" />
-              </div>
-              <h3 className="text-lg font-display font-bold text-white group-hover:text-[#f5d475] transition-colors">
-                Top Creators & Voices
-              </h3>
-              <p className="text-xs text-neutral-400 leading-relaxed font-light">
-                Digital innovators, cinematic vloggers, and modern storytellers bringing authentic Sindh to the world.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-[#12070a]/90 border border-[#770b1b]/40 hover:border-[#cfa83b]/60 transition-all space-y-3 group">
-              <div className="w-12 h-12 rounded-xl bg-[#09152b]/50 border border-[#193b70]/60 flex items-center justify-center text-[#cfa83b]">
-                <HeartHandshake className="h-6 w-6" />
-              </div>
-              <h3 className="text-lg font-display font-bold text-white group-hover:text-[#f5d475] transition-colors">
-                Grassroots Triumphs
-              </h3>
-              <p className="text-xs text-neutral-400 leading-relaxed font-light">
-                Free healthcare at SIUT, Thari women engineers, solar education, and IT hubs powering local economy.
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* 3. FEATURED SINDH LUMINARIES & CREATORS DIRECTORY */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+      {/* 2. CURATED EDITORIAL DESK: THE TOP LUMINARIES ARCHIVE */}
+      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         
-        {/* Section Heading & Filter Bar */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 border-b border-[#770b1b]/30 pb-6">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-[#702B35]/15 pb-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#f5d475]">
-              <Star className="h-3.5 w-3.5 fill-[#cfa83b]" />
-              سنڌ جا چُنڊ ڪردار
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-black text-white">
-              Icons & Creators of Sindh
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#702B35]">
+              Curated Monograph &bull; سنڌ جا چُنڊ ڪردار
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-display font-bold text-[#173C50]">
+              Pioneers, Thinkers & Modern Voices
             </h2>
-            <p className="text-xs sm:text-sm text-neutral-400 max-w-xl">
-              Honoring Sindh's 20 greatest historical pioneers, Sufi teachers, digital media creators, and statesmen.
+            <p className="text-sm text-[#202426]/70 max-w-xl font-serif">
+              A permanent editorial registry honoring the statesmen, Sufi philosophers, literary architects, and contemporary digital storytellers of Sindh.
             </p>
           </div>
 
           <Link
             href="/personalities"
-            className="text-xs font-bold text-[#cfa83b] hover:text-[#f5d475] inline-flex items-center gap-1.5 shrink-0 transition-colors"
+            className="text-xs font-bold text-[#702B35] hover:text-[#173C50] inline-flex items-center gap-1.5 transition-colors font-mono tracking-wider"
           >
-            <span>View All 20 Luminaries</span>
+            <span>Complete 20-Profile Directory</span>
             <ArrowUpRight className="h-4 w-4" />
           </Link>
         </div>
 
-        {/* Filter Pills */}
-        <div className="flex flex-wrap gap-2 mb-8">
+        {/* Category Selector Tabs */}
+        <div className="flex flex-wrap gap-2 mb-10 pb-2 border-b border-[#702B35]/10">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`text-xs px-3.5 py-1.5 rounded-lg font-medium transition-all ${
+              className={`text-xs px-3.5 py-1.5 rounded-sm transition-all font-medium ${
                 activeCategory === cat
-                  ? "bg-[#770b1b] text-white border border-[#cfa83b]"
-                  : "bg-[#12070a] text-neutral-400 hover:text-white border border-[#770b1b]/30"
+                  ? "bg-[#702B35] text-[#FAF6EF] font-semibold"
+                  : "bg-transparent text-[#202426]/70 hover:text-[#702B35] hover:bg-[#F4EEE2]"
               }`}
             >
               {cat}
@@ -326,172 +246,241 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Profiles Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPersonalities.slice(0, 6).map((p, idx) => {
-            const displayImg = p.profilePicture;
-            return (
-              <div
-                key={p.slug}
-                className="group relative rounded-2xl border border-[#770b1b]/40 bg-[#12070a] overflow-hidden hover:border-[#cfa83b]/60 hover:shadow-[0_4px_24px_rgba(119,11,27,0.35)] transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="relative h-56 w-full overflow-hidden bg-[#1a0c11]">
-                    {displayImg ? (
-                      <img
-                        src={displayImg}
-                        alt={p.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#770b1b]/30 to-[#09152b]/50">
-                        <Award className="h-16 w-16 text-[#cfa83b]/40" />
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#12070a] via-transparent to-transparent" />
-                    
-                    <span className="absolute top-3 left-3 bg-[#770b1b]/90 backdrop-blur-md border border-[#cfa83b]/40 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-md uppercase tracking-wider">
+        {/* Editorial Layout: 1 Spotlight Featured Luminary + 4 Editorial Story Profiles */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Main Editorial Spotlight (Col 1-7) */}
+          {spotlightLuminary && (
+            <div className="lg:col-span-7 bg-[#F4EEE2] border border-[#702B35]/20 rounded-lg p-6 sm:p-8 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between text-xs font-mono text-[#702B35] uppercase tracking-wider mb-4 border-b border-[#702B35]/15 pb-2">
+                  <span>Archival Spotlight</span>
+                  <span>{spotlightLuminary.category}</span>
+                </div>
+
+                <div className="relative aspect-[16/10] w-full rounded overflow-hidden mb-6 bg-[#E8DFC8]">
+                  <img
+                    src={spotlightLuminary.profilePicture || "/hero_visual.jpg"}
+                    alt={spotlightLuminary.name}
+                    className="w-full h-full object-cover object-top filter contrast-[105%]"
+                  />
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl font-display font-bold text-[#173C50] leading-snug">
+                  <Link href={`/personalities/${spotlightLuminary.slug}`} className="hover:text-[#702B35] transition-colors">
+                    {spotlightLuminary.name}
+                  </Link>
+                </h3>
+
+                <p className="mt-3 text-sm sm:text-base text-[#202426]/85 font-serif leading-relaxed text-justify">
+                  {spotlightLuminary.biography}
+                </p>
+
+                {spotlightLuminary.achievements && spotlightLuminary.achievements.length > 0 && (
+                  <div className="mt-6 pt-4 border-t border-[#702B35]/15">
+                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#702B35] block mb-2">
+                      Key Civilizational Contributions
+                    </span>
+                    <ul className="space-y-1.5 text-xs text-[#202426]/80 font-serif">
+                      {spotlightLuminary.achievements.slice(0, 3).map((ach, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <span className="text-[#702B35] font-bold">&mdash;</span>
+                          <span>{ach}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-8 pt-4 border-t border-[#702B35]/20 flex items-center justify-between">
+                <span className="text-xs font-mono text-[#202426]/60">Monograph No. 01</span>
+                <Link
+                  href={`/personalities/${spotlightLuminary.slug}`}
+                  className="text-xs font-bold text-[#702B35] hover:text-[#173C50] inline-flex items-center gap-1 group font-mono"
+                >
+                  <span>Read Full Biographical Record</span>
+                  <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {/* Secondary Editorial Column: 4 Curated Profiles (Col 8-12) */}
+          <div className="lg:col-span-5 flex flex-col divide-y divide-[#702B35]/15 border-t border-b lg:border-t-0 lg:border-b-0 border-[#702B35]/15">
+            {secondaryLuminaries.map((p, idx) => (
+              <article key={p.slug} className="py-5 first:pt-0 last:pb-0 group">
+                <div className="flex gap-4 items-start">
+                  <div className="w-20 h-24 shrink-0 rounded overflow-hidden bg-[#E8DFC8] border border-[#702B35]/20">
+                    <img
+                      src={p.profilePicture || "/hero_visual.jpg"}
+                      alt={p.name}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </div>
+                  <div className="flex-1 space-y-1">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#702B35] font-bold">
                       {p.category}
                     </span>
-                  </div>
-
-                  <div className="p-6">
-                    <h3 className="text-xl font-display font-bold text-white group-hover:text-[#f5d475] transition-colors leading-snug">
-                      <Link href={`/personalities/${p.slug}`}>{p.name}</Link>
-                    </h3>
-                    <p className="text-neutral-400 text-xs sm:text-sm mt-2 line-clamp-3 leading-relaxed font-light">
+                    <h4 className="text-base font-display font-bold text-[#173C50] group-hover:text-[#702B35] transition-colors leading-snug">
+                      <Link href={`/personalities/${p.slug}`}>
+                        {p.name}
+                      </Link>
+                    </h4>
+                    <p className="text-xs text-[#202426]/75 font-serif line-clamp-2 leading-relaxed">
                       {p.biography}
                     </p>
+                    <Link
+                      href={`/personalities/${p.slug}`}
+                      className="inline-flex items-center gap-1 text-[11px] font-mono font-semibold text-[#702B35] pt-1"
+                    >
+                      <span>Examine Record</span> &rarr;
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* 3. ESSAYS & POSITIVE STORIES: EDITORIAL READING ROOM */}
+      <section className="border-t border-[#702B35]/15 bg-[#F4EEE2] py-16 lg:py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 border-b border-[#702B35]/20 pb-4">
+            <div>
+              <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#702B35] block mb-1">
+                Constructive Dispatches &bull; مثبت ڪهاڻيون
+              </span>
+              <h2 className="text-3xl font-display font-bold text-[#173C50]">
+                Positive Transformations Across Sindh
+              </h2>
+            </div>
+            <Link 
+              href="/blog" 
+              className="text-xs font-mono font-bold text-[#702B35] hover:text-[#173C50] inline-flex items-center gap-1.5"
+            >
+              <span>View All Published Articles</span>
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {articles.slice(0, 3).map((art, idx) => (
+              <article 
+                key={art.slug} 
+                className="bg-[#FAF6EF] rounded-lg border border-[#702B35]/15 overflow-hidden flex flex-col justify-between hover:border-[#702B35]/40 transition-all shadow-xs"
+              >
+                <div>
+                  <div className="relative aspect-[16/10] w-full bg-[#EAE2D2] overflow-hidden">
+                    <img 
+                      src={art.coverImage || "/hero_visual.jpg"} 
+                      alt={art.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    />
+                  </div>
+
+                  <div className="p-6 space-y-2">
+                    <div className="flex items-center justify-between text-[11px] font-mono text-[#702B35]">
+                      <span className="uppercase tracking-wider font-bold">{art.category}</span>
+                      <span className="text-[#202426]/60">{art.readTime || "6 min read"}</span>
+                    </div>
+
+                    <h3 className="text-lg font-display font-bold text-[#173C50] hover:text-[#702B35] transition-colors leading-snug">
+                      <Link href={`/blog/${art.slug}`}>{art.title}</Link>
+                    </h3>
+
+                    {art.subtitle && (
+                      <p className="text-xs text-[#202426]/75 font-serif line-clamp-3 leading-relaxed">
+                        {art.subtitle}
+                      </p>
+                    )}
                   </div>
                 </div>
 
-                <div className="p-6 pt-0 border-t border-[#770b1b]/25 mt-2 flex items-center justify-between">
-                  <span className="text-[11px] text-neutral-500 font-mono">
-                    Luminary #{idx + 1}
-                  </span>
-                  <Link
-                    href={`/personalities/${p.slug}`}
-                    className="text-xs font-bold text-[#cfa83b] hover:text-[#f5d475] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                <div className="p-6 pt-0 border-t border-[#702B35]/10 mt-4 flex items-center justify-between">
+                  <span className="text-[11px] font-mono text-[#202426]/50">Report 0{idx + 1}</span>
+                  <Link 
+                    href={`/blog/${art.slug}`}
+                    className="text-xs font-mono font-semibold text-[#702B35] hover:text-[#173C50] inline-flex items-center gap-1"
                   >
-                    <span>Read Biography</span> &rarr;
+                    <span>Read Full Essay</span> &rarr;
                   </Link>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-
-      </section>
-
-      {/* 4. POSITIVE SINDH STORIES & INITIATIVES */}
-      <section className="border-t border-[#770b1b]/30 bg-[#090306]/90 py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
-          
-          {/* Left Column: Purpose Manifesto */}
-          <div className="lg:col-span-6 space-y-6">
-            <div className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-[#f5d475] uppercase border-b border-[#770b1b]/40 pb-2">
-              <Feather className="h-4 w-4" />
-              The Platform Manifesto
-            </div>
-            
-            <h2 className="text-3xl sm:text-4xl font-display font-black text-white leading-tight">
-              A Stage for Positive Change Across Sindh
-            </h2>
-
-            <div className="space-y-4 text-neutral-300 font-light leading-relaxed text-sm sm:text-base text-justify">
-              {(config.aboutText || []).map((para, idx) => (
-                <p key={idx} className={idx === 0 ? "text-white font-normal border-l-2 border-[#cfa83b] pl-4" : ""}>
-                  {para}
-                </p>
-              ))}
-            </div>
-
-            <div className="p-6 rounded-2xl bg-gradient-to-r from-[#770b1b]/25 to-[#09152b]/40 border border-[#cfa83b]/30 space-y-2">
-              <h4 className="font-display font-bold text-[#f5d475] text-base">
-                "جيئي سنڌ، سدائين گُلزار سنڌ"
-              </h4>
-              <p className="text-xs text-neutral-400 leading-relaxed">
-                Sindh Connect is welcoming contributions from writers, historians, teachers, and digital filmmakers documenting positive progress across every district.
-              </p>
-            </div>
-          </div>
-
-          {/* Right Column: Featured Stories Feed */}
-          <div className="lg:col-span-6 space-y-6">
-            <div className="flex items-center justify-between border-b border-[#770b1b]/40 pb-2">
-              <h3 className="text-xs font-bold tracking-widest text-[#f5d475] uppercase">
-                Positive Sindh Stories
-              </h3>
-              <Link href="/blog" className="text-xs font-bold text-neutral-400 hover:text-[#cfa83b] transition-colors">
-                View All Articles &rarr;
-              </Link>
-            </div>
-
-            <div className="space-y-4">
-              {articles.slice(0, 3).map((art, idx) => (
-                <article
-                  key={idx}
-                  className="p-5 rounded-2xl border border-[#770b1b]/35 bg-[#12070a] hover:border-[#cfa83b]/60 transition-all space-y-2 group"
-                >
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="text-[#f5d475] font-bold uppercase tracking-wider bg-[#770b1b]/20 px-2 py-0.5 rounded border border-[#770b1b]/50">
-                      {art.category}
-                    </span>
-                    <span className="text-neutral-500 font-mono">{art.readTime || "5 min read"}</span>
-                  </div>
-                  <h4 className="text-base sm:text-lg font-display font-bold text-white group-hover:text-[#f5d475] transition-colors leading-snug">
-                    <Link href={`/blog/${art.slug}`}>{art.title}</Link>
-                  </h4>
-                  {art.subtitle && (
-                    <p className="text-xs text-neutral-400 line-clamp-2 leading-relaxed font-light">
-                      {art.subtitle}
-                    </p>
-                  )}
-                </article>
-              ))}
-            </div>
+              </article>
+            ))}
           </div>
 
         </div>
       </section>
 
-      {/* 5. CULTURAL EVENTS & GALLERY GLIMPSE */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 border-b border-[#770b1b]/30 pb-4">
+      {/* 4. HERITAGE & VISUAL ARCHIVE: DIGITAL MUSEUM GALLERY GLIMPSE */}
+      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 border-b border-[#702B35]/15 pb-4">
           <div>
-            <span className="text-xs font-bold tracking-widest text-[#f5d475] uppercase block mb-1">
-              Sindh Visual Archive
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#702B35] block mb-1">
+              Visual Plates &bull; آثارِ قديم ۽ ثقافت
             </span>
-            <h2 className="text-3xl font-display font-extrabold text-white">
-              Glimpses of Heritage & Gatherings
+            <h2 className="text-3xl font-display font-bold text-[#173C50]">
+              Monuments & Material Culture
             </h2>
           </div>
-          <Link href="/gallery" className="text-xs font-bold text-[#cfa83b] hover:text-[#f5d475]">
-            Explore Full Gallery &rarr;
+          <Link href="/gallery" className="text-xs font-mono font-bold text-[#702B35] hover:text-[#173C50] inline-flex items-center gap-1.5">
+            <span>Explore Full Photographic Archive</span>
+            <ArrowUpRight className="h-4 w-4" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {gallery.slice(0, 4).map((item, idx) => (
-            <div 
+            <figure 
               key={idx}
-              className="group aspect-[3/4] relative overflow-hidden rounded-2xl border border-[#770b1b]/40 bg-[#12070a]"
+              className="bg-[#F4EEE2] p-2.5 rounded-lg border border-[#702B35]/15 space-y-2.5 shadow-xs"
             >
-              <img 
-                src={item.imageUrl} 
-                alt={item.title} 
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent flex flex-col justify-end p-4 opacity-90 group-hover:opacity-100 transition-opacity">
-                <span className="text-[10px] text-[#f5d475] font-bold block mb-1 uppercase tracking-wider">
-                  0{idx + 1}
-                </span>
-                <h3 className="text-xs sm:text-sm font-bold text-white tracking-tight leading-snug">
-                  {item.title}
-                </h3>
+              <div className="aspect-[4/3] relative overflow-hidden rounded bg-[#EAE2D2]">
+                <img 
+                  src={item.imageUrl} 
+                  alt={item.title} 
+                  className="w-full h-full object-cover grayscale-[10%] hover:grayscale-0 transition-all duration-500" 
+                />
               </div>
-            </div>
+              <figcaption className="px-1 text-xs font-serif">
+                <span className="text-[10px] font-mono text-[#702B35] uppercase tracking-wider block font-bold">
+                  Archive Plate {idx + 1} &bull; {item.category || "Heritage"}
+                </span>
+                <p className="font-semibold text-[#173C50] leading-snug mt-0.5">
+                  {item.title}
+                </p>
+              </figcaption>
+            </figure>
           ))}
+        </div>
+      </section>
+
+      {/* 5. EDITORIAL MANIFESTO: CONCLUDING PHILOSOPHICAL STATEMENT */}
+      <section className="border-t border-[#702B35]/15 bg-[#173C50] text-[#F4EEE2] py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#C3A36A] font-semibold">
+            The Sindh Connect Commitment
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-display font-bold text-white">
+            "جيئي سنڌ، سدائين گُلزار سنڌ"
+          </h2>
+          <p className="text-sm sm:text-base font-serif leading-relaxed text-white/80 text-justify sm:text-center">
+            {config.aboutText[1]}
+          </p>
+          <div className="pt-2">
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-[#702B35] hover:bg-[#853440] text-white text-xs font-mono font-semibold tracking-wider transition-colors"
+            >
+              <span>Read the Full Editorial Charter</span>
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </section>
 

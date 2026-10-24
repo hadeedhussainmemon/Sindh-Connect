@@ -16,12 +16,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Sindh Connect | Heritage, Culture, Icons & Positive Stories",
-  description: "The premier digital portal celebrating Sindh's 5,000-year heritage, Sufi legacy, visionary leaders, digital creators, and positive community triumphs.",
+  title: "Sindh Connect | Editorial Archive of Sindhi Heritage, Luminaries & Culture",
+  description: "An authoritative cultural publication and living archive celebrating 5,000 years of Indus civilization, Sufi philosophy, indigenous craftsmanship, visionary leaders, and contemporary creators.",
   metadataBase: new URL("https://sindhconnect.com"),
   openGraph: {
-    title: "Sindh Connect - The Heart & Soul of the Indus",
-    description: "Discover Sindh's rich 5,000-year civilization, inspiring personalities, cultural landmarks, and positive achievements.",
+    title: "Sindh Connect | Editorial Cultural Archive & Magazine",
+    description: "Discover 5,000 years of Indus civilization, Sufi mysticism, historical luminaries, and modern creators.",
     url: "https://sindhconnect.com",
     siteName: "Sindh Connect",
     locale: "en_US",
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sindh Connect - Heritage, Leaders & Creators",
-    description: "Celebrating Sindh's heritage, iconic creators, leaders, and uplifting positive stories.",
+    title: "Sindh Connect | The Soul of the Indus",
+    description: "An authoritative digital archive documenting Sindh's history, luminaries, and positive transformations.",
   },
   icons: {
     icon: [
@@ -47,11 +47,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${inter.variable} h-full antialiased dark`}>
-      <body className="min-h-full flex flex-col bg-[#090305] text-[#f9f5f0] font-sans selection:bg-[#d4af37] selection:text-[#090305]">
+    <html lang="en" className={`${outfit.variable} ${inter.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col bg-[#FAF6EF] text-[#202426] font-sans selection:bg-[#702B35] selection:text-[#FAF6EF]">
         <AuthProvider>
           <Navbar />
-          <main className="flex-grow pt-16 flex flex-col">{children}</main>
+          <main className="flex-grow pt-20 flex flex-col">{children}</main>
           <Footer />
         </AuthProvider>
       </body>
