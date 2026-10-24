@@ -6,6 +6,7 @@ import Credentials from "next-auth/providers/credentials";
 import dbConnect from "@/lib/db";
 import User, { UserRole } from "@/models/User";
 import { authConfig } from "./auth.config";
+import { verifyPassword, hashPassword } from "@/lib/password";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -25,18 +26,28 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!credentials?.email || !credentials?.password) return null;
 
         await dbConnect();
-        const user = await User.findOne({ email: credentials.email });
+        const user = await User.findOne({ email: (credentials.email as string).toLowerCase().trim() });
+        if (!user || !user.password) return null;
 
-        // Note: In production you should verify password using bcrypt
-        if (user && user.password === credentials.password) {
-          return {
-            id: user._id.toString(),
-            name: user.name,
-            email: user.email,
-            role: user.role || UserRole.USER,
-          };
+        const isValid = await verifyPassword(credentials.password as string, user.password);
+        if (!isValid) return null;
+
+        // Transparently upgrade legacy plain-text password to scrypt hash on successful login
+        if (!user.password.includes(":")) {
+          try {
+            user.password = await hashPassword(credentials.password as string);
+            await user.save();
+          } catch (e) {
+            console.error("Failed to upgrade legacy password hash", e);
+          }
         }
-        return null;
+
+        return {
+          id: user._id.toString(),
+          name: user.name,
+          email: user.email,
+          role: user.role || UserRole.USER,
+        };
       },
     }),
   ],

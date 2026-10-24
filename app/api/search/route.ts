@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
+export const dynamic = "force-dynamic";
 import dbConnect from "@/lib/db";
 import ArticleModel from "@/models/Article";
 import EventModel from "@/models/Event";
 import PersonalityModel from "@/models/Personality";
 
+function escapeRegex(text: string): string {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const q = searchParams.get("q") || "";
+  const rawQ = searchParams.get("q") || "";
+  const q = rawQ.trim().slice(0, 80);
 
   if (!q || q.length < 2) {
     return NextResponse.json({ results: [] });
@@ -14,72 +20,78 @@ export async function GET(req: Request) {
 
   try {
     await dbConnect();
+    const safeRegex = new RegExp(escapeRegex(q), "i");
 
-    // Run all searches in parallel
+    // Execute targeted projection queries in parallel
     const [articles, events, personalities] = await Promise.all([
       ArticleModel.find({
         $or: [
-          { title: { $regex: q, $options: "i" } },
-          { content: { $regex: q, $options: "i" } },
-          { category: { $regex: q, $options: "i" } }
+          { title: safeRegex },
+          { subtitle: safeRegex },
+          { category: safeRegex },
+          { tags: safeRegex }
         ]
       })
-        .select("title category slug")
+        .select("title subtitle slug category coverImage publishedAt")
         .limit(10)
         .lean(),
 
       EventModel.find({
         $or: [
-          { title: { $regex: q, $options: "i" } },
-          { description: { $regex: q, $options: "i" } }
+          { title: safeRegex },
+          { description: safeRegex },
+          { location: safeRegex }
         ]
       })
-        .select("title date status")
+        .select("title description date status location")
         .limit(10)
         .lean(),
 
       PersonalityModel.find({
         status: "approved",
         $or: [
-          { name: { $regex: q, $options: "i" } },
-          { biography: { $regex: q, $options: "i" } },
-          { category: { $regex: q, $options: "i" } }
+          { name: safeRegex },
+          { biography: safeRegex },
+          { category: safeRegex },
+          { company: safeRegex }
         ]
       })
-        .select("name category slug profilePicture images")
+        .select("name category slug profilePicture biography")
         .limit(10)
-        .lean(),
+        .lean()
     ]);
 
-    // Format results into a unified structure
-    const formattedResults = [
-      ...articles.map((a: any) => ({
-        _id: a._id,
-        title: a.title,
-        type: "Article",
-        subtitle: a.category,
-        url: `/blog/${a.slug}`,
-      })),
-      ...events.map((e: any) => ({
-        _id: e._id,
-        title: e.title,
-        type: "Event",
-        subtitle: new Date(e.date).toLocaleDateString(),
-        url: `/events`,
-      })),
-      ...personalities.map((p: any) => ({
-        _id: p._id,
-        title: p.name,
-        type: "Personality",
-        subtitle: p.category,
-        image: p.profilePicture || p.images?.[0],
-        url: `/personalities/${p.slug}`,
-      })),
-    ];
+    const formattedArticles = articles.map((art: any) => ({
+      _id: art._id.toString(),
+      title: art.title,
+      type: "Article",
+      subtitle: art.subtitle || `${art.category} • Sindh Connect Story`,
+      image: art.coverImage || "",
+      url: `/blog/${art.slug}`
+    }));
 
-    return NextResponse.json({ results: formattedResults });
+    const formattedEvents = events.map((ev: any) => ({
+      _id: ev._id.toString(),
+      title: ev.title,
+      type: "Event",
+      subtitle: `${new Date(ev.date).toLocaleDateString()} • ${ev.location || "Sindh"}`,
+      url: `/events`
+    }));
+
+    const formattedPersonalities = personalities.map((p: any) => ({
+      _id: p._id.toString(),
+      title: p.name,
+      type: "Personality",
+      subtitle: `${p.category} • ${p.biography ? p.biography.slice(0, 100) + '...' : ''}`,
+      image: p.profilePicture || "",
+      url: `/personalities/${p.slug}`
+    }));
+
+    return NextResponse.json(
+      { results: [...formattedPersonalities, ...formattedArticles, ...formattedEvents] },
+      { headers: { "Cache-Control": "public, s-maxage=30, stale-while-revalidate=15" } }
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
-

@@ -2,11 +2,12 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 import dbConnect from "@/lib/db";
 import SiteConfig from "@/models/SiteConfig";
+import { auth } from "@/auth";
 
 export async function GET() {
   try {
     await dbConnect();
-    let config = await SiteConfig.findOne({ key: "main" });
+    let config = await SiteConfig.findOne({ key: "main" }).lean();
     if (!config) {
       config = await SiteConfig.create({ key: "main" });
     }
@@ -20,11 +21,34 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    // Restrict configuration modifications strictly to authenticated Administrators
+    const session = await auth();
+    const role = (session?.user as any)?.role;
+    if (!session?.user || role !== "Admin") {
+      return NextResponse.json({ error: "Forbidden. Administrator credentials required." }, { status: 403 });
+    }
+
     await dbConnect();
     const data = await req.json();
-    let config = await SiteConfig.findOneAndUpdate(
+
+    // Whitelist and sanitize permitted site configuration fields
+    const allowedFields = [
+      "headline", "subheadline", "logoUrl", "faviconUrl", "heroImageUrl",
+      "aboutIntro", "vision", "mission", "coreValues", "objectives",
+      "selectionCriteria", "categories", "whyUs", "founderMessage",
+      "impact", "joinUs", "aboutText"
+    ];
+
+    const sanitizedData: any = {};
+    for (const key of allowedFields) {
+      if (data[key] !== undefined) {
+        sanitizedData[key] = data[key];
+      }
+    }
+
+    const config = await SiteConfig.findOneAndUpdate(
       { key: "main" },
-      { $set: data },
+      { $set: sanitizedData },
       { new: true, upsert: true }
     );
     return NextResponse.json(config);
