@@ -4,12 +4,12 @@ import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Loader2, LogIn, Mail, Lock, Sparkles, ArrowRight, ShieldCheck } from "lucide-react";
+import { Loader2, Mail, Lock, ArrowLeft, Shield, Sparkles } from "lucide-react";
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const callbackUrl = searchParams.get("callbackUrl") || "/admin";
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -30,7 +30,7 @@ function LoginForm() {
     });
 
     if (res?.error) {
-      setError("Invalid email address or password. Please verify credentials.");
+      setError("Invalid credentials. Please verify your email and password.");
       setLoading(false);
     } else {
       router.push(callbackUrl);
@@ -39,74 +39,86 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center px-4 py-12 sm:py-16">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-parchment flex flex-col items-center justify-center p-4 relative selection:bg-maroon selection:text-parchment">
+      {/* Subtle Ajrak Heritage Watermark Grid */}
+      <div className="absolute inset-0 ajrak-subtle-pattern opacity-40 pointer-events-none" />
+
+      {/* Top back to home link */}
+      <div className="absolute top-6 left-6 z-10">
+        <Link 
+          href="/" 
+          className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-maroon hover:text-indigo px-3 py-1.5 rounded-lg border border-maroon/20 bg-ivory/80 backdrop-blur-xs transition-colors"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          <span>Return to Sindh Connect</span>
+        </Link>
+      </div>
+
+      <div className="w-full max-w-md relative z-10 space-y-6">
         
-        {/* Header Badge */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-block group mb-4">
-            <div className="relative inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-[#12070a] border-2 border-[#cfa83b]/60 shadow-[0_0_24px_rgba(119,11,27,0.4)] group-hover:scale-105 transition-transform duration-300">
-              <span className="text-2xl font-black text-[#cfa83b]">S</span>
-              <span className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#770b1b] text-[8px] text-white border border-[#cfa83b]">
-                ★
-              </span>
+        {/* Masthead Header with Brand Logo */}
+        <div className="text-center space-y-2">
+          <Link href="/" className="inline-block group">
+            <div className="h-16 w-16 mx-auto rounded-2xl bg-ivory border border-maroon/30 shadow-md p-2 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+              <img 
+                src="/logo.png" 
+                alt="Sindh Connect" 
+                className="w-full h-full object-contain" 
+              />
             </div>
           </Link>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#770b1b]/20 border border-[#cfa83b]/35 text-[11px] font-bold text-[#f5d475] mb-2 uppercase tracking-wider">
-            سنڌ ڪنيڪٽ &bull; Member Access
+          
+          <div className="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-widest text-maroon pt-1">
+            <span>سنڌ ڪنيڪٽ &bull; Staff & Editorial Portal</span>
           </div>
-          <h1 className="text-3xl font-display font-black text-white">
-            Welcome to <span className="text-[#cfa83b]">Sindh Connect</span>
+
+          <h1 className="text-2xl sm:text-3xl font-display font-extrabold text-indigo">
+            Portal Authentication
           </h1>
-          <p className="text-neutral-400 text-xs sm:text-sm mt-1">
-            Access cultural submissions, bookmark archives, and join discussions.
+          <p className="text-xs text-charcoal/70 font-serif max-w-xs mx-auto leading-relaxed">
+            Sign in to manage the cultural archive, approve luminary monographs, and edit traditional crafts.
           </p>
         </div>
 
-        {/* Card Form */}
-        <div className="bg-[#12070a] border border-[#770b1b]/45 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-          {/* Subtle Ajrak background glow */}
-          <div className="absolute top-0 right-0 w-36 h-36 bg-[#770b1b]/20 rounded-full blur-3xl pointer-events-none" />
-
+        {/* Clean Editorial Card */}
+        <div className="bg-ivory border border-maroon/25 rounded-3xl p-6 sm:p-8 shadow-xl space-y-5">
           {error && (
-            <div className="bg-red-500/10 border border-red-500/30 text-red-300 p-3.5 rounded-xl text-xs sm:text-sm text-center mb-6">
+            <div className="bg-maroon/10 border border-maroon/30 text-maroon p-3.5 rounded-xl text-xs font-medium text-center">
               {error}
             </div>
           )}
-          
-          <form onSubmit={handleSubmit} className="space-y-5">
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-300 mb-2">
+              <label className="block text-xs font-mono font-bold uppercase tracking-wider text-charcoal/80 mb-1.5">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-3.5 h-4 w-4 text-[#cfa83b]" />
+                <Mail className="absolute left-3.5 top-3 h-4 w-4 text-maroon/70 pointer-events-none" />
                 <input
                   type="email"
                   required
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full bg-[#1b0c11] border border-[#770b1b]/50 rounded-xl py-3 pl-11 pr-4 text-white text-sm focus:border-[#cfa83b] focus:outline-none transition-all placeholder-neutral-500"
-                  placeholder="name@domain.com"
+                  placeholder="editor@sindhconnect.com"
+                  className="w-full bg-parchment border border-maroon/25 rounded-xl py-2.5 pl-10 pr-3 text-xs text-charcoal placeholder-charcoal/40 focus:outline-hidden focus:border-maroon focus:ring-1 focus:ring-maroon transition-all"
                 />
               </div>
             </div>
 
             <div>
-              <div className="flex justify-between items-center mb-2">
-                <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-300">
-                  Password
-                </label>
-              </div>
+              <label className="block text-xs font-mono font-bold uppercase tracking-wider text-charcoal/80 mb-1.5">
+                Passcode
+              </label>
               <div className="relative">
-                <Lock className="absolute left-4 top-3.5 h-4 w-4 text-[#cfa83b]" />
+                <Lock className="absolute left-3.5 top-3 h-4 w-4 text-maroon/70 pointer-events-none" />
                 <input
                   type="password"
                   required
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  className="w-full bg-[#1b0c11] border border-[#770b1b]/50 rounded-xl py-3 pl-11 pr-4 text-white text-sm focus:border-[#cfa83b] focus:outline-none transition-all placeholder-neutral-500"
                   placeholder="••••••••"
+                  className="w-full bg-parchment border border-maroon/25 rounded-xl py-2.5 pl-10 pr-3 text-xs text-charcoal placeholder-charcoal/40 focus:outline-hidden focus:border-maroon focus:ring-1 focus:ring-maroon transition-all"
                 />
               </div>
             </div>
@@ -114,31 +126,31 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-[#770b1b] to-[#981326] hover:from-[#981326] hover:to-[#b0172e] text-[#f7eee1] font-bold py-3.5 rounded-xl transition-all border border-[#cfa83b]/50 shadow-[0_4px_20px_rgba(119,11,27,0.4)] disabled:opacity-50 flex justify-center items-center gap-2 mt-4 text-sm uppercase tracking-wider"
+              className="w-full mt-2 py-3 rounded-xl bg-maroon hover:bg-maroon-hover text-parchment text-xs font-bold uppercase tracking-wider transition-all shadow-md disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
             >
               {loading ? (
-                <Loader2 className="h-5 w-5 animate-spin text-[#cfa83b]" />
+                <Loader2 className="h-4 w-4 animate-spin text-parchment" />
               ) : (
                 <>
-                  <LogIn className="h-4 w-4 text-[#cfa83b]" />
-                  <span>Sign In to Sindh Connect</span>
+                  <Shield className="h-4 w-4 text-sand" />
+                  <span>Authenticate & Enter CMS</span>
                 </>
               )}
             </button>
           </form>
 
-          {/* Bottom Link to Register */}
-          <div className="mt-8 text-center text-xs text-neutral-400 border-t border-[#770b1b]/30 pt-6">
-            <span>New to Sindh Connect?</span>{" "}
-            <Link 
-              href="/register" 
-              className="text-[#cfa83b] font-bold hover:text-[#f5d475] inline-flex items-center gap-1 hover:underline ml-1"
-            >
-              <span>Create an account</span>
-              <ArrowRight className="h-3 w-3" />
-            </Link>
+          {/* Quick hint for editorial access */}
+          <div className="pt-3 border-t border-maroon/15 text-center">
+            <span className="text-[11px] font-mono text-charcoal/60">
+              Default editorial credentials: <span className="font-bold text-maroon">admin@sindhconnect.com</span>
+            </span>
           </div>
         </div>
+
+        {/* Footer Cultural Colophon */}
+        <p className="text-center text-[11px] text-charcoal/50 font-serif">
+          Dedicated to the preservation of 5,000 years of Sindhi civilization.
+        </p>
 
       </div>
     </div>
@@ -148,8 +160,8 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="flex items-center justify-center min-h-[70vh]">
-        <Loader2 className="h-8 w-8 text-[#cfa83b] animate-spin" />
+      <div className="flex items-center justify-center min-h-screen bg-parchment">
+        <Loader2 className="h-8 w-8 text-maroon animate-spin" />
       </div>
     }>
       <LoginForm />

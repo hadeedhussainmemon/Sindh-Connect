@@ -13,7 +13,7 @@ export default function Footer() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<string | null>(null);
 
-  if (pathname?.startsWith("/admin")) return null;
+  if (pathname?.startsWith("/admin") || pathname === "/login") return null;
 
   const editorialLinks = [
     { name: t("navPersonalities", "Luminaries & Pioneers"), href: "/personalities" },

@@ -75,13 +75,23 @@ export default function GoogleTranslateBridge() {
 
       {/* Hide intrusive Google Translate top banner while preserving translation text changes */}
       <style jsx global>{`
-        .goog-te-banner-frame.skiptranslate {
+        .goog-te-banner-frame,
+        .goog-te-banner-frame.skiptranslate,
+        iframe.goog-te-banner-frame {
           display: none !important;
+          visibility: hidden !important;
+          height: 0 !important;
+          width: 0 !important;
+          border: none !important;
         }
         body {
           top: 0px !important;
+          position: static !important;
         }
         .goog-te-gadget {
+          display: none !important;
+        }
+        .skiptranslate {
           display: none !important;
         }
         #goog-gt-tt, .goog-te-balloon-frame {

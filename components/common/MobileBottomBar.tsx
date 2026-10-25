@@ -23,7 +23,7 @@ export default function MobileBottomBar({ onOpenSearch }: MobileBottomBarProps) 
   const { language, setLanguage, t, isRtl } = useLanguage();
   const [showLangSheet, setShowLangSheet] = useState(false);
 
-  if (pathname?.startsWith("/admin")) return null;
+  if (pathname?.startsWith("/admin") || pathname === "/login") return null;
 
   const langOptions: { code: Language; label: string; native: string; flag: string }[] = [
     { code: "en", label: "English", native: "English", flag: "🇬🇧" },

@@ -29,7 +29,7 @@ export default function Navbar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  if (pathname?.startsWith("/admin")) return null;
+  if (pathname?.startsWith("/admin") || pathname === "/login") return null;
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -257,7 +257,7 @@ export default function Navbar() {
                 </button>
               ) : (
                 <Link
-                  href="/auth/signin"
+                  href="/login"
                   className="text-xs font-medium text-indigo hover:text-maroon px-1.5 py-1"
                 >
                   {t("navSignIn", "Sign In")}
@@ -389,7 +389,7 @@ export default function Navbar() {
                 </button>
               ) : (
                 <Link
-                  href="/auth/signin"
+                  href="/login"
                   onClick={() => setIsMobileOpen(false)}
                   className="w-full text-center py-2 text-xs text-indigo font-semibold"
                 >
