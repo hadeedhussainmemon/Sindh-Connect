@@ -18,28 +18,38 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Sindh Connect | Editorial Archive of Sindhi Heritage, Luminaries & Culture",
+  title: "Sindh Connect | Living Heritage, Luminaries & Culture of Sindh",
   description: "An authoritative cultural publication and living archive celebrating 5,000 years of Indus civilization, Sufi philosophy, indigenous craftsmanship, visionary leaders, and contemporary creators.",
   metadataBase: new URL("https://sindhconnect.com"),
   openGraph: {
-    title: "Sindh Connect | Editorial Cultural Archive & Magazine",
-    description: "Discover 5,000 years of Indus civilization, Sufi mysticism, historical luminaries, and modern creators.",
+    title: "Sindh Connect | The Soul of the Indus Civilization",
+    description: "An authoritative cultural archive documenting Sindh's 5,000-year history, historical luminaries, traditional crafts, and positive community stories.",
     url: "https://sindhconnect.com",
     siteName: "Sindh Connect",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 1200,
+        alt: "Sindh Connect Cultural Identity Motif - Map of Sindh with Ajrak geometry",
+      },
+    ],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sindh Connect | The Soul of the Indus",
-    description: "An authoritative digital archive documenting Sindh's history, luminaries, and positive transformations.",
+    title: "Sindh Connect | Living Heritage & Cultural Archive",
+    description: "An authoritative digital archive documenting Sindh's history, luminaries, crafts, and positive transformations.",
+    images: ["/og-image.jpg"],
   },
   icons: {
     icon: [
+      { url: "/favicon.png", type: "image/png" },
       { url: "/favicon.svg", type: "image/svg+xml" }
     ],
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
 };
 
