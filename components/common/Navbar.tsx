@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import LanguageToggle from "@/components/common/LanguageToggle";
+import MobileBottomBar from "@/components/common/MobileBottomBar";
+import MobileSearchModal from "@/components/common/MobileSearchModal";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 
 export default function Navbar() {
@@ -19,9 +21,9 @@ export default function Navbar() {
   const { t } = useLanguage();
   
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isArchiveDropdownOpen, setIsArchiveDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [logoUrl, setLogoUrl] = useState("/logo.jpg");
   
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -263,21 +265,21 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* 5. Mobile Controls (Language Toggle + Search Toggle + Hamburger) */}
+            {/* 5. Mobile Controls (Language Toggle + Quick Search + Drawer Toggle) */}
             <div className="flex lg:hidden items-center gap-1.5">
               <LanguageToggle />
 
               <button
-                onClick={() => setIsSearchExpanded(!isSearchExpanded)}
-                className="p-2 rounded-md text-indigo hover:bg-ivory"
-                aria-label="Toggle mobile search"
+                onClick={() => setIsSearchModalOpen(true)}
+                className="p-2 rounded-lg text-indigo hover:bg-ivory active:scale-95 transition-transform"
+                aria-label="Open search dialog"
               >
-                <Search className="h-5 w-5" />
+                <Search className="h-5 w-5 text-maroon" />
               </button>
 
               <button
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
-                className="p-2 rounded-md text-indigo hover:bg-ivory transition-colors"
+                className="p-2 rounded-lg text-indigo hover:bg-ivory transition-colors active:scale-95"
                 aria-label="Toggle navigation menu"
               >
                 {isMobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -285,25 +287,19 @@ export default function Navbar() {
             </div>
 
           </div>
-
-          {/* Expanded Mobile Search Input */}
-          {isSearchExpanded && (
-            <form onSubmit={handleSearchSubmit} className="lg:hidden pb-3 pt-1 animate-fadeIn">
-              <div className="relative">
-                <Search className="absolute left-3.5 top-3 h-4 w-4 text-maroon" />
-                <input
-                  type="text"
-                  placeholder="Search luminaries, history, crafts..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-ivory border border-maroon/30 rounded-lg py-2 pl-10 pr-4 text-xs text-charcoal placeholder-charcoal/50 focus:outline-hidden focus:border-maroon focus:bg-parchment"
-                />
-              </div>
-            </form>
-          )}
-
         </div>
       </nav>
+
+      {/* Mobile Global Search Modal */}
+      <MobileSearchModal 
+        isOpen={isSearchModalOpen} 
+        onClose={() => setIsSearchModalOpen(false)} 
+      />
+
+      {/* Floating Bottom Navigation Bar (Smart Mobile Experience) */}
+      <MobileBottomBar 
+        onOpenSearch={() => setIsSearchModalOpen(true)} 
+      />
 
       {/* Mobile Drawer Menu */}
       {isMobileOpen && (

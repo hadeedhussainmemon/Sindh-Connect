@@ -242,40 +242,40 @@ export default function Home() {
 
         </div>
 
-        {/* Quiet Supporting Statistics Row: 3 Verified Editorial Metrics */}
-        <div className="mt-12 pt-8 border-t border-maroon/15 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl">
-          <div className="space-y-1">
-            <span className="block text-2xl sm:text-3xl font-serif font-bold text-maroon">
+        {/* Quiet Supporting Statistics Row: 3 Verified Editorial Metrics (Mobile Micro-Strip) */}
+        <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-maroon/15 grid grid-cols-3 gap-3 sm:gap-6 max-w-4xl">
+          <div className="space-y-0.5 sm:space-y-1">
+            <span className="block text-xl sm:text-3xl font-serif font-bold text-maroon">
               {t("heroStat1Value", "5,000+")}
             </span>
-            <span className="text-xs font-mono text-charcoal/75 uppercase tracking-wider block font-medium">
+            <span className="text-[10px] sm:text-xs font-mono text-charcoal/75 uppercase tracking-wider block font-medium leading-tight">
               {t("heroStat1Label", "Years of Documented History")}
             </span>
-            <p className="text-[11px] text-charcoal/60 font-serif">
+            <p className="text-[9px] sm:text-[11px] text-charcoal/60 font-serif hidden sm:block">
               {t("heroStat1Desc", "Indus Valley civilization to modern Sindh")}
             </p>
           </div>
 
-          <div className="space-y-1">
-            <span className="block text-2xl sm:text-3xl font-serif font-bold text-indigo">
+          <div className="space-y-0.5 sm:space-y-1 border-x border-maroon/10 px-2 sm:px-0 sm:border-x-0">
+            <span className="block text-xl sm:text-3xl font-serif font-bold text-indigo">
               {personalityCount}
             </span>
-            <span className="text-xs font-mono text-charcoal/75 uppercase tracking-wider block font-medium">
+            <span className="text-[10px] sm:text-xs font-mono text-charcoal/75 uppercase tracking-wider block font-medium leading-tight">
               {t("heroStat2Label", "Documented Personalities")}
             </span>
-            <p className="text-[11px] text-charcoal/60 font-serif">
+            <p className="text-[9px] sm:text-[11px] text-charcoal/60 font-serif hidden sm:block">
               {t("heroStat2Desc", "Verified historical icons, Sufi poets & leaders")}
             </p>
           </div>
 
-          <div className="space-y-1">
-            <span className="block text-2xl sm:text-3xl font-serif font-bold text-maroon">
+          <div className="space-y-0.5 sm:space-y-1">
+            <span className="block text-xl sm:text-3xl font-serif font-bold text-maroon">
               {articleCount}
             </span>
-            <span className="text-xs font-mono text-charcoal/75 uppercase tracking-wider block font-medium">
+            <span className="text-[10px] sm:text-xs font-mono text-charcoal/75 uppercase tracking-wider block font-medium leading-tight">
               {t("heroStat3Label", "Published Cultural Stories")}
             </span>
-            <p className="text-[11px] text-charcoal/60 font-serif">
+            <p className="text-[9px] sm:text-[11px] text-charcoal/60 font-serif hidden sm:block">
               {t("heroStat3Desc", "Grassroots triumphs & positive community essays")}
             </p>
           </div>
@@ -520,7 +520,8 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Products Grid / Mobile Horizontal Snap Carousel */}
+        <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 overflow-x-auto sm:overflow-visible pb-4 sm:pb-0 snap-x snap-mandatory no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
           {(products.length > 0 ? products.slice(0, 4) : [
             {
               title: "Hand-Blocked 16-Stage Indigo & Crimson Ajrak Shawl",
@@ -561,7 +562,7 @@ export default function Home() {
           ]).map((prod, idx) => (
             <div 
               key={idx}
-              className="group rounded-2xl border border-maroon/20 bg-ivory overflow-hidden flex flex-col justify-between hover:border-maroon/50 hover:shadow-md transition-all"
+              className="group min-w-[260px] sm:min-w-0 snap-start rounded-2xl border border-maroon/20 bg-ivory overflow-hidden flex flex-col justify-between hover:border-maroon/50 hover:shadow-md transition-all shrink-0 sm:shrink"
             >
               <div>
                 <div className="aspect-[4/3] relative overflow-hidden bg-parchment">

@@ -61,7 +61,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-maroon/20 bg-indigo text-ivory pt-16 pb-12 font-sans">
+    <footer className="border-t border-maroon/20 bg-indigo text-ivory pt-16 pb-24 lg:pb-12 font-sans">
       {/* Decorative Ajrak Tri-tone Ribbon */}
       <div className="h-1 w-full bg-gradient-to-r from-maroon via-sand to-indigo -mt-16 mb-16" />
 
