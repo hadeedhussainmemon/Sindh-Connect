@@ -139,13 +139,16 @@ function CMSContent() {
         }
       });
   };
-  // Stale state safe upload function using functional state updaters
+  // Stale state safe upload function with automatic background removal for logos
   const uploadFile = async (e: React.ChangeEvent<HTMLInputElement>, targetKey: string, callback: (url: string) => void) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(targetKey);
     const formData = new FormData();
     formData.append("file", file);
+    if (targetKey === "logoImg" || targetKey === "heroImg") {
+      formData.append("isLogo", "true");
+    }
     try {
       const res = await fetch("/api/upload", {
         method: "POST",
@@ -479,6 +482,16 @@ function CMSContent() {
                     <div>
                       <label className="text-xs text-neutral-300 block mb-1">Secondary CTA Route</label>
                       <input type="text" value={siteConfig.secondaryCtaLink} onChange={(e) => setSiteConfig({ ...siteConfig, secondaryCtaLink: e.target.value })} placeholder="/blog" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-xs text-neutral-300 block mb-1">Brand Logo (Auto Background Removal Supported)</label>
+                    <div className="flex gap-2">
+                      <input type="text" value={siteConfig.logoUrl || ""} onChange={(e) => setSiteConfig({ ...siteConfig, logoUrl: e.target.value })} placeholder="/logo.png" className="flex-grow bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
+                      <label className="bg-emerald-950/40 hover:bg-emerald-900 border border-emerald-500/20 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-emerald-300">
+                        {uploading === "logoImg" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                        <input type="file" className="hidden" onChange={(e) => uploadFile(e, "logoImg", (url) => setSiteConfig(prev => ({ ...prev, logoUrl: url })))} />
+                      </label>
                     </div>
                   </div>
                   <div>

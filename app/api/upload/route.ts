@@ -32,6 +32,7 @@ export async function POST(req: Request) {
 
     const formData = await req.formData();
     const file = formData.get("file") as File;
+    const isLogo = formData.get("isLogo") === "true";
     if (!file) {
       return NextResponse.json({ error: "No image file provided" }, { status: 400 });
     }
@@ -51,7 +52,69 @@ export async function POST(req: Request) {
     }
 
     const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    let buffer = Buffer.from(bytes);
+
+    // If uploading a logo or explicit background removal is requested, process with sharp
+    if (isLogo) {
+      try {
+        const sharp = require("sharp");
+        const image = sharp(buffer);
+        const { width, height } = await image.metadata();
+        const { data } = await image.ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+
+        // BFS flood-fill transparency from edges on white/off-white background
+        const visited = new Uint8Array(width * height);
+        const queue: number[] = [];
+
+        const isWhite = (idx: number) => {
+          const r = data[idx * 4];
+          const g = data[idx * 4 + 1];
+          const b = data[idx * 4 + 2];
+          return r > 238 && g > 238 && b > 238;
+        };
+
+        for (let x = 0; x < width; x++) {
+          const top = x;
+          const btm = (height - 1) * width + x;
+          if (isWhite(top)) { queue.push(top); visited[top] = 1; }
+          if (isWhite(btm)) { queue.push(btm); visited[btm] = 1; }
+        }
+        for (let y = 0; y < height; y++) {
+          const left = y * width;
+          const right = y * width + (width - 1);
+          if (!visited[left] && isWhite(left)) { queue.push(left); visited[left] = 1; }
+          if (!visited[right] && isWhite(right)) { queue.push(right); visited[right] = 1; }
+        }
+
+        let head = 0;
+        while (head < queue.length) {
+          const curr = queue[head++];
+          const cx = curr % width;
+          const cy = Math.floor(curr / width);
+          data[curr * 4 + 3] = 0; // Alpha -> 0
+
+          const neighbors = [
+            cx > 0 ? curr - 1 : -1,
+            cx < width - 1 ? curr + 1 : -1,
+            cy > 0 ? curr - width : -1,
+            cy < height - 1 ? curr + width : -1
+          ];
+
+          for (const n of neighbors) {
+            if (n !== -1 && !visited[n] && isWhite(n)) {
+              visited[n] = 1;
+              queue.push(n);
+            }
+          }
+        }
+
+        buffer = await sharp(data, { raw: { width, height, channels: 4 } })
+          .png({ compressionLevel: 9 })
+          .toBuffer();
+      } catch (e) {
+        console.warn("Sharp background removal fallback:", e);
+      }
+    }
 
     // 4. Secure stream upload with automatic optimization transformations
     const uploadResult = await new Promise<any>((resolve, reject) => {

@@ -9,7 +9,7 @@ import { useLanguage } from "@/components/providers/LanguageProvider";
 export default function Footer() {
   const pathname = usePathname();
   const { t } = useLanguage();
-  const [logoUrl, setLogoUrl] = useState("/logo.jpg");
+  const [logoUrl, setLogoUrl] = useState("/logo.png");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<string | null>(null);
 

@@ -24,7 +24,7 @@ export default function Navbar() {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isArchiveDropdownOpen, setIsArchiveDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [logoUrl, setLogoUrl] = useState("/logo.jpg");
+  const [logoUrl, setLogoUrl] = useState("/logo.png");
   
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
