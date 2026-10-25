@@ -5,6 +5,13 @@ export interface ICoreValue {
   description: string;
 }
 
+export interface IHeroSlide {
+  imageUrl: string;
+  placeName: string;
+  badge?: string;
+  description?: string;
+}
+
 export interface ISiteConfig extends Document {
   key: string;
   headline: string;
@@ -18,6 +25,7 @@ export interface ISiteConfig extends Document {
   heroCaptionLocation?: string;
   heroCaptionTitle?: string;
   heroCaptionDescription?: string;
+  heroSlides?: IHeroSlide[];
   logoUrl: string;
   faviconUrl: string;
   heroImageUrl: string;
@@ -48,7 +56,37 @@ const SiteConfigSchema = new Schema<ISiteConfig>({
   heroCaptionLocation: { type: String, default: "Larkana District, Sindh" },
   heroCaptionTitle: { type: String, default: "Mohenjo-daro & The Great Stupa" },
   heroCaptionDescription: { type: String, default: "UNESCO World Heritage citadel of the Indus civilization, celebrated for municipal sanitation, kiln-baked masonry, and peaceful civic governance." },
-  logoUrl: { type: String, default: "/logo.jpg" },
+  heroSlides: {
+    type: [
+      {
+        imageUrl: { type: String },
+        placeName: { type: String },
+        badge: { type: String },
+        description: { type: String }
+      }
+    ],
+    default: [
+      {
+        imageUrl: "/hero_visual.jpg",
+        placeName: "Mohenjo-daro & The Great Stupa",
+        badge: "Plate 01 • Larkana",
+        description: "5,000-year-old Indus Valley metropolis renowned for advanced urban water systems and peaceful civic governance."
+      },
+      {
+        imageUrl: "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=1200&auto=format&fit=crop&q=80",
+        placeName: "Shrine of Lal Shahbaz Qalandar",
+        badge: "Plate 02 • Sehwan Sharif",
+        description: "13th-century spiritual sanctuary celebrated for universal pluralism, Sufi ecstasy, and golden architectural domes."
+      },
+      {
+        imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1200&auto=format&fit=crop&q=80",
+        placeName: "Bhit Shah & Shah Abdul Latif Sanctuary",
+        badge: "Plate 03 • Matiari",
+        description: "Eternal home of the Shah Jo Risalo, classical Sur music, and the sacred heart of Sindhi poetic humanism."
+      }
+    ]
+  },
+  logoUrl: { type: String, default: "/logo.png" },
   faviconUrl: { type: String, default: "/favicon.svg" },
   heroImageUrl: { type: String, default: "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=1200&auto=format&fit=crop&q=80" },
   

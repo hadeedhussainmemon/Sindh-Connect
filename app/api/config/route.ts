@@ -37,6 +37,7 @@ export async function POST(req: Request) {
       "primaryCtaText", "primaryCtaLink",
       "secondaryCtaText", "secondaryCtaLink",
       "heroCaptionBadge", "heroCaptionLocation", "heroCaptionTitle", "heroCaptionDescription",
+      "heroSlides",
       "logoUrl", "faviconUrl", "heroImageUrl",
       "aboutIntro", "vision", "mission", "coreValues", "objectives",
       "selectionCriteria", "categories", "whyUs", "founderMessage",

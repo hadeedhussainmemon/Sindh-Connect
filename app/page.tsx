@@ -23,6 +23,13 @@ interface Article {
   coverImage?: string;
 }
 
+interface HeroSlide {
+  imageUrl: string;
+  placeName: string;
+  badge?: string;
+  description?: string;
+}
+
 interface SiteConfig {
   headline: string;
   subheadline: string;
@@ -35,6 +42,7 @@ interface SiteConfig {
   heroCaptionLocation?: string;
   heroCaptionTitle?: string;
   heroCaptionDescription?: string;
+  heroSlides?: HeroSlide[];
   aboutText: string[];
   heroImageUrl?: string;
 }
@@ -59,6 +67,7 @@ export default function Home() {
   const [events, setEvents] = useState<EventData[]>([]);
   const [products, setProducts] = useState<any[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [heroSlideIdx, setHeroSlideIdx] = useState<number>(0);
   const [heroImageSrc, setHeroImageSrc] = useState<string>("/hero_visual.jpg");
   const [heroImgFailed, setHeroImgFailed] = useState<boolean>(false);
 
@@ -114,6 +123,41 @@ export default function Home() {
       if (Array.isArray(prodData) && prodData.length > 0) setProducts(prodData);
     });
   }, []);
+
+  // Active slides list with safe fallbacks
+  const heroSlides: HeroSlide[] = (config.heroSlides && config.heroSlides.length > 0)
+    ? config.heroSlides
+    : [
+        {
+          imageUrl: config.heroImageUrl || "/hero_visual.jpg",
+          placeName: config.heroCaptionTitle || "Mohenjo-daro & The Great Stupa",
+          badge: config.heroCaptionBadge || "Plate 01 • Larkana",
+          description: config.heroCaptionDescription || "5,000-year-old Indus Valley civilization citadel renowned for municipal sanitation and peaceful civic governance."
+        },
+        {
+          imageUrl: "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=1200&auto=format&fit=crop&q=80",
+          placeName: "Shrine of Lal Shahbaz Qalandar",
+          badge: "Plate 02 • Sehwan Sharif",
+          description: "13th-century spiritual sanctuary celebrated for universal pluralism, Sufi ecstasy, and golden domes."
+        },
+        {
+          imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1200&auto=format&fit=crop&q=80",
+          placeName: "Bhit Shah & Shah Abdul Latif Sanctuary",
+          badge: "Plate 03 • Matiari",
+          description: "Eternal home of the Shah Jo Risalo, classical Sur melodies, and the sacred heart of Sindhi poetic humanism."
+        }
+      ];
+
+  // 3-second automatic carousel transition
+  useEffect(() => {
+    if (heroSlides.length <= 1) return;
+    const interval = setInterval(() => {
+      setHeroSlideIdx((prev) => (prev + 1) % heroSlides.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [heroSlides.length]);
+
+  const currentSlide = heroSlides[heroSlideIdx % heroSlides.length] || heroSlides[0];
 
   const categories = [
     "All",
@@ -192,50 +236,76 @@ export default function Home() {
 
           </div>
 
-          {/* Right Column: Authentic Heritage Photograph & Restrained Framing */}
+          {/* Right Column: 3-Image Automatic Rotating Heritage Gallery (3s Interval) */}
           <div className="lg:col-span-5 flex flex-col justify-center">
             <figure className="relative bg-ivory p-2.5 sm:p-3 rounded-md border border-maroon/20 shadow-xs">
               
               {/* Subtle Ajrak Textile Accent Band on Border */}
               <div 
-                className="absolute top-3 bottom-3 -left-1 w-1 bg-gradient-to-b from-indigo via-maroon to-sand rounded-l" 
+                className="absolute top-3 bottom-3 -left-1 w-1 bg-gradient-to-b from-indigo via-maroon to-sand rounded-l z-20" 
                 aria-hidden="true" 
               />
 
               <div className="relative aspect-[4/5] sm:aspect-[4/5] w-full overflow-hidden rounded bg-ivory">
-                {!heroImgFailed ? (
-                  <img
-                    src={heroImageSrc}
-                    alt={t("heroCaptionTitle", config.heroCaptionTitle || "Sindh Heritage")}
-                    className="w-full h-full object-cover object-center grayscale-[10%] contrast-[105%]"
-                    onError={() => {
-                      if (heroImageSrc !== "/hero_visual.jpg") {
-                        setHeroImageSrc("/hero_visual.jpg");
-                      } else {
-                        setHeroImgFailed(true);
-                      }
-                    }}
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-parchment">
-                    <span className="w-6 h-6 rotate-45 bg-maroon mb-3" />
-                    <span className="text-xs font-mono uppercase tracking-widest text-maroon font-bold">
-                      {t("heroEyebrow", "Sindh Heritage Archive")}
-                    </span>
-                    <p className="text-xs text-charcoal/70 font-serif mt-1">
-                      {t("heroCaptionTitle", config.heroCaptionTitle || "Mohenjo-daro Archaeological Settlement")}
-                    </p>
-                  </div>
-                )}
+                {heroSlides.map((slide, idx) => {
+                  const isActive = idx === (heroSlideIdx % heroSlides.length);
+                  return (
+                    <div
+                      key={idx}
+                      className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                        isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+                      }`}
+                    >
+                      <img
+                        src={slide.imageUrl || "/hero_visual.jpg"}
+                        alt={slide.placeName}
+                        className="w-full h-full object-cover object-center filter contrast-[105%]"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "/hero_visual.jpg";
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
+                      
+                      {/* Floating Overlay Badge on the Image */}
+                      <div className="absolute bottom-3 left-3 right-3 text-white">
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-sand font-bold block mb-0.5">
+                          {slide.badge || `Plate 0${idx + 1}`}
+                        </span>
+                        <h4 className="text-sm font-display font-bold leading-tight drop-shadow-sm">
+                          {slide.placeName}
+                        </h4>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* 3-Dot Carousel Slide Indicators */}
+                <div className="absolute top-3 right-3 z-30 flex items-center gap-1.5 bg-black/40 backdrop-blur-xs px-2 py-1 rounded-full">
+                  {heroSlides.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setHeroSlideIdx(i)}
+                      aria-label={`Go to slide ${i + 1}`}
+                      className={`h-1.5 rounded-full transition-all ${
+                        (heroSlideIdx % heroSlides.length) === i
+                          ? "w-5 bg-sand"
+                          : "w-1.5 bg-white/40 hover:bg-white/80"
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
 
-              {/* Verified Editorial Caption */}
+              {/* Verified Editorial Caption linked to active slide */}
               <figcaption className="pt-3 pb-1 px-1 text-xs text-charcoal/80 font-serif leading-snug">
                 <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-maroon font-semibold mb-1">
-                  <span>{t("heroCaptionBadge", config.heroCaptionBadge || "Archaeological Plate 01")}</span>
-                  <span>{t("heroCaptionLoc", config.heroCaptionLocation || "Larkana District, Sindh")}</span>
+                  <span>{currentSlide.badge || `Heritage Plate 0${(heroSlideIdx % heroSlides.length) + 1}`}</span>
+                  <span>Auto-rotating &bull; 3s</span>
                 </div>
-                <strong>{t("heroCaptionTitle", config.heroCaptionTitle || "Mohenjo-daro & The Great Stupa")}</strong> &mdash; {t("heroCaptionDesc", config.heroCaptionDescription || "UNESCO World Heritage citadel of the Indus civilization, celebrated for municipal sanitation, kiln-baked masonry, and peaceful civic governance.")}
+                <strong className="text-indigo">{currentSlide.placeName}</strong>
+                {currentSlide.description && (
+                  <span> &mdash; {currentSlide.description}</span>
+                )}
               </figcaption>
             </figure>
           </div>

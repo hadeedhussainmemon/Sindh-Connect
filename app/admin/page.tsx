@@ -69,6 +69,11 @@ function CMSContent() {
     heroCaptionLocation: "",
     heroCaptionTitle: "",
     heroCaptionDescription: "",
+    heroSlides: [
+      { imageUrl: "/hero_visual.jpg", placeName: "Mohenjo-daro & The Great Stupa", badge: "Plate 01 • Larkana", description: "" },
+      { imageUrl: "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=1200&auto=format&fit=crop&q=80", placeName: "Shrine of Lal Shahbaz Qalandar", badge: "Plate 02 • Sehwan Sharif", description: "" },
+      { imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1200&auto=format&fit=crop&q=80", placeName: "Bhit Shah & Shah Abdul Latif Sanctuary", badge: "Plate 03 • Matiari", description: "" }
+    ],
     logoUrl: "",
     faviconUrl: "",
     heroImageUrl: ""
@@ -116,7 +121,12 @@ function CMSContent() {
             heroCaptionLocation: c.heroCaptionLocation || "Larkana District, Sindh",
             heroCaptionTitle: c.heroCaptionTitle || "Mohenjo-daro & The Great Stupa",
             heroCaptionDescription: c.heroCaptionDescription || "UNESCO World Heritage citadel of the Indus civilization, celebrated for municipal sanitation, kiln-baked masonry, and peaceful civic governance.",
-            logoUrl: c.logoUrl || "/logo.jpg",
+            heroSlides: (Array.isArray(c.heroSlides) && c.heroSlides.length > 0) ? c.heroSlides : [
+              { imageUrl: "/hero_visual.jpg", placeName: "Mohenjo-daro & The Great Stupa", badge: "Plate 01 • Larkana", description: "" },
+              { imageUrl: "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?w=1200&auto=format&fit=crop&q=80", placeName: "Shrine of Lal Shahbaz Qalandar", badge: "Plate 02 • Sehwan Sharif", description: "" },
+              { imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1200&auto=format&fit=crop&q=80", placeName: "Bhit Shah & Shah Abdul Latif Sanctuary", badge: "Plate 03 • Matiari", description: "" }
+            ],
+            logoUrl: c.logoUrl || "/logo.png",
             faviconUrl: c.faviconUrl || "/favicon.ico",
             heroImageUrl: c.heroImageUrl || "/hero_visual.jpg"
           });
@@ -522,6 +532,89 @@ function CMSContent() {
                     <label className="text-xs text-charcoal/80 block mb-1">Hero Caption Description</label>
                     <textarea value={siteConfig.heroCaptionDescription} onChange={(e) => setSiteConfig({ ...siteConfig, heroCaptionDescription: e.target.value })} rows={2} placeholder="Historical summary under plate" className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
                   </div>
+                  {/* 3-Image Automatic Rotating Hero Gallery Section */}
+                  <div className="pt-2 border-t border-maroon/15 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-maroon block">
+                        Rotating Hero Gallery (3 Photos & Place Names • 3s Interval)
+                      </span>
+                      <span className="text-[10px] font-mono text-charcoal/60">Auto-changes every 3s</span>
+                    </div>
+
+                    <div className="space-y-3">
+                      {(siteConfig.heroSlides || []).map((slide, sIdx) => (
+                        <div key={sIdx} className="p-3 rounded-xl bg-parchment border border-maroon/20 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[11px] font-mono font-bold text-indigo">
+                              Photo #{sIdx + 1}
+                            </span>
+                            <span className="text-[10px] font-mono text-maroon">Slide {sIdx + 1}</span>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <div>
+                              <label className="text-[10px] text-charcoal/70 block mb-0.5">Place / Monument Name</label>
+                              <input 
+                                type="text"
+                                value={slide.placeName || ""}
+                                onChange={(e) => {
+                                  const updated = [...siteConfig.heroSlides];
+                                  updated[sIdx] = { ...updated[sIdx], placeName: e.target.value };
+                                  setSiteConfig({ ...siteConfig, heroSlides: updated });
+                                }}
+                                placeholder="e.g. Mohenjo-daro & The Great Stupa"
+                                className="w-full bg-ivory border border-maroon/20 rounded-md p-1.5 text-xs text-indigo"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[10px] text-charcoal/70 block mb-0.5">District / Badge</label>
+                              <input 
+                                type="text"
+                                value={slide.badge || ""}
+                                onChange={(e) => {
+                                  const updated = [...siteConfig.heroSlides];
+                                  updated[sIdx] = { ...updated[sIdx], badge: e.target.value };
+                                  setSiteConfig({ ...siteConfig, heroSlides: updated });
+                                }}
+                                placeholder="Plate 01 • Larkana"
+                                className="w-full bg-ivory border border-maroon/20 rounded-md p-1.5 text-xs text-indigo"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="text-[10px] text-charcoal/70 block mb-0.5">Photo URL / Upload</label>
+                            <div className="flex gap-2">
+                              <input 
+                                type="text"
+                                value={slide.imageUrl || ""}
+                                onChange={(e) => {
+                                  const updated = [...siteConfig.heroSlides];
+                                  updated[sIdx] = { ...updated[sIdx], imageUrl: e.target.value };
+                                  setSiteConfig({ ...siteConfig, heroSlides: updated });
+                                }}
+                                placeholder="Image URL"
+                                className="flex-grow bg-ivory border border-maroon/20 rounded-md p-1.5 text-xs text-indigo"
+                              />
+                              <label className="bg-ivory hover:bg-parchment border border-maroon/25 px-2.5 flex items-center rounded-md cursor-pointer text-xs font-bold text-maroon">
+                                {uploading === `slide_${sIdx}` ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
+                                <input 
+                                  type="file" 
+                                  className="hidden" 
+                                  onChange={(e) => uploadFile(e, `slide_${sIdx}`, (url) => {
+                                    const updated = [...siteConfig.heroSlides];
+                                    updated[sIdx] = { ...updated[sIdx], imageUrl: url };
+                                    setSiteConfig(prev => ({ ...prev, heroSlides: updated }));
+                                  })} 
+                                />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
                   <button type="submit" className="py-2.5 rounded-lg bg-maroon hover:bg-maroon-hover text-parchment font-bold transition-all text-xs uppercase tracking-wide">
                     Save Hero & Site Config
                   </button>
