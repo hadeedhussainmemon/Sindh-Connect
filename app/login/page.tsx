@@ -138,13 +138,6 @@ function LoginForm() {
               )}
             </button>
           </form>
-
-          {/* Quick hint for editorial access */}
-          <div className="pt-3 border-t border-maroon/15 text-center">
-            <span className="text-[11px] font-mono text-charcoal/60">
-              Default editorial credentials: <span className="font-bold text-maroon">admin@sindhconnect.com</span>
-            </span>
-          </div>
         </div>
 
         {/* Footer Cultural Colophon */}

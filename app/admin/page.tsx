@@ -400,24 +400,24 @@ function CMSContent() {
   return (
     <div className="space-y-8">
       {/* Dashboard Section Metrics Card Panel */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-emerald-500/10 pb-6 mb-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-maroon/15 pb-6 mb-4">
         <div>
-          <h1 className="text-3xl font-display font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
-            <Sparkles className="h-6 w-6 text-amber-400" />
-            Administrative CMS Portal
+          <h1 className="text-3xl font-display font-extrabold text-indigo uppercase tracking-wider flex items-center gap-2">
+            <Sparkles className="h-6 w-6 text-maroon" />
+            Sindh Connect Editorial CMS
           </h1>
-          <p className="text-xs text-emerald-100/50 mt-1">Manage database objects, dynamic configuration and search optimization.</p>
+          <p className="text-xs text-charcoal/60 mt-1">Curate living historical luminaries, review community nominations, and manage authentic handicrafts.</p>
         </div>
         <button
           onClick={fetchData}
-          className="px-4 py-2 bg-emerald-950/40 border border-emerald-500/20 rounded-lg hover:bg-emerald-950/80 transition-all text-xs font-semibold text-emerald-300"
+          className="px-4 py-2 bg-parchment border-maroon/20 border border-maroon/25 rounded-lg hover:bg-maroon text-parchment/80 transition-all text-xs font-semibold text-maroon font-bold"
         >
           Refresh Metrics
         </button>
       </div>
       {loading ? (
         <div className="flex justify-center items-center py-20">
-          <Loader2 className="h-10 w-10 text-amber-400 animate-spin" />
+          <Loader2 className="h-10 w-10 text-maroon animate-spin" />
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-8">
@@ -426,79 +426,79 @@ function CMSContent() {
             <div className="space-y-8 animate-fadeIn">
               <div className="grid grid-cols-2 md:grid-cols-7 gap-4">
                 {[
-                  { label: "Products", val: products.length, icon: ShoppingBag, color: "text-amber-400" },
+                  { label: "Products", val: products.length, icon: ShoppingBag, color: "text-maroon" },
                   { label: "Articles", val: articles.length, icon: FileText, color: "text-blue-400" },
                   { label: "Profiles (Approved)", val: personalities.filter(p => p.status !== 'pending').length, icon: User, color: "text-emerald-400" },
-                  { label: "Pending Nominees", val: personalities.filter(p => p.status === 'pending').length, icon: Clock, color: "text-amber-400" },
+                  { label: "Pending Nominees", val: personalities.filter(p => p.status === 'pending').length, icon: Clock, color: "text-maroon" },
                   { label: "Events", val: events.length, icon: Calendar, color: "text-teal-400" },
                   { label: "Gallery", val: gallery.length, icon: ImageIcon, color: "text-purple-400" },
                   { label: "Subscribers", val: subscribers.length, icon: Mail, color: "text-rose-400" },
                 ].map((stat, idx) => {
                   const Icon = stat.icon;
                   return (
-                    <div key={idx} className={`p-4 rounded-xl border border-emerald-500/10 bg-emerald-950/10 ${stat.color} backdrop-blur-md`}>
+                    <div key={idx} className={`p-4 rounded-xl border border-maroon/15 bg-ivory border-maroon/20 ${stat.color} backdrop-blur-md`}>
                       <div className="flex justify-between items-center mb-2">
-                        <span className="text-[10px] font-medium uppercase tracking-wider text-emerald-100/70">{stat.label}</span>
+                        <span className="text-[10px] font-medium uppercase tracking-wider text-charcoal/70">{stat.label}</span>
                         <Icon className="h-4 w-4" />
                       </div>
-                      <span className="text-2xl font-display font-extrabold text-white">{stat.val}</span>
+                      <span className="text-2xl font-display font-extrabold text-indigo">{stat.val}</span>
                     </div>
                   );
                 })}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Site & Hero Section Configuration form */}
-                <form onSubmit={handleUpdateConfig} className="p-6 rounded-2xl bg-emerald-950/15 border border-emerald-500/10 flex flex-col gap-4">
-                  <h2 className="text-sm font-bold text-amber-400 flex items-center gap-1.5 border-b border-emerald-500/10 pb-2 uppercase tracking-wide">
+                <form onSubmit={handleUpdateConfig} className="p-6 rounded-2xl bg-ivory border-maroon/20 border border-maroon/15 flex flex-col gap-4">
+                  <h2 className="text-sm font-bold text-maroon flex items-center gap-1.5 border-b border-maroon/15 pb-2 uppercase tracking-wide">
                     <Settings className="h-4 w-4" /> Homepage Hero Section & Site Settings
                   </h2>
                   <div>
-                    <label className="text-xs text-neutral-300 block mb-1">Hero Eyebrow Label</label>
-                    <input type="text" placeholder="e.g. The Living Heritage of Sindh" value={siteConfig.eyebrowLabel} onChange={(e) => setSiteConfig({ ...siteConfig, eyebrowLabel: e.target.value })} className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
+                    <label className="text-xs text-charcoal/80 block mb-1">Hero Eyebrow Label</label>
+                    <input type="text" placeholder="e.g. The Living Heritage of Sindh" value={siteConfig.eyebrowLabel} onChange={(e) => setSiteConfig({ ...siteConfig, eyebrowLabel: e.target.value })} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
                   </div>
                   <div>
-                    <label className="text-xs text-neutral-300 block mb-1">Headline Text</label>
-                    <input type="text" value={siteConfig.headline} onChange={(e) => setSiteConfig({ ...siteConfig, headline: e.target.value })} required className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
+                    <label className="text-xs text-charcoal/80 block mb-1">Headline Text</label>
+                    <input type="text" value={siteConfig.headline} onChange={(e) => setSiteConfig({ ...siteConfig, headline: e.target.value })} required className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
                   </div>
                   <div>
-                    <label className="text-xs text-neutral-300 block mb-1">Subheadline Subtitle</label>
-                    <textarea value={siteConfig.subheadline} onChange={(e) => setSiteConfig({ ...siteConfig, subheadline: e.target.value })} required rows={2} className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
+                    <label className="text-xs text-charcoal/80 block mb-1">Subheadline Subtitle</label>
+                    <textarea value={siteConfig.subheadline} onChange={(e) => setSiteConfig({ ...siteConfig, subheadline: e.target.value })} required rows={2} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-xs text-neutral-300 block mb-1">Primary CTA Text</label>
-                      <input type="text" value={siteConfig.primaryCtaText} onChange={(e) => setSiteConfig({ ...siteConfig, primaryCtaText: e.target.value })} placeholder="Explore Personalities" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                      <label className="text-xs text-charcoal/80 block mb-1">Primary CTA Text</label>
+                      <input type="text" value={siteConfig.primaryCtaText} onChange={(e) => setSiteConfig({ ...siteConfig, primaryCtaText: e.target.value })} placeholder="Explore Personalities" className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
                     </div>
                     <div>
-                      <label className="text-xs text-neutral-300 block mb-1">Primary CTA Route</label>
-                      <input type="text" value={siteConfig.primaryCtaLink} onChange={(e) => setSiteConfig({ ...siteConfig, primaryCtaLink: e.target.value })} placeholder="/personalities" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                      <label className="text-xs text-charcoal/80 block mb-1">Primary CTA Route</label>
+                      <input type="text" value={siteConfig.primaryCtaLink} onChange={(e) => setSiteConfig({ ...siteConfig, primaryCtaLink: e.target.value })} placeholder="/personalities" className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-xs text-neutral-300 block mb-1">Secondary CTA Text</label>
-                      <input type="text" value={siteConfig.secondaryCtaText} onChange={(e) => setSiteConfig({ ...siteConfig, secondaryCtaText: e.target.value })} placeholder="Read Positive Stories" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                      <label className="text-xs text-charcoal/80 block mb-1">Secondary CTA Text</label>
+                      <input type="text" value={siteConfig.secondaryCtaText} onChange={(e) => setSiteConfig({ ...siteConfig, secondaryCtaText: e.target.value })} placeholder="Read Positive Stories" className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
                     </div>
                     <div>
-                      <label className="text-xs text-neutral-300 block mb-1">Secondary CTA Route</label>
-                      <input type="text" value={siteConfig.secondaryCtaLink} onChange={(e) => setSiteConfig({ ...siteConfig, secondaryCtaLink: e.target.value })} placeholder="/blog" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                      <label className="text-xs text-charcoal/80 block mb-1">Secondary CTA Route</label>
+                      <input type="text" value={siteConfig.secondaryCtaLink} onChange={(e) => setSiteConfig({ ...siteConfig, secondaryCtaLink: e.target.value })} placeholder="/blog" className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs text-neutral-300 block mb-1">Brand Logo (Auto Background Removal Supported)</label>
+                    <label className="text-xs text-charcoal/80 block mb-1">Brand Logo (Auto Background Removal Supported)</label>
                     <div className="flex gap-2">
-                      <input type="text" value={siteConfig.logoUrl || ""} onChange={(e) => setSiteConfig({ ...siteConfig, logoUrl: e.target.value })} placeholder="/logo.png" className="flex-grow bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
-                      <label className="bg-emerald-950/40 hover:bg-emerald-900 border border-emerald-500/20 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-emerald-300">
+                      <input type="text" value={siteConfig.logoUrl || ""} onChange={(e) => setSiteConfig({ ...siteConfig, logoUrl: e.target.value })} placeholder="/logo.png" className="flex-grow bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
+                      <label className="bg-parchment border-maroon/20 hover:bg-emerald-900 border border-maroon/25 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-maroon font-bold">
                         {uploading === "logoImg" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                         <input type="file" className="hidden" onChange={(e) => uploadFile(e, "logoImg", (url) => setSiteConfig(prev => ({ ...prev, logoUrl: url })))} />
                       </label>
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs text-neutral-300 block mb-1">Hero Image (Cloudinary or Direct URL)</label>
+                    <label className="text-xs text-charcoal/80 block mb-1">Hero Image (Cloudinary or Direct URL)</label>
                     <div className="flex gap-2">
-                      <input type="text" value={siteConfig.heroImageUrl} onChange={(e) => setSiteConfig({ ...siteConfig, heroImageUrl: e.target.value })} className="flex-grow bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
-                      <label className="bg-emerald-950/40 hover:bg-emerald-900 border border-emerald-500/20 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-emerald-300">
+                      <input type="text" value={siteConfig.heroImageUrl} onChange={(e) => setSiteConfig({ ...siteConfig, heroImageUrl: e.target.value })} className="flex-grow bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
+                      <label className="bg-parchment border-maroon/20 hover:bg-emerald-900 border border-maroon/25 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-maroon font-bold">
                         {uploading === "heroImg" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                         <input type="file" className="hidden" onChange={(e) => uploadFile(e, "heroImg", (url) => setSiteConfig(prev => ({ ...prev, heroImageUrl: url })))} />
                       </label>
@@ -506,36 +506,36 @@ function CMSContent() {
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-xs text-neutral-300 block mb-1">Hero Caption Badge</label>
-                      <input type="text" value={siteConfig.heroCaptionBadge} onChange={(e) => setSiteConfig({ ...siteConfig, heroCaptionBadge: e.target.value })} placeholder="Archaeological Plate 01" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                      <label className="text-xs text-charcoal/80 block mb-1">Hero Caption Badge</label>
+                      <input type="text" value={siteConfig.heroCaptionBadge} onChange={(e) => setSiteConfig({ ...siteConfig, heroCaptionBadge: e.target.value })} placeholder="Archaeological Plate 01" className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
                     </div>
                     <div>
-                      <label className="text-xs text-neutral-300 block mb-1">Hero Caption Location</label>
-                      <input type="text" value={siteConfig.heroCaptionLocation} onChange={(e) => setSiteConfig({ ...siteConfig, heroCaptionLocation: e.target.value })} placeholder="Larkana District, Sindh" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                      <label className="text-xs text-charcoal/80 block mb-1">Hero Caption Location</label>
+                      <input type="text" value={siteConfig.heroCaptionLocation} onChange={(e) => setSiteConfig({ ...siteConfig, heroCaptionLocation: e.target.value })} placeholder="Larkana District, Sindh" className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs text-neutral-300 block mb-1">Hero Caption Title</label>
-                    <input type="text" value={siteConfig.heroCaptionTitle} onChange={(e) => setSiteConfig({ ...siteConfig, heroCaptionTitle: e.target.value })} placeholder="Mohenjo-daro & The Great Stupa" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                    <label className="text-xs text-charcoal/80 block mb-1">Hero Caption Title</label>
+                    <input type="text" value={siteConfig.heroCaptionTitle} onChange={(e) => setSiteConfig({ ...siteConfig, heroCaptionTitle: e.target.value })} placeholder="Mohenjo-daro & The Great Stupa" className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
                   </div>
                   <div>
-                    <label className="text-xs text-neutral-300 block mb-1">Hero Caption Description</label>
-                    <textarea value={siteConfig.heroCaptionDescription} onChange={(e) => setSiteConfig({ ...siteConfig, heroCaptionDescription: e.target.value })} rows={2} placeholder="Historical summary under plate" className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
+                    <label className="text-xs text-charcoal/80 block mb-1">Hero Caption Description</label>
+                    <textarea value={siteConfig.heroCaptionDescription} onChange={(e) => setSiteConfig({ ...siteConfig, heroCaptionDescription: e.target.value })} rows={2} placeholder="Historical summary under plate" className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
                   </div>
-                  <button type="submit" className="py-2.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-emerald-950 font-bold transition-all text-xs uppercase tracking-wide">
+                  <button type="submit" className="py-2.5 rounded-lg bg-maroon hover:bg-maroon-hover text-parchment font-bold transition-all text-xs uppercase tracking-wide">
                     Save Hero & Site Config
                   </button>
                 </form>
                 {/* Security Pass Form */}
-                <form onSubmit={handleUpdatePassword} className="p-6 rounded-2xl bg-emerald-950/15 border border-emerald-500/10 flex flex-col gap-4 h-fit">
-                  <h2 className="text-sm font-bold text-amber-400 flex items-center gap-1.5 border-b border-emerald-500/10 pb-2 uppercase tracking-wide">
+                <form onSubmit={handleUpdatePassword} className="p-6 rounded-2xl bg-ivory border-maroon/20 border border-maroon/15 flex flex-col gap-4 h-fit">
+                  <h2 className="text-sm font-bold text-maroon flex items-center gap-1.5 border-b border-maroon/15 pb-2 uppercase tracking-wide">
                     <Lock className="h-4 w-4" /> Administrative Passcode
                   </h2>
                   <div>
-                    <label className="text-xs text-neutral-300 block mb-1">New CMS Password</label>
-                    <input type="password" value={securityForm.newPassword} onChange={(e) => setSecurityForm({ newPassword: e.target.value })} required className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
+                    <label className="text-xs text-charcoal/80 block mb-1">New CMS Password</label>
+                    <input type="password" value={securityForm.newPassword} onChange={(e) => setSecurityForm({ newPassword: e.target.value })} required className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
                   </div>
-                  <button type="submit" className="py-2.5 rounded-lg bg-emerald-950 border border-emerald-500/20 hover:bg-emerald-900 text-emerald-300 font-bold transition-all text-xs uppercase tracking-wide">
+                  <button type="submit" className="py-2.5 rounded-lg bg-maroon text-parchment border border-maroon/25 hover:bg-emerald-900 text-maroon font-bold font-bold transition-all text-xs uppercase tracking-wide">
                     Update Credentials
                   </button>
                 </form>
@@ -545,8 +545,8 @@ function CMSContent() {
           {/* 1.5 TAB: PRODUCTS (SINDHI TRADITIONAL CRAFTS) */}
           {activeTab === "products" && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fadeIn">
-              <form onSubmit={handleSaveProduct} className="p-6 rounded-2xl bg-emerald-950/15 border border-emerald-500/10 flex flex-col gap-4 md:col-span-1 h-fit">
-                <h2 className="text-sm font-bold text-amber-400 flex items-center justify-between border-b border-emerald-500/10 pb-2 uppercase tracking-wide">
+              <form onSubmit={handleSaveProduct} className="p-6 rounded-2xl bg-ivory border-maroon/20 border border-maroon/15 flex flex-col gap-4 md:col-span-1 h-fit">
+                <h2 className="text-sm font-bold text-maroon flex items-center justify-between border-b border-maroon/15 pb-2 uppercase tracking-wide">
                   <span>{editProdId ? "Edit Sindhi Product" : "Add Traditional Product"}</span>
                   {editProdId && (
                     <button
@@ -576,24 +576,24 @@ function CMSContent() {
                 </h2>
 
                 <div>
-                  <label className="text-xs text-neutral-300 block mb-1">Product Title</label>
+                  <label className="text-xs text-charcoal/80 block mb-1">Product Title</label>
                   <input
                     type="text"
                     placeholder="e.g. Authentic 16-Stage Hand-Blocked Ajrak Shawl"
                     value={prodForm.title}
                     onChange={(e) => setProdForm({ ...prodForm, title: e.target.value })}
                     required
-                    className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white"
+                    className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs text-neutral-300 block mb-1">Craft Category</label>
+                    <label className="text-xs text-charcoal/80 block mb-1">Craft Category</label>
                     <select
                       value={prodForm.category}
                       onChange={(e) => setProdForm({ ...prodForm, category: e.target.value })}
-                      className="w-full bg-emerald-990 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-emerald-300"
+                      className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-maroon font-bold"
                     >
                       <option value="Ajrak Textiles">Ajrak Textiles</option>
                       <option value="Hala Blue Pottery (Kashikari)">Hala Blue Pottery</option>
@@ -603,43 +603,43 @@ function CMSContent() {
                     </select>
                   </div>
                   <div>
-                    <label className="text-xs text-neutral-300 block mb-1">Price (PKR)</label>
+                    <label className="text-xs text-charcoal/80 block mb-1">Price (PKR)</label>
                     <input
                       type="number"
                       placeholder="Price"
                       value={prodForm.price}
                       onChange={(e) => setProdForm({ ...prodForm, price: Number(e.target.value) })}
                       required
-                      className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white"
+                      className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs text-neutral-300 block mb-1">Craft Origin City</label>
+                  <label className="text-xs text-charcoal/80 block mb-1">Craft Origin City</label>
                   <input
                     type="text"
                     placeholder="e.g. Hala, Bhit Shah, Thatta, Thar"
                     value={prodForm.originCity}
                     onChange={(e) => setProdForm({ ...prodForm, originCity: e.target.value })}
                     required
-                    className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white"
+                    className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo"
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs text-neutral-300 block mb-1">Artisan / Guild Name</label>
+                  <label className="text-xs text-charcoal/80 block mb-1">Artisan / Guild Name</label>
                   <input
                     type="text"
                     placeholder="e.g. Ustad Ghulam Rasool Soomro"
                     value={prodForm.artisanName}
                     onChange={(e) => setProdForm({ ...prodForm, artisanName: e.target.value })}
-                    className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white"
+                    className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo"
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs text-neutral-300 block mb-1">Product Photograph (Upload or CDN URL)</label>
+                  <label className="text-xs text-charcoal/80 block mb-1">Product Photograph (Upload or CDN URL)</label>
                   <div className="flex gap-2">
                     <input
                       type="text"
@@ -647,9 +647,9 @@ function CMSContent() {
                       value={prodForm.primaryImage}
                       onChange={(e) => setProdForm({ ...prodForm, primaryImage: e.target.value })}
                       required
-                      className="flex-grow bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white"
+                      className="flex-grow bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo"
                     />
-                    <label className="bg-emerald-950/40 hover:bg-emerald-900 border border-emerald-500/20 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-emerald-300">
+                    <label className="bg-parchment border-maroon/20 hover:bg-emerald-900 border border-maroon/25 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-maroon font-bold">
                       {uploading === "prodImg" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                       <input
                         type="file"
@@ -665,34 +665,34 @@ function CMSContent() {
                 </div>
 
                 <div>
-                  <label className="text-xs text-neutral-300 block mb-1">Artisan Description & Specifications</label>
+                  <label className="text-xs text-charcoal/80 block mb-1">Artisan Description & Specifications</label>
                   <textarea
                     placeholder="Craftsmanship details, natural dyes, dimensions..."
                     value={prodForm.description}
                     onChange={(e) => setProdForm({ ...prodForm, description: e.target.value })}
                     required
                     rows={4}
-                    className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white"
+                    className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs text-neutral-300 block mb-1">WhatsApp Orders Number</label>
+                    <label className="text-xs text-charcoal/80 block mb-1">WhatsApp Orders Number</label>
                     <input
                       type="text"
                       placeholder="+923001234567"
                       value={prodForm.whatsappNumber}
                       onChange={(e) => setProdForm({ ...prodForm, whatsappNumber: e.target.value })}
-                      className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white"
+                      className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo"
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-neutral-300 block mb-1">Inventory Status</label>
+                    <label className="text-xs text-charcoal/80 block mb-1">Inventory Status</label>
                     <select
                       value={prodForm.inStock ? "yes" : "no"}
                       onChange={(e) => setProdForm({ ...prodForm, inStock: e.target.value === "yes" })}
-                      className="w-full bg-emerald-990 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-emerald-300"
+                      className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-maroon font-bold"
                     >
                       <option value="yes">In Stock (Ready)</option>
                       <option value="no">Made to Order</option>
@@ -702,7 +702,7 @@ function CMSContent() {
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-emerald-950 font-bold transition-all text-xs uppercase tracking-wide"
+                  className="w-full py-2.5 rounded-lg bg-maroon hover:bg-maroon-hover text-parchment font-bold transition-all text-xs uppercase tracking-wide"
                 >
                   {editProdId ? "Update Product" : "Publish Product to Shop"}
                 </button>
@@ -710,43 +710,43 @@ function CMSContent() {
 
               {/* Products List Table / Cards */}
               <div className="md:col-span-2 space-y-4">
-                <div className="flex items-center justify-between border-b border-emerald-500/10 pb-2">
-                  <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                <div className="flex items-center justify-between border-b border-maroon/15 pb-2">
+                  <h3 className="text-sm font-bold text-indigo uppercase tracking-wider">
                     Cataloged Sindhi Products ({products.length})
                   </h3>
-                  <span className="text-xs text-emerald-300 font-mono">Live on /shop</span>
+                  <span className="text-xs text-maroon font-bold font-mono">Live on /shop</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {products.length === 0 ? (
-                    <p className="text-xs text-neutral-500 col-span-full py-8 text-center">
+                    <p className="text-xs text-charcoal/50 col-span-full py-8 text-center">
                       No products added yet. Add an authentic craft above!
                     </p>
                   ) : (
                     products.map((prod) => (
                       <div
                         key={prod._id}
-                        className="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/10 flex flex-col justify-between space-y-3"
+                        className="p-4 rounded-xl bg-ivory border-maroon/20 border border-maroon/15 flex flex-col justify-between space-y-3"
                       >
                         <div className="flex gap-3">
                           <img
                             src={prod.primaryImage || "/hero_visual.jpg"}
                             alt={prod.title}
-                            className="w-20 h-20 rounded-lg object-cover bg-emerald-950/60 border border-emerald-500/20 shrink-0"
+                            className="w-20 h-20 rounded-lg object-cover bg-maroon text-parchment/60 border border-maroon/25 shrink-0"
                           />
                           <div className="space-y-1">
-                            <span className="text-[10px] uppercase font-mono font-bold text-amber-400 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-500/20">
+                            <span className="text-[10px] uppercase font-mono font-bold text-maroon bg-amber-950/40 px-2 py-0.5 rounded border border-amber-500/20">
                               {prod.category}
                             </span>
-                            <h4 className="font-bold text-white text-sm line-clamp-1">{prod.title}</h4>
-                            <p className="text-xs font-serif text-emerald-300 font-bold">
+                            <h4 className="font-bold text-indigo text-sm line-clamp-1">{prod.title}</h4>
+                            <p className="text-xs font-serif text-maroon font-bold font-bold">
                               {prod.currency} {Number(prod.price).toLocaleString()} &bull; {prod.originCity}
                             </p>
                           </div>
                         </div>
 
-                        <div className="flex justify-between items-center pt-2 border-t border-emerald-500/10">
-                          <span className={`text-[10px] font-mono font-bold ${prod.inStock ? 'text-emerald-400' : 'text-amber-400'}`}>
+                        <div className="flex justify-between items-center pt-2 border-t border-maroon/15">
+                          <span className={`text-[10px] font-mono font-bold ${prod.inStock ? 'text-emerald-400' : 'text-maroon'}`}>
                             {prod.inStock ? '● In Stock' : '○ Made to Order'}
                           </span>
                           <div className="flex gap-2">
@@ -782,13 +782,13 @@ function CMSContent() {
           {/* 2. TAB: PERSONALITIES */}
           {activeTab === "personalities" && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fadeIn">
-              <form onSubmit={handleSavePersonality} className="p-6 rounded-2xl bg-emerald-950/15 border border-emerald-500/10 flex flex-col gap-4 md:col-span-1 h-fit">
-                <h2 className="text-sm font-bold text-amber-400 flex items-center justify-between border-b border-emerald-500/10 pb-2 uppercase tracking-wide">
+              <form onSubmit={handleSavePersonality} className="p-6 rounded-2xl bg-ivory border-maroon/20 border border-maroon/15 flex flex-col gap-4 md:col-span-1 h-fit">
+                <h2 className="text-sm font-bold text-maroon flex items-center justify-between border-b border-maroon/15 pb-2 uppercase tracking-wide">
                   <span>{editPersSlug ? "Edit Profile" : "Add Profile"}</span>
                   {editPersSlug && <button type="button" onClick={() => { setEditPersSlug(null); setPersForm({ name: "", category: "Science", biography: "", achievements: "", images: "", profilePicture: "", birthDate: "", deathDate: "", company: "", website: "", linkedin: "", twitter: "", contact: "", isDeceased: "no" }); }} className="text-xs text-rose-400">Cancel</button>}
                 </h2>
-                <input type="text" placeholder="Full Name" value={persForm.name} onChange={(e) => setPersForm({ ...persForm, name: e.target.value })} required className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
-                <select value={persForm.category} onChange={(e) => setPersForm({ ...persForm, category: e.target.value })} className="w-full bg-emerald-990 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-emerald-300">
+                <input type="text" placeholder="Full Name" value={persForm.name} onChange={(e) => setPersForm({ ...persForm, name: e.target.value })} required className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
+                <select value={persForm.category} onChange={(e) => setPersForm({ ...persForm, category: e.target.value })} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-maroon font-bold">
                   <option value="Science">Science</option>
                   <option value="Philanthropy">Philanthropy</option>
                   <option value="Sports">Sports</option>
@@ -797,12 +797,12 @@ function CMSContent() {
                   <option value="Literature">Literature</option>
                   <option value="Technology">Technology</option>
                 </select>
-                <textarea placeholder="Biography (Markdown/Rich text)" value={persForm.biography} onChange={(e) => setPersForm({ ...persForm, biography: e.target.value })} required rows={5} className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
+                <textarea placeholder="Biography (Markdown/Rich text)" value={persForm.biography} onChange={(e) => setPersForm({ ...persForm, biography: e.target.value })} required rows={5} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
                 <div>
-                  <label className="text-xs text-neutral-300 block mb-1">Profile Picture</label>
+                  <label className="text-xs text-charcoal/80 block mb-1">Profile Picture</label>
                   <div className="flex gap-2">
-                    <input type="text" placeholder="Profile Pic URL" value={persForm.profilePicture} onChange={(e) => setPersForm({ ...persForm, profilePicture: e.target.value })} className="flex-grow bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
-                    <label className="bg-emerald-950/40 hover:bg-emerald-900 border border-emerald-500/20 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-emerald-300">
+                    <input type="text" placeholder="Profile Pic URL" value={persForm.profilePicture} onChange={(e) => setPersForm({ ...persForm, profilePicture: e.target.value })} className="flex-grow bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
+                    <label className="bg-parchment border-maroon/20 hover:bg-emerald-900 border border-maroon/25 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-maroon font-bold">
                       {uploading === "persPic" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                       <input type="file" className="hidden" onChange={(e) => uploadFile(e, "persPic", (url) => setPersForm(prev => ({ ...prev, profilePicture: url })))} />
                     </label>
@@ -810,11 +810,11 @@ function CMSContent() {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-[10px] text-neutral-300 block mb-0.5">Birth Date</label>
-                    <input type="date" value={persForm.birthDate} onChange={(e) => setPersForm({ ...persForm, birthDate: e.target.value })} className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2 text-xs text-white" />
+                    <label className="text-[10px] text-charcoal/80 block mb-0.5">Birth Date</label>
+                    <input type="date" value={persForm.birthDate} onChange={(e) => setPersForm({ ...persForm, birthDate: e.target.value })} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2 text-xs text-indigo" />
                   </div>
                   <div>
-                    <label className="text-[10px] text-neutral-300 block mb-0.5">Life Status</label>
+                    <label className="text-[10px] text-charcoal/80 block mb-0.5">Life Status</label>
                     <select value={persForm.isDeceased} onChange={(e) => {
                       const val = e.target.value;
                       setPersForm({ 
@@ -822,7 +822,7 @@ function CMSContent() {
                         isDeceased: val,
                         deathDate: val === "no" ? "" : persForm.deathDate 
                       });
-                    }} className="w-full bg-[#030e07] border border-emerald-500/20 rounded-lg p-2 text-xs text-emerald-300">
+                    }} className="w-full bg-[#030e07] border border-maroon/25 rounded-lg p-2 text-xs text-maroon font-bold">
                       <option value="no">Living / Active</option>
                       <option value="yes">Deceased</option>
                     </select>
@@ -830,29 +830,29 @@ function CMSContent() {
                 </div>
                 {persForm.isDeceased === "yes" && (
                   <div>
-                    <label className="text-[10px] text-neutral-300 block mb-0.5">Death Date</label>
-                    <input type="date" value={persForm.deathDate} onChange={(e) => setPersForm({ ...persForm, deathDate: e.target.value })} className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2 text-xs text-white" />
+                    <label className="text-[10px] text-charcoal/80 block mb-0.5">Death Date</label>
+                    <input type="date" value={persForm.deathDate} onChange={(e) => setPersForm({ ...persForm, deathDate: e.target.value })} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2 text-xs text-indigo" />
                   </div>
                 )}
-                <input type="text" placeholder="Associated Organization" value={persForm.company} onChange={(e) => setPersForm({ ...persForm, company: e.target.value })} className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
-                <input type="url" placeholder="Official Website Link" value={persForm.website} onChange={(e) => setPersForm({ ...persForm, website: e.target.value })} className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
-                <input type="url" placeholder="LinkedIn Profile Link" value={persForm.linkedin} onChange={(e) => setPersForm({ ...persForm, linkedin: e.target.value })} className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
-                <input type="url" placeholder="X / Twitter Link" value={persForm.twitter} onChange={(e) => setPersForm({ ...persForm, twitter: e.target.value })} className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
-                <input type="text" placeholder="Contact Email / Phone" value={persForm.contact} onChange={(e) => setPersForm({ ...persForm, contact: e.target.value })} className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-xs text-white" />
-                <button type="submit" className="w-full py-2.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-emerald-950 font-bold transition-all text-xs uppercase tracking-wide">
+                <input type="text" placeholder="Associated Organization" value={persForm.company} onChange={(e) => setPersForm({ ...persForm, company: e.target.value })} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
+                <input type="url" placeholder="Official Website Link" value={persForm.website} onChange={(e) => setPersForm({ ...persForm, website: e.target.value })} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
+                <input type="url" placeholder="LinkedIn Profile Link" value={persForm.linkedin} onChange={(e) => setPersForm({ ...persForm, linkedin: e.target.value })} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
+                <input type="url" placeholder="X / Twitter Link" value={persForm.twitter} onChange={(e) => setPersForm({ ...persForm, twitter: e.target.value })} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
+                <input type="text" placeholder="Contact Email / Phone" value={persForm.contact} onChange={(e) => setPersForm({ ...persForm, contact: e.target.value })} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-xs text-indigo" />
+                <button type="submit" className="w-full py-2.5 rounded-lg bg-maroon hover:bg-maroon-hover text-parchment font-bold transition-all text-xs uppercase tracking-wide">
                   {editPersSlug ? "Update Profile" : "Save Profile"}
                 </button>
               </form>
               <div className="md:col-span-2 space-y-4">
-                <h2 className="text-sm font-bold text-white border-b border-emerald-500/10 pb-2 uppercase tracking-wide">Profiles Directory</h2>
+                <h2 className="text-sm font-bold text-indigo border-b border-maroon/15 pb-2 uppercase tracking-wide">Profiles Directory</h2>
                 <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
                   {personalities.filter((p) => p.status !== 'pending').map((p) => (
-                    <div key={p.slug} className="flex items-center justify-between p-3 rounded-xl border bg-emerald-950/20 border-emerald-500/10">
+                    <div key={p.slug} className="flex items-center justify-between p-3 rounded-xl border bg-ivory border-maroon/20 border-maroon/15">
                       <div className="flex items-center gap-3">
-                        <img src={p.profilePicture || p.images?.[0] || "/logo.jpg"} alt={p.name} className="w-10 h-10 rounded-full object-cover border border-emerald-500/20" />
+                        <img src={p.profilePicture || p.images?.[0] || "/logo.jpg"} alt={p.name} className="w-10 h-10 rounded-full object-cover border border-maroon/25" />
                         <div>
-                          <h4 className="font-bold text-white text-sm">{p.name}</h4>
-                          <span className="text-[10px] text-neutral-400 uppercase tracking-wider">{p.category} • Approved</span>
+                          <h4 className="font-bold text-indigo text-sm">{p.name}</h4>
+                          <span className="text-[10px] text-charcoal/60 uppercase tracking-wider">{p.category} • Approved</span>
                         </div>
                       </div>
                       <div className="flex gap-1.5">
@@ -869,19 +869,19 @@ function CMSContent() {
                 </div>
                 {/* Pagination Controls */}
                 {persTotalPages > 1 && (
-                  <div className="flex justify-between items-center mt-4 border-t border-emerald-500/10 pt-4">
+                  <div className="flex justify-between items-center mt-4 border-t border-maroon/15 pt-4">
                     <button
                       onClick={() => fetchPersonalities(persPage - 1)}
                       disabled={persPage === 1}
-                      className="px-3 py-1.5 bg-emerald-950/40 border border-emerald-500/20 rounded-lg text-xs text-emerald-100 disabled:opacity-50 hover:bg-emerald-900 transition-all font-semibold"
+                      className="px-3 py-1.5 bg-parchment border-maroon/20 border border-maroon/25 rounded-lg text-xs text-emerald-100 disabled:opacity-50 hover:bg-emerald-900 transition-all font-semibold"
                     >
                       Previous
                     </button>
-                    <span className="text-xs text-emerald-100/50">Page {persPage} of {persTotalPages}</span>
+                    <span className="text-xs text-charcoal/60">Page {persPage} of {persTotalPages}</span>
                     <button
                       onClick={() => fetchPersonalities(persPage + 1)}
                       disabled={persPage === persTotalPages}
-                      className="px-3 py-1.5 bg-emerald-950/40 border border-emerald-500/20 rounded-lg text-xs text-emerald-100 disabled:opacity-50 hover:bg-emerald-900 transition-all font-semibold"
+                      className="px-3 py-1.5 bg-parchment border-maroon/20 border border-maroon/25 rounded-lg text-xs text-emerald-100 disabled:opacity-50 hover:bg-emerald-900 transition-all font-semibold"
                     >
                       Next
                     </button>
@@ -894,31 +894,31 @@ function CMSContent() {
           {/* TAB: PENDING NOMINEES */}
           {activeTab === "pending" && (
             <div className="space-y-6 animate-fadeIn max-w-4xl">
-              <div className="flex items-center justify-between border-b border-emerald-500/10 pb-4">
+              <div className="flex items-center justify-between border-b border-maroon/15 pb-4">
                 <div>
-                  <h2 className="text-xl font-display font-extrabold text-white">Pending Nomination Submissions</h2>
-                  <p className="text-xs text-emerald-100/50 mt-1">Review nominated profiles, contact details for payment verification, and publish profiles.</p>
+                  <h2 className="text-xl font-display font-extrabold text-indigo">Pending Nomination Submissions</h2>
+                  <p className="text-xs text-charcoal/60 mt-1">Review nominated profiles, contact details for payment verification, and publish profiles.</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 {personalities.filter(p => p.status === 'pending').length === 0 ? (
-                  <div className="p-12 text-center rounded-2xl bg-emerald-950/5 border border-emerald-500/10 text-neutral-500 text-sm">
+                  <div className="p-12 text-center rounded-2xl bg-ivory/60 border-maroon/15 border border-maroon/15 text-charcoal/50 text-sm">
                     No pending profile nominations to review.
                   </div>
                 ) : (
                   personalities.filter(p => p.status === 'pending').map((p) => (
-                    <div key={p.slug} className="p-6 rounded-2xl bg-emerald-950/15 border border-emerald-500/15 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                    <div key={p.slug} className="p-6 rounded-2xl bg-ivory border-maroon/20 border border-emerald-500/15 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                       <div className="flex items-start gap-4 flex-grow">
-                        <img src={p.profilePicture || p.images?.[0] || "/logo.jpg"} alt={p.name} className="w-16 h-16 rounded-xl object-cover border border-emerald-500/20 shrink-0" />
+                        <img src={p.profilePicture || p.images?.[0] || "/logo.jpg"} alt={p.name} className="w-16 h-16 rounded-xl object-cover border border-maroon/25 shrink-0" />
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
-                            <h3 className="font-bold text-white text-base leading-snug">{p.name}</h3>
-                            <span className="text-[9px] font-bold bg-amber-400/20 text-amber-400 px-2 py-0.5 rounded-full uppercase tracking-wider">{p.category}</span>
+                            <h3 className="font-bold text-indigo text-base leading-snug">{p.name}</h3>
+                            <span className="text-[9px] font-bold bg-maroon text-parchment/20 text-maroon px-2 py-0.5 rounded-full uppercase tracking-wider">{p.category}</span>
                           </div>
                           <p className="text-xs text-emerald-100/60 line-clamp-2">{p.biography}</p>
                           {p.socialLinks?.contact && (
-                            <div className="flex items-center gap-1.5 text-xs text-amber-400 font-bold bg-amber-400/5 border border-amber-400/10 px-2.5 py-1 rounded-lg w-fit mt-2">
+                            <div className="flex items-center gap-1.5 text-xs text-maroon font-bold bg-maroon text-parchment/5 border border-amber-400/10 px-2.5 py-1 rounded-lg w-fit mt-2">
                               <Mail className="h-3.5 w-3.5" />
                               <span>Contact Info: {p.socialLinks.contact}</span>
                             </div>
@@ -934,7 +934,7 @@ function CMSContent() {
                               body: JSON.stringify({ status: "approved" }),
                             }).then(fetchData);
                           }}
-                          className="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-emerald-950 font-bold text-xs rounded-xl uppercase tracking-wider flex items-center gap-1"
+                          className="px-4 py-2 bg-maroon hover:bg-maroon-hover text-parchment font-bold text-xs rounded-xl uppercase tracking-wider flex items-center gap-1"
                         >
                           <CheckCircle className="h-4 w-4" /> Approve
                         </button>
@@ -960,41 +960,41 @@ function CMSContent() {
           {/* 3. TAB: ARTICLES */}
           {activeTab === "articles" && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fadeIn">
-              <form onSubmit={handleSaveArticle} className="p-6 rounded-2xl bg-emerald-950/15 border border-emerald-500/10 flex flex-col gap-4 md:col-span-1 h-fit">
-                <h2 className="text-sm font-bold text-amber-400 flex items-center justify-between border-b border-emerald-500/10 pb-2 uppercase tracking-wide">
+              <form onSubmit={handleSaveArticle} className="p-6 rounded-2xl bg-ivory border-maroon/20 border border-maroon/15 flex flex-col gap-4 md:col-span-1 h-fit">
+                <h2 className="text-sm font-bold text-maroon flex items-center justify-between border-b border-maroon/15 pb-2 uppercase tracking-wide">
                   <span>{editArtSlug ? "Edit Article" : "Write Article"}</span>
                   {editArtSlug && <button type="button" onClick={() => { setEditArtSlug(null); setArtForm({ title: "", category: "History", subtitle: "", content: "", heroImage: "" }); }} className="text-xs text-rose-400">Cancel</button>}
                 </h2>
-                <input type="text" placeholder="Article Title" value={artForm.title} onChange={(e) => setArtForm({ ...artForm, title: e.target.value })} required className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
-                <select value={artForm.category} onChange={(e) => setArtForm({ ...artForm, category: e.target.value })} className="w-full bg-emerald-990 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-emerald-300">
+                <input type="text" placeholder="Article Title" value={artForm.title} onChange={(e) => setArtForm({ ...artForm, title: e.target.value })} required className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
+                <select value={artForm.category} onChange={(e) => setArtForm({ ...artForm, category: e.target.value })} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-maroon font-bold">
                   <option value="History">History</option>
                   <option value="Tourism">Tourism</option>
                   <option value="Culture">Culture</option>
                   <option value="Business">Business</option>
                 </select>
                 <div>
-                  <label className="text-xs text-neutral-300 block mb-1">Hero Image</label>
+                  <label className="text-xs text-charcoal/80 block mb-1">Hero Image</label>
                   <div className="flex gap-2">
-                    <input type="text" placeholder="Hero Image URL" value={artForm.heroImage} onChange={(e) => setArtForm({ ...artForm, heroImage: e.target.value })} className="flex-grow bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
-                    <label className="bg-emerald-950/40 hover:bg-emerald-900 border border-emerald-500/20 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-emerald-300">
+                    <input type="text" placeholder="Hero Image URL" value={artForm.heroImage} onChange={(e) => setArtForm({ ...artForm, heroImage: e.target.value })} className="flex-grow bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
+                    <label className="bg-parchment border-maroon/20 hover:bg-emerald-900 border border-maroon/25 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-maroon font-bold">
                       {uploading === "artImg" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                       <input type="file" className="hidden" onChange={(e) => uploadFile(e, "artImg", (url) => setArtForm(prev => ({ ...prev, heroImage: url })))} />
                     </label>
                   </div>
                 </div>
-                <textarea placeholder="Write article content..." value={artForm.content} onChange={(e) => setArtForm({ ...artForm, content: e.target.value })} required rows={6} className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
-                <button type="submit" className="w-full py-2.5 rounded-lg bg-teal-500 hover:bg-teal-400 text-emerald-950 font-bold transition-all text-xs uppercase tracking-wide">
+                <textarea placeholder="Write article content..." value={artForm.content} onChange={(e) => setArtForm({ ...artForm, content: e.target.value })} required rows={6} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
+                <button type="submit" className="w-full py-2.5 rounded-lg bg-indigo hover:bg-indigo-deep text-parchment font-bold transition-all text-xs uppercase tracking-wide">
                   {editArtSlug ? "Update & Save" : "Publish Article"}
                 </button>
               </form>
               <div className="md:col-span-2 space-y-4">
-                <h2 className="text-sm font-bold text-white border-b border-emerald-500/10 pb-2 uppercase tracking-wide">Published Articles</h2>
+                <h2 className="text-sm font-bold text-indigo border-b border-maroon/15 pb-2 uppercase tracking-wide">Published Articles</h2>
                 <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
                   {articles.map((art) => (
-                    <div key={art.slug} className="flex justify-between items-center p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/10">
+                    <div key={art.slug} className="flex justify-between items-center p-3 rounded-xl bg-ivory border-maroon/20 border border-maroon/15">
                       <div>
-                        <h4 className="font-bold text-white text-sm">{art.title}</h4>
-                        <span className="text-[10px] text-neutral-400 uppercase tracking-wider">{art.category} • Published {new Date(art.publishedAt).toLocaleDateString()}</span>
+                        <h4 className="font-bold text-indigo text-sm">{art.title}</h4>
+                        <span className="text-[10px] text-charcoal/60 uppercase tracking-wider">{art.category} • Published {new Date(art.publishedAt).toLocaleDateString()}</span>
                       </div>
                       <div className="flex gap-1.5">
                         <button onClick={() => startEditArticle(art)} className="p-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 rounded text-emerald-400"><Edit3 className="h-3.5 w-3.5" /></button>
@@ -1014,29 +1014,29 @@ function CMSContent() {
           {/* 4. TAB: EVENTS */}
           {activeTab === "events" && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fadeIn">
-              <form onSubmit={handleSaveEvent} className="p-6 rounded-2xl bg-emerald-950/15 border border-emerald-500/10 flex flex-col gap-4 md:col-span-1 h-fit">
-                <h2 className="text-sm font-bold text-amber-400 flex items-center justify-between border-b border-emerald-500/10 pb-2 uppercase tracking-wide">
+              <form onSubmit={handleSaveEvent} className="p-6 rounded-2xl bg-ivory border-maroon/20 border border-maroon/15 flex flex-col gap-4 md:col-span-1 h-fit">
+                <h2 className="text-sm font-bold text-maroon flex items-center justify-between border-b border-maroon/15 pb-2 uppercase tracking-wide">
                   <span>{editEventId ? "Edit Event" : "Create Event"}</span>
                   {editEventId && <button type="button" onClick={() => { setEditEventId(null); setEventForm({ title: "", date: "", description: "", location: "", status: "upcoming" }); }} className="text-xs text-rose-400">Cancel</button>}
                 </h2>
-                <input type="text" placeholder="Event Title" value={eventForm.title} onChange={(e) => setEventForm({ ...eventForm, title: e.target.value })} required className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
-                <input type="date" value={eventForm.date} onChange={(e) => setEventForm({ ...eventForm, date: e.target.value })} required className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-emerald-300" />
-                <select value={eventForm.status} onChange={(e) => setEventForm({ ...eventForm, status: e.target.value })} className="w-full bg-emerald-990 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-emerald-300">
+                <input type="text" placeholder="Event Title" value={eventForm.title} onChange={(e) => setEventForm({ ...eventForm, title: e.target.value })} required className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
+                <input type="date" value={eventForm.date} onChange={(e) => setEventForm({ ...eventForm, date: e.target.value })} required className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-maroon font-bold" />
+                <select value={eventForm.status} onChange={(e) => setEventForm({ ...eventForm, status: e.target.value })} className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-maroon font-bold">
                   <option value="upcoming">Upcoming Event</option>
                   <option value="past">Past Event</option>
                 </select>
-                <button type="submit" className="w-full py-2.5 rounded-lg bg-teal-500 hover:bg-teal-400 text-emerald-950 font-bold transition-all text-xs uppercase tracking-wide">
+                <button type="submit" className="w-full py-2.5 rounded-lg bg-indigo hover:bg-indigo-deep text-parchment font-bold transition-all text-xs uppercase tracking-wide">
                   {editEventId ? "Update Event" : "Schedule Event"}
                 </button>
               </form>
               <div className="md:col-span-2 space-y-4">
-                <h2 className="text-sm font-bold text-white border-b border-emerald-500/10 pb-2 uppercase tracking-wide">Scheduled Events</h2>
+                <h2 className="text-sm font-bold text-indigo border-b border-maroon/15 pb-2 uppercase tracking-wide">Scheduled Events</h2>
                 <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
                   {events.map((ev) => (
-                    <div key={ev._id} className="flex items-center justify-between p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/10">
+                    <div key={ev._id} className="flex items-center justify-between p-3 rounded-xl bg-ivory border-maroon/20 border border-maroon/15">
                       <div>
-                        <h4 className="font-bold text-white text-sm">{ev.title}</h4>
-                        <span className="text-[10px] text-neutral-400 uppercase tracking-wider">{ev.status} • {new Date(ev.date).toLocaleDateString()}</span>
+                        <h4 className="font-bold text-indigo text-sm">{ev.title}</h4>
+                        <span className="text-[10px] text-charcoal/60 uppercase tracking-wider">{ev.status} • {new Date(ev.date).toLocaleDateString()}</span>
                       </div>
                       <div className="flex gap-1.5">
                         <button onClick={() => startEditEvent(ev)} className="p-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 rounded text-emerald-400"><Edit3 className="h-3.5 w-3.5" /></button>
@@ -1056,37 +1056,37 @@ function CMSContent() {
           {/* 5. TAB: GALLERY */}
           {activeTab === "gallery" && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fadeIn">
-              <form onSubmit={handleSaveGallery} className="p-6 rounded-2xl bg-emerald-950/15 border border-emerald-500/10 flex flex-col gap-4 md:col-span-1 h-fit">
-                <h2 className="text-sm font-bold text-amber-400 flex items-center justify-between border-b border-emerald-500/10 pb-2 uppercase tracking-wide">
+              <form onSubmit={handleSaveGallery} className="p-6 rounded-2xl bg-ivory border-maroon/20 border border-maroon/15 flex flex-col gap-4 md:col-span-1 h-fit">
+                <h2 className="text-sm font-bold text-maroon flex items-center justify-between border-b border-maroon/15 pb-2 uppercase tracking-wide">
                   <span>{editGalleryId ? "Edit Item" : "Upload Photo"}</span>
                   {editGalleryId && <button type="button" onClick={() => { setEditGalleryId(null); setGalleryForm({ title: "", category: "", imageUrl: "" }); }} className="text-xs text-rose-400">Cancel</button>}
                 </h2>
-                <input type="text" placeholder="Title" value={galleryForm.title} onChange={(e) => setGalleryForm({ ...galleryForm, title: e.target.value })} required className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
-                <input type="text" placeholder="Category" value={galleryForm.category} onChange={(e) => setGalleryForm({ ...galleryForm, category: e.target.value })} required className="w-full bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
+                <input type="text" placeholder="Title" value={galleryForm.title} onChange={(e) => setGalleryForm({ ...galleryForm, title: e.target.value })} required className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
+                <input type="text" placeholder="Category" value={galleryForm.category} onChange={(e) => setGalleryForm({ ...galleryForm, category: e.target.value })} required className="w-full bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
                 <div>
-                  <label className="text-xs text-neutral-300 block mb-1">Image URL</label>
+                  <label className="text-xs text-charcoal/80 block mb-1">Image URL</label>
                   <div className="flex gap-2">
-                    <input type="text" placeholder="Image URL" value={galleryForm.imageUrl} onChange={(e) => setGalleryForm({ ...galleryForm, imageUrl: e.target.value })} required className="flex-grow bg-emerald-990/60 border border-emerald-500/20 rounded-lg p-2.5 text-sm text-white" />
-                    <label className="bg-emerald-950/40 hover:bg-emerald-900 border border-emerald-500/20 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-emerald-300">
+                    <input type="text" placeholder="Image URL" value={galleryForm.imageUrl} onChange={(e) => setGalleryForm({ ...galleryForm, imageUrl: e.target.value })} required className="flex-grow bg-parchment border-maroon/20 text-charcoal border border-maroon/25 rounded-lg p-2.5 text-sm text-indigo" />
+                    <label className="bg-parchment border-maroon/20 hover:bg-emerald-900 border border-maroon/25 px-3 flex items-center rounded-lg cursor-pointer text-xs font-bold text-maroon font-bold">
                       {uploading === "gallery" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                       <input type="file" className="hidden" onChange={(e) => uploadFile(e, "gallery", (url) => setGalleryForm(prev => ({ ...prev, imageUrl: url })))} />
                     </label>
                   </div>
                 </div>
-                <button type="submit" className="w-full py-2.5 rounded-lg bg-purple-500 hover:bg-purple-400 text-white font-bold transition-all text-xs uppercase tracking-wide">
+                <button type="submit" className="w-full py-2.5 rounded-lg bg-maroon hover:bg-maroon-hover text-parchment font-bold transition-all text-xs uppercase tracking-wide">
                   {editGalleryId ? "Update Photo" : "Upload to Archive"}
                 </button>
               </form>
               <div className="md:col-span-2 space-y-4">
-                <h2 className="text-sm font-bold text-white border-b border-emerald-500/10 pb-2 uppercase tracking-wide">Photo Archive Gallery</h2>
+                <h2 className="text-sm font-bold text-indigo border-b border-maroon/15 pb-2 uppercase tracking-wide">Photo Archive Gallery</h2>
                 <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
                   {gallery.map((g) => (
-                    <div key={g._id} className="flex justify-between items-center p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/10">
+                    <div key={g._id} className="flex justify-between items-center p-3 rounded-xl bg-ivory border-maroon/20 border border-maroon/15">
                       <div className="flex items-center gap-3">
-                        <img src={g.imageUrl} alt={g.title} className="w-10 h-10 rounded object-cover border border-emerald-500/20" />
+                        <img src={g.imageUrl} alt={g.title} className="w-10 h-10 rounded object-cover border border-maroon/25" />
                         <div>
-                          <h4 className="font-bold text-white text-sm">{g.title}</h4>
-                          <span className="text-[10px] text-neutral-400 uppercase tracking-wider">{g.category}</span>
+                          <h4 className="font-bold text-indigo text-sm">{g.title}</h4>
+                          <span className="text-[10px] text-charcoal/60 uppercase tracking-wider">{g.category}</span>
                         </div>
                       </div>
                       <div className="flex gap-1.5">
@@ -1107,14 +1107,14 @@ function CMSContent() {
           {/* 6. TAB: SUBSCRIBERS */}
           {activeTab === "subscribers" && (
             <div className="space-y-4 animate-fadeIn max-w-2xl">
-              <h2 className="text-sm font-bold text-white border-b border-emerald-500/10 pb-2 uppercase tracking-wide">Newsletter Subscribers</h2>
+              <h2 className="text-sm font-bold text-indigo border-b border-maroon/15 pb-2 uppercase tracking-wide">Newsletter Subscribers</h2>
               <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
                 {subscribers.length === 0 ? (
-                  <p className="text-xs text-neutral-500">No active newsletter subscribers.</p>
+                  <p className="text-xs text-charcoal/50">No active newsletter subscribers.</p>
                 ) : (
                   subscribers.map((sub, idx) => (
-                    <div key={idx} className="flex justify-between items-center p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/10">
-                      <span className="text-sm font-medium text-white">{sub.email}</span>
+                    <div key={idx} className="flex justify-between items-center p-3 rounded-xl bg-ivory border-maroon/20 border border-maroon/15">
+                      <span className="text-sm font-medium text-indigo">{sub.email}</span>
                       <button onClick={async () => {
                         if (confirm(`Remove subscriber: ${sub.email}?`)) {
                           await fetch("/api/newsletter", {
@@ -1140,7 +1140,7 @@ export default function AdminDashboard() {
   return (
     <Suspense fallback={
       <div className="flex justify-center items-center py-20">
-        <Loader2 className="h-10 w-10 text-amber-400 animate-spin" />
+        <Loader2 className="h-10 w-10 text-maroon animate-spin" />
       </div>
     }>
       <CMSContent />
