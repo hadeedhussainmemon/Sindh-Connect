@@ -308,8 +308,6 @@ function CMSContent() {
       whatsappNumber: prod.whatsappNumber || "+923001234567"
     });
   };
-    fetchData();
-  };
   const handleSaveEvent = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editEventId) {
@@ -399,7 +397,7 @@ function CMSContent() {
   return (
     <div className="space-y-8">
       {/* Dashboard Section Metrics Card Panel */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-emerald-500/10 pb-6 mb-4\">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-emerald-500/10 pb-6 mb-4">
         <div>
           <h1 className="text-3xl font-display font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
             <Sparkles className="h-6 w-6 text-amber-400" />
